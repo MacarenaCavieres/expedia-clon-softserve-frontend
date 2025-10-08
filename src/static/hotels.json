@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Novotel Paris Les Halles",
+        "city": "Paris",
+        "score": "8.8",
+        "comment": "Excellent",
+        "price": "USD 1.230",
+        "src": "https://images.trvl-media.com/lodging/1000000/30000/24800/24795/d341bcd0.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455"
+    },
+    {
+        "name": "The Glam",
+        "city": "Roma",
+        "score": "9.0",
+        "comment": "Wonderful",
+        "price": "USD 1.053",
+        "src": "https://a.travel-assets.com/media/meso_cm/PAPI/Images/lodging/16000000/15340000/15335900/15335833/562d591c_b.jpg"
+    },
+    {
+        "name": "Virgin Hotels New York City",
+        "city": "New York",
+        "score": "8.8",
+        "comment": "Excellent",
+        "price": "USD 1.281",
+        "src": "https://images.trvl-media.com/lodging/88000000/87410000/87406900/87406830/4fe27554.jpg?impolicy=resizecrop&ra=fit&rw=455&rh=455"
+    },
+    {
+        "name": "Hotel L'Orologio ",
+        "city": "Rome",
+        "score": "9.6",
+        "comment": "Exceptional",
+        "price": "USD 1.532",
+        "src": "https://a.travel-assets.com/media/meso_cm/PAPI/Images/lodging/75000000/74550000/74544500/74544467/0413f432_b.jpg"
+    }
+]
