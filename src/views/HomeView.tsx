@@ -1,4 +1,4 @@
-import HotelCard from "@/components/HotelCard";
+import HotelCard from "@/components/bookings/HotelCard";
 import hotelData from "@/static/hotels.json";
 
 function HomeView() {
@@ -42,7 +42,7 @@ function HomeView() {
                 </p>
                 <div className="flex gap-5 flex-wrap lg:flex-nowrap justify-center">
                     {hotelData.map((item) => (
-                        <HotelCard item={item} />
+                        <HotelCard item={item} key={item.id} />
                     ))}
                 </div>
             </section>

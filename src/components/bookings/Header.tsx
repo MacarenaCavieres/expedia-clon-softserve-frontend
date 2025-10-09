@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import UserIcon from "./UserIcon";
+import { XMarkIcon, Bars3Icon, UserCircleIcon } from "@heroicons/react/24/outline";
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,33 +16,7 @@ function Header() {
                     className="md:hidden cursor-pointer"
                     aria-label="Toggle navigation menu"
                 >
-                    {isMenuOpen ? (
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="size-6"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
-                    ) : (
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="size-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                            />
-                        </svg>
-                    )}
+                    {isMenuOpen ? <XMarkIcon className="h-8 w-8" /> : <Bars3Icon className="h-8 w-8" />}
                 </button>
 
                 <nav className="hidden md:flex gap-5">
@@ -62,8 +36,8 @@ function Header() {
                     >
                         My trips
                     </NavLink>
-                    <div className="flex justify-center gap-1">
-                        <UserIcon />
+                    <div className="flex justify-center gap-1 items-center">
+                        <UserCircleIcon className="h-6 w-6" />
 
                         <p className="font-bold">John Smith</p>
                     </div>
@@ -92,7 +66,7 @@ function Header() {
                     </NavLink>
 
                     <div className="flex items-center gap-1 py-2 mt-2 border-t w-full justify-center">
-                        <UserIcon />
+                        <UserCircleIcon className="h-6 w-6" />
                         <p className="font-bold">John Smith</p>
                     </div>
                 </div>

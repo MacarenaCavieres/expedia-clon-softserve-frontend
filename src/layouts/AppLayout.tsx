@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "@/components/Header";
+import Header from "@/components/bookings/Header";
 import Footer from "@/components/Footer";
 
 function AppLayout() {
@@ -7,7 +7,7 @@ function AppLayout() {
         <>
             <Header />
             <hr className="opacity-20" />
-            <main className="max-w-7xl mx-auto px-10 mt-10">
+            <main className="max-w-7xl mx-auto px-10 mt-10 min-h-screen">
                 <Outlet />
             </main>
             <Footer />
