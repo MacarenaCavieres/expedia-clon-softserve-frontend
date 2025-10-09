@@ -18,7 +18,8 @@
             "@/utils/*": ["utils/*"],
             "@/locales/*": ["locales/*"],
             "@/hooks/*": ["hooks/*"],
-            "@/static/*": ["static/*"]
+            "@/static/*": ["static/*"],
+            "@/store/*": ["store/*"]
         },
 
         /* Bundler mode */

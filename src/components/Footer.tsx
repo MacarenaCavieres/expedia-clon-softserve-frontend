@@ -6,9 +6,8 @@ function Footer() {
             </div>
             <div className="flex justify-center">
                 <p className="text-xs">
-                    © 2025 Expedia, Inc., una empresa de Expedia Group. Todos los derechos reservados. Expedia
-                    y el logo de Expedia son marcas registradas o marcas comerciales de Expedia, Inc. CST#
-                    2029030-50.
+                    © 2025 Expedia, Inc., an Expedia Group company. All rights reserved. Expedia and the
+                    Expedia Logo are trademarks or registered trademarks of Expedia, Inc. CST# 2029030-50.
                 </p>
             </div>
         </footer>
