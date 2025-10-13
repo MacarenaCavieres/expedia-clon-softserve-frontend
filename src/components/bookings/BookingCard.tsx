@@ -10,11 +10,15 @@ type Props = {
 function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
     return (
         <>
-            <article className="bg-[#EEEEEE] border border-slate-300 rounded-2xl grid grid-cols-1 md:grid-cols-2 shadow-md pr-5">
+            <article className="bg-[#EEEEEE] border border-slate-300 rounded-2xl grid grid-cols-1 md:grid-cols-2 shadow-md md:pr-5 pb-5 md:pb-0 w-full max-w-sm md:max-w-3xl mx-auto">
                 <div>
-                    <img src={item.src} alt={item.name} className="w-64 rounded-bl-2xl rounded-tl-2xl h-44" />
+                    <img
+                        src={item.src}
+                        alt={item.name}
+                        className="md:rounded-tr-none md:rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl w-full md:w-3/4 md:h-44 "
+                    />
                 </div>
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-center pl-2 md:pl-0 mx-auto md:mx-0 mt-5 md:mt-0">
                     <h6 className="text-2xl font-semibold mb-2 ml-5">{item.status}</h6>
                     <h5>
                         Hotel: <span className="font-semibold">{item.name}</span>
@@ -27,10 +31,10 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
                         Price: <span className="font-semibold">{item.price}</span>
                     </p>
                     {item.status === "Upcoming Trip" ? (
-                        <div className="flex gap-3 mt-2">
+                        <div className="flex gap-2 mt-2">
                             <button
                                 aria-label="Edit booking"
-                                className="bg-blue-800 hover:bg-blue-900 h-10 w-1/2 rounded-lg text-slate-100 flex items-center justify-center gap-2 uppercase cursor-pointer font-semibold"
+                                className="bg-blue-800 hover:bg-blue-900 h-10 w-full rounded-lg text-slate-100 flex items-center justify-center gap-2 uppercase cursor-pointer font-semibold"
                                 onClick={() => handleEdit(item.id)}
                             >
                                 <PencilSquareIcon className="h-6 w-6" />
@@ -38,7 +42,7 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
                             </button>
                             <button
                                 aria-label="Cancel booking"
-                                className="bg-slate-600 hover:bg-slate-500 h-10 w-1/2 rounded-lg text-slate-100 flex items-center justify-center gap-2 cursor-pointer uppercase font-semibold"
+                                className="bg-slate-600 hover:bg-slate-500 h-10 w-full rounded-lg text-slate-100 flex items-center justify-center gap-2 cursor-pointer uppercase font-semibold"
                                 onClick={() => handleCancel(item.id)}
                             >
                                 <XCircleIcon className="h-6 w-6" />
@@ -46,14 +50,16 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
                             </button>
                         </div>
                     ) : (
-                        <button
-                            aria-label="Delete booking"
-                            className="bg-red-600 hover:bg-red-700 h-10 w-1/2 rounded-lg text-slate-100 flex items-center justify-center gap-2 cursor-pointer uppercase font-semibold mt-3"
-                            onClick={() => handleDelete(item.id)}
-                        >
-                            <TrashIcon className="h-6 w-6" />
-                            Delete
-                        </button>
+                        <div className="flex justify-center md:flex-none md:justify-normal">
+                            <button
+                                aria-label="Delete booking"
+                                className="bg-red-600 hover:bg-red-700 h-10 w-1/2 rounded-lg text-slate-100 flex items-center justify-center gap-2 cursor-pointer uppercase font-semibold mt-3"
+                                onClick={() => handleDelete(item.id)}
+                            >
+                                <TrashIcon className="h-6 w-6" />
+                                Delete
+                            </button>
+                        </div>
                     )}
                 </div>
             </article>

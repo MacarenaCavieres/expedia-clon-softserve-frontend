@@ -51,7 +51,7 @@ function TripsView() {
                     cancel any reservation swiftly.
                 </p>
 
-                <section className="mt-10 space-y-2 max-w-3xl mx-auto">
+                <section className="mt-10 space-y-2 max-w-3xl mx-auto ">
                     {data.length ? (
                         data.map((item) => (
                             <BookingCard
