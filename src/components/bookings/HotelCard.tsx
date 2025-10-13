@@ -1,11 +1,16 @@
 import type { HotelData } from "@/types/index";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     item: HotelData;
 };
 function HotelCard({ item }: Props) {
+    const navigate = useNavigate();
     return (
-        <article className="border border-slate-400 rounded-2xl pb-3 space-y-2 cursor-pointer w-72">
+        <article
+            className="border border-slate-400 rounded-2xl pb-3 space-y-2 cursor-pointer w-72"
+            onClick={() => navigate(`/${item.id}`)}
+        >
             <img src={item.src} alt={item.name} className="rounded-t-2xl w-xl h-52" />
             <div className="px-3 space-y-1">
                 <p className="font-bold">{item.name}</p>
