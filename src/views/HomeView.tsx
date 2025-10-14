@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HotelCard from "@/components/bookings/HotelCard";
 import { getSearchedHotels } from "@/services/HotelAPI";
-import hotelData from "@/static/hotels.json";
+import initialData from "@/static/hotels.json";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import type { SearchHotel } from "../types";
@@ -153,7 +153,7 @@ function HomeView() {
                     Showing deals for: <span className="font-bold">Oct 31 - Nov 2</span>
                 </p>
                 <div className="flex gap-5 flex-wrap lg:flex-nowrap justify-center">
-                    {hotelData.map((item) => (
+                    {initialData.map((item) => (
                         <HotelCard item={item} key={item.id} />
                     ))}
                 </div>
