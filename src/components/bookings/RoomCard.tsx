@@ -9,13 +9,13 @@ export default function RoomCard({ item }: Props) {
     return (
         <article className="border border-slate-400 rounded-2xl pb-3 space-y-2 w-72">
             <img
-                src={item.image}
-                alt={`Room with bed type:${item.BedType}`}
+                src={item.imageUrl}
+                alt={`Room with bed type:${item.bedType}`}
                 className="rounded-t-2xl w-xl h-52"
             />
             <div className="px-3 space-y-1">
                 <p className="text-xl font-bold">{item.name}</p>
-                <p className="font-semibold">Bed Type: {item.BedType}</p>
+                <p className="font-semibold">Bed Type: {item.bedType}</p>
                 <p>Capacity: {item.capacity} people</p>
 
                 <div className="flex justify-end">

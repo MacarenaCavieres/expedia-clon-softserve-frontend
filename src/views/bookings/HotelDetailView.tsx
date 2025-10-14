@@ -1,5 +1,5 @@
 import RoomCard from "@/components/bookings/RoomCard";
-import { getHotelById } from "@/services/HotelAPI";
+import { getHotelById } from "@/services/hotelAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -19,13 +19,13 @@ function HotelDetailView() {
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-2 min-h-80 mb-10">
                     <div className="col-span-1 h-80">
                         <img
-                            src={data.src[0]}
+                            src={data.images[0]}
                             alt="Main hotel photo"
                             className="w-full h-full object-cover rounded-2xl"
                         />
                     </div>
                     <div className="grid grid-cols-2 grid-rows-2 gap-2 h-80">
-                        {data.src.slice(1, 5).map((item) => (
+                        {data.images.slice(1, 5).map((item) => (
                             <img
                                 src={item}
                                 alt="Hotel photos"
@@ -38,14 +38,13 @@ function HotelDetailView() {
 
                 <div className="bg-amber-100 rounded-2xl p-8 mb-8">
                     <h6 className="text-4xl font-semibold">{data.name}</h6>
-                    <p className="text-sm font-medium">{data.city}</p>
+                    <p className="text-sm font-medium mt-2">{data.address}</p>
                     <p className="my-4">
                         <span className="border rounded-lg p-2 text-xs font-bold bg-green-700 text-slate-100">
-                            {data.score}
+                            {data.rating}
                         </span>
                         <span className="text-sm font-semibold">{data.comment}</span>
                     </p>
-                    <p className="text-sm font-semibold">{data.title}</p>
                     <p className="text-sm font-semibold">{data.description}</p>
                 </div>
 
