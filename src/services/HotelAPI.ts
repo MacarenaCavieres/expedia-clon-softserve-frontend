@@ -1,17 +1,20 @@
-import type { HotelDetail, SearchHotel } from "../types";
-import hotelSearch from "@/static/hotelsSearch.json";
+import { hotelsSearchedSchema, type HotelDetail, type SearchHotel } from "@/types/index";
+// import hotelSearch from "@/static/hotelsSearch.json";
 import hotelDetail from "@/static/hotelDetail.json";
+import api from "@/lib/axios";
+import { isAxiosError } from "axios";
 
-export async function getSearchedHotels(data: SearchHotel) {
+export async function getSearchedHotels(formData: SearchHotel) {
     try {
-        console.log(data);
-        const search = hotelSearch;
-        return search;
+        const { data } = await api.get(`/hotels?city=${formData.destination}&passengerCount=2`);
+        const result = hotelsSearchedSchema.safeParse(data);
+        if (result.success) {
+            return result.data;
+        }
     } catch (error) {
-        // if (isAxiosError(error) && error.response) {
-        //     throw new Error(error.response.data.error);
-        // }
-        console.log("Error ====> ", error);
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
     }
 }
 
