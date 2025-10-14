@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HotelCard from "@/components/bookings/HotelCard";
-import { getSearchedHotels } from "@/services/HotelAPI";
+import { getSearchedHotels } from "@/services/hotelAPI";
 import initialData from "@/static/hotels.json";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
