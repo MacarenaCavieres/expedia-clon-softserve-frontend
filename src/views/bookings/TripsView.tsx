@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingCard from "@/components/bookings/BookingCard";
 import ConfirmAction from "@/components/bookings/ConfirmAction";
-// import bookingsInfo from "@/static/bookinsInfo.json";
 import type { BookingData } from "@/types/index";
 import { useQuery } from "@tanstack/react-query";
 import { getBookings } from "@/services/bookingAPI";
@@ -13,7 +12,7 @@ function TripsView() {
     const [reservationInfo, setReservationInfo] = useState<BookingData | undefined>(undefined);
     const [isCancel, setIsCancel] = useState(false);
 
-    const { data, isLoading } = useQuery({
+    const { data, isError, isLoading } = useQuery({
         queryKey: ["bookings"],
         queryFn: getBookings,
     });
@@ -42,6 +41,7 @@ function TripsView() {
     };
 
     if (isLoading) return "Loading...";
+    if (isError) return "Reservations could not be loaded";
     if (data)
         return (
             <>

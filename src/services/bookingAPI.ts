@@ -1,15 +1,18 @@
-import type { BookingData } from "@/types/index";
-import bookingsInfo from "@/static/bookinsInfo.json";
+import api from "@/lib/axios";
+import { bookingsSchema, type BookingData } from "@/types/index";
+import { isAxiosError } from "axios";
 
 export async function getBookings() {
     try {
-        const bookings = bookingsInfo;
-        return bookings;
+        const { data } = await api.get(`/bookings`);
+        const result = bookingsSchema.safeParse(data);
+        if (result.success) {
+            return result.data;
+        }
     } catch (error) {
-        // if (isAxiosError(error) && error.response) {
-        //     throw new Error(error.response.data.error);
-        // }
-        console.log("Error ====> ", error);
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
     }
 }
 
