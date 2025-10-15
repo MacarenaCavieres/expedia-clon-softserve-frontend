@@ -12,6 +12,15 @@ export type SearchHotel = {
     exitDate: string;
 };
 
+export type SetRoomIdPayload = {
+    roomId: BookingData["id"];
+};
+
+export type SetBookingDatesPayload = {
+    checkInDate: BookingData["checkInDate"];
+    checkOutDate: BookingData["checkOutDate"];
+};
+
 export const roomSchema = z.object({
     id: z.number(),
     capacity: z.number(),
