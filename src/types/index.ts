@@ -13,12 +13,16 @@ export type SearchHotel = {
 };
 
 export type SetRoomIdPayload = {
-    roomId: BookingData["id"];
+    roomId: Room["id"];
 };
 
 export type SetBookingDatesPayload = {
     checkInDate: BookingData["checkInDate"];
     checkOutDate: BookingData["checkOutDate"];
+};
+
+export type setBookingIdPayload = {
+    bookingId: BookingData["id"];
 };
 
 export const roomSchema = z.object({
@@ -75,3 +79,4 @@ export type HotelData = z.infer<typeof hotelSearchedSchema>;
 export type HotelDetail = z.infer<typeof hotelDetailSchema>;
 export type Room = z.infer<typeof roomSchema>;
 export type BookingData = z.infer<typeof bookingSchema>;
+export type CancelTripInfo = Pick<BookingData, "id" | "status">;

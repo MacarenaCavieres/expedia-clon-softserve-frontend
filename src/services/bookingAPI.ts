@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { bookingsSchema, type BookingData } from "@/types/index";
+import { bookingsSchema, type BookingData, type CancelTripInfo } from "@/types/index";
 import { isAxiosError } from "axios";
 
 export async function getBookings() {
@@ -16,6 +16,24 @@ export async function getBookings() {
     }
 }
 
-export async function cancelTrip(id: BookingData["id"]) {
-    console.log(id);
+export async function cancelTrip(info: CancelTripInfo) {
+    try {
+        await api.patch(`/bookings/${info.id}/status`, {
+            status: info.status,
+        });
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function deleteTrip(id: BookingData["id"]) {
+    try {
+        await api.delete(`/bookings/${id}`);
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
 }
