@@ -1,4 +1,4 @@
-import type { BookingData } from "@/types/index";
+import { BookingStatus, type BookingData } from "@/types/index";
 import { PencilSquareIcon, TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
 type Props = {
@@ -13,24 +13,31 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
             <article className="bg-[#EEEEEE] border border-slate-300 rounded-2xl grid grid-cols-1 md:grid-cols-2 shadow-md md:pr-5 pb-5 md:pb-0 w-full max-w-sm md:max-w-3xl mx-auto">
                 <div>
                     <img
-                        src={item.src}
-                        alt={item.name}
-                        className="md:rounded-tr-none md:rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl w-full md:w-3/4 md:h-44 "
+                        src={item.hotelImage}
+                        alt={item.hotelName}
+                        className="md:rounded-tr-none md:rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl w-full md:w-3/4 md:h-full"
                     />
                 </div>
-                <div className="flex flex-col justify-center pl-2 md:pl-0 mx-auto md:mx-0 mt-5 md:mt-0">
+                <div className="flex flex-col justify-center pl-2 md:pl-0 mx-auto md:mx-0 mt-5 md:mt-0 py-3">
                     <h6 className="text-2xl font-semibold mb-2 ml-5">{item.status}</h6>
                     <h5>
-                        Hotel: <span className="font-semibold">{item.name}</span>
+                        Hotel: <span className="font-semibold">{item.hotelName}</span>
                     </h5>
                     <p>
-                        From <span className="font-semibold">{item.fromDate}</span> To{" "}
-                        <span className="font-semibold">{item.toDate}</span>
+                        From <span className="font-semibold">{item.checkInDate}</span> To{" "}
+                        <span className="font-semibold">{item.checkOutDate}</span>
                     </p>
                     <p>
-                        Price: <span className="font-semibold">{item.price}</span>
+                        Total Guests: <span className="font-semibold">{item.totalGuests}</span>
                     </p>
-                    {item.status === "Upcoming Trip" ? (
+                    <p>
+                        Guest Name: <span className="font-semibold">{item.guestNames}</span>
+                    </p>
+
+                    <p>
+                        Price: <span className="font-semibold">USD {item.totalPrice}</span>
+                    </p>
+                    {item.status === BookingStatus.PENDING ? (
                         <div className="flex gap-2 mt-2">
                             <button
                                 aria-label="Edit booking"

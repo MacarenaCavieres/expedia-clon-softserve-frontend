@@ -33,11 +33,11 @@ function ConfirmAction({
 
                 <div className="p-4">
                     <h5 className="text-xl underline mb-3">Reservation Information</h5>
-                    <p>Hotel: {reservationInfo?.name}</p>
+                    <p>Hotel: {reservationInfo?.hotelName}</p>
                     <p>
-                        From: {reservationInfo?.fromDate} To: {reservationInfo?.toDate}
+                        From: {reservationInfo?.checkInDate} To: {reservationInfo?.checkOutDate}
                     </p>
-                    <p className="">Price: {reservationInfo?.price}</p>
+                    <p className="">Price: USD {reservationInfo?.totalPrice}</p>
                     <p className="text-gray-600 mt-5">{message}</p>
                 </div>
 

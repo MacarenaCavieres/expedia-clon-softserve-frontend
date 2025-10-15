@@ -1,51 +1,16 @@
 import z from "zod";
 
-// export type HotelData = {
-//     id: number;
-//     name: string;
-//     city: string;
-//     score: string;
-//     comment: string;
-//     price: string;
-//     src: string;
-// };
-
-export type BookingData = {
-    id: number;
-    name: string;
-    fromDate: string;
-    toDate: string;
-    price: string;
-    status: string;
-    src: string;
-};
+export enum BookingStatus {
+    "CANCELED" = "CANCELED",
+    "PENDING" = "PENDING",
+    "CONFIRMED" = "CONFIRMED",
+}
 
 export type SearchHotel = {
     destination: string;
     arrivalDate: string;
     exitDate: string;
 };
-
-// export type Room = {
-//     id: number;
-//     name: string;
-//     capacity: number;
-//     BedType: string;
-//     pricePerNight: number;
-//     image: string;
-// };
-
-// export type HotelDetail = {
-//     id: number;
-//     name: string;
-//     city: string;
-//     score: string;
-//     comment: string;
-//     src: string[];
-//     title: string;
-//     description: string;
-//     rooms: Room[];
-// };
 
 export const roomSchema = z.object({
     id: z.number(),
@@ -66,6 +31,8 @@ export const hotelSearchedSchema = z.object({
     comment: z.string(),
 });
 
+export const hotelsSearchedSchema = z.array(hotelSearchedSchema);
+
 export const hotelDetailSchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -80,8 +47,22 @@ export const hotelDetailSchema = z.object({
     rooms: z.array(roomSchema),
 });
 
-export const hotelsSearchedSchema = z.array(hotelSearchedSchema);
+export const bookingSchema = z.object({
+    id: z.number(),
+    checkInDate: z.string(),
+    checkOutDate: z.string(),
+    totalGuests: z.number(),
+    guestNames: z.string(),
+    totalPrice: z.number(),
+    status: z.string(),
+    hotelName: z.string(),
+    hotelCity: z.string(),
+    hotelImage: z.string(),
+});
+
+export const bookingsSchema = z.array(bookingSchema);
 
 export type HotelData = z.infer<typeof hotelSearchedSchema>;
 export type HotelDetail = z.infer<typeof hotelDetailSchema>;
 export type Room = z.infer<typeof roomSchema>;
+export type BookingData = z.infer<typeof bookingSchema>;
