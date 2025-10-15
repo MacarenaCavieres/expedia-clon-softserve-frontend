@@ -1,16 +1,24 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { BookingData, SetBookingDatesPayload, SetRoomIdPayload } from "@/types/index";
+import type {
+    BookingData,
+    Room,
+    SetBookingDatesPayload,
+    setBookingIdPayload,
+    SetRoomIdPayload,
+} from "@/types/index";
 
 type BookingState = {
-    roomId: BookingData["id"] | null;
+    roomId: Room["id"] | null;
     checkInDate: BookingData["checkInDate"] | null;
     checkOutDate: BookingData["checkOutDate"] | null;
+    bookingId: BookingData["id"] | null;
 };
 
 const initialState: BookingState = {
     roomId: null,
     checkInDate: null,
     checkOutDate: null,
+    bookingId: null,
 };
 
 const bookingSlice = createSlice({
@@ -26,13 +34,22 @@ const bookingSlice = createSlice({
             state.checkOutDate = action.payload.checkOutDate;
         },
 
+        setBookingId: (state, action: PayloadAction<setBookingIdPayload>) => {
+            state.bookingId = action.payload.bookingId;
+        },
+
         clearBookingDetails: (state) => {
             state.roomId = null;
             state.checkInDate = null;
             state.checkOutDate = null;
         },
+
+        clearBookingId: (state) => {
+            state.bookingId = null;
+        },
     },
 });
 
-export const { setRoomId, setBookingDates, clearBookingDetails } = bookingSlice.actions;
+export const { setRoomId, setBookingDates, setBookingId, clearBookingDetails, clearBookingId } =
+    bookingSlice.actions;
 export default bookingSlice.reducer;

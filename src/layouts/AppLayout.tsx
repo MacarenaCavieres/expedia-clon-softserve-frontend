@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "@/components/bookings/Header";
 import Footer from "@/components/Footer";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppLayout() {
     return (
@@ -11,6 +13,8 @@ function AppLayout() {
                 <Outlet />
             </main>
             <Footer />
+
+            <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} />
         </>
     );
 }

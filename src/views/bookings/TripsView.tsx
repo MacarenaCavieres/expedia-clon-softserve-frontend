@@ -5,9 +5,11 @@ import ConfirmAction from "@/components/bookings/ConfirmAction";
 import type { BookingData } from "@/types/index";
 import { useQuery } from "@tanstack/react-query";
 import { getBookings } from "@/services/bookingAPI";
+import { useBookingActions } from "@/hooks/useBookingActions";
 
 function TripsView() {
     const navigate = useNavigate();
+    const { setBookingIdStore } = useBookingActions();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reservationInfo, setReservationInfo] = useState<BookingData | undefined>(undefined);
     const [isCancel, setIsCancel] = useState(false);
@@ -32,7 +34,7 @@ function TripsView() {
     };
 
     const handleEditTrip = (id: BookingData["id"]) => {
-        console.log(id);
+        setBookingIdStore(id);
         navigate("/create-booking");
     };
 
@@ -78,6 +80,7 @@ function TripsView() {
                         } the reservation? This action cannot be undone.`}
                         confirmButtonText={isCancel ? "Cancel reservation" : "Delete reservation"}
                         reservationInfo={reservationInfo}
+                        isCancel={isCancel}
                         buttonColor={
                             isCancel ? "bg-slate-600 hover:bg-slate-500" : "bg-red-600 hover:bg-red-700"
                         }
