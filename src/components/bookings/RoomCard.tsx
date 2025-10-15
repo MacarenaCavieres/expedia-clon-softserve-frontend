@@ -1,4 +1,5 @@
-import type { Room } from "@/types/index";
+import { useBookingActions } from "@/hooks/useBookingActions";
+import type { SetRoomIdPayload, Room } from "@/types/index";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -6,6 +7,16 @@ type Props = {
 };
 export default function RoomCard({ item }: Props) {
     const navigate = useNavigate();
+    const { setRoomIdStore } = useBookingActions();
+
+    const handleClick = () => {
+        const bookingInfo: SetRoomIdPayload = {
+            roomId: item.id,
+        };
+        setRoomIdStore(bookingInfo);
+        navigate("/create-booking");
+    };
+
     return (
         <article className="border border-slate-400 rounded-2xl pb-3 space-y-2 w-72">
             <img
@@ -23,7 +34,7 @@ export default function RoomCard({ item }: Props) {
                 </div>
                 <button
                     className="bg-[#1668e3] rounded-4xl p-2 w-full text-slate-100 mt-3 cursor-pointer"
-                    onClick={() => navigate("/create-booking")}
+                    onClick={handleClick}
                 >
                     Reserve
                 </button>

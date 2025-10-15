@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
 import HotelCard from "@/components/bookings/HotelCard";
 import { getSearchedHotels } from "@/services/hotelAPI";
 import initialData from "@/static/hotels.json";
-import { useQuery } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import type { SearchHotel } from "../types";
+import type { HotelData, SearchHotel, SetBookingDatesPayload } from "@/types/index";
 import Errors from "@/components/bookings/Errors";
+import { useBookingActions } from "@/hooks/useBookingActions";
 
 function HomeView() {
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState<SearchHotel | null>(null);
+    const { setBookingDatesStore } = useBookingActions();
 
     const initialValues: SearchHotel = {
         destination: "",
@@ -50,6 +54,16 @@ function HomeView() {
             refetch();
         }
     }, [searchParams]);
+
+    const handleClick = (id: HotelData["id"]) => {
+        const bookingDates: SetBookingDatesPayload = {
+            checkInDate: searchParams!.arrivalDate,
+            checkOutDate: searchParams!.exitDate,
+        };
+
+        setBookingDatesStore(bookingDates);
+        navigate(`/${id}`);
+    };
 
     return (
         <>
@@ -124,6 +138,7 @@ function HomeView() {
                             },
                         })}
                     />
+                    <Errors>{errors.exitDate?.message}</Errors>
                 </div>
 
                 <input
@@ -134,27 +149,34 @@ function HomeView() {
                 />
             </form>
 
-            {data?.length && (
-                <section className="mb-28">
-                    <h2 className="text-3xl font-bold mb-5 mt-10">
-                        Search results for "{searchParams?.destination}"
-                    </h2>
-                    <div className="flex gap-4 justify-around max-w-5xl mx-auto flex-wrap md:flex-nowrap">
-                        {data.map((item) => (
-                            <HotelCard item={item} key={item.id} />
-                        ))}
-                    </div>
-                </section>
-            )}
+            {searchParams &&
+                (isFetching ? (
+                    <p className="text-3xl font-bold mb-5 mt-10">Searching...</p>
+                ) : data?.length ? (
+                    <section className="mb-28">
+                        <h2 className="text-3xl font-bold mb-5 mt-10">
+                            Search results for "{searchParams?.destination}"
+                        </h2>
+                        <div className="flex gap-4 justify-around max-w-5xl mx-auto flex-wrap md:flex-nowrap">
+                            {data.map((item) => (
+                                <HotelCard item={item} key={item.id} handleClick={handleClick} />
+                            ))}
+                        </div>
+                    </section>
+                ) : (
+                    <p className="text-3xl font-bold mb-5 mt-10">
+                        No results were found for the search: {searchParams?.destination}
+                    </p>
+                ))}
 
             <section className="mt-16">
                 <h2 className="text-2xl font-bold mb-1">Recommended stays for you</h2>
                 <p className="mb-5 text-sm">
                     Showing deals for: <span className="font-bold">Oct 31 - Nov 2</span>
                 </p>
-                <div className="flex gap-5 flex-wrap lg:flex-nowrap justify-center">
+                <div className="flex gap-5 flex-wrap xl:flex-nowrap justify-center">
                     {initialData.map((item) => (
-                        <HotelCard item={item} key={item.id} />
+                        <HotelCard item={item} key={item.id} handleClick={handleClick} />
                     ))}
                 </div>
             </section>
