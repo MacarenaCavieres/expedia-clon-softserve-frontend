@@ -39,8 +39,11 @@ function HomeView() {
     useEffect(() => {
         if (arrivalDate) {
             const currentDeparture = watch("exitDate");
+            const checkInDate = new Date(arrivalDate);
+            checkInDate.setDate(checkInDate.getDate() + 1);
+            const nextDay = checkInDate.toISOString().split("T")[0];
             if (!currentDeparture) {
-                setValue("exitDate", arrivalDate);
+                setValue("exitDate", nextDay);
             }
         }
     }, [arrivalDate, setValue, watch]);
@@ -109,7 +112,8 @@ function HomeView() {
                                 today.setHours(0, 0, 0, 0);
                                 selectedDate.setHours(0, 0, 0, 0);
                                 return (
-                                    selectedDate >= today || "The arrival date cannot be earlier than today."
+                                    selectedDate >= today ||
+                                    "The arrival date cannot be earlier or the same than today."
                                 );
                             },
                         })}
@@ -132,8 +136,8 @@ function HomeView() {
                                 arrival.setHours(0, 0, 0, 0);
                                 departure.setHours(0, 0, 0, 0);
                                 return (
-                                    departure >= arrival ||
-                                    "Departure date cannot be earlier than arrival date."
+                                    departure > arrival ||
+                                    "Departure date cannot be earlier or equal than arrival date."
                                 );
                             },
                         })}
