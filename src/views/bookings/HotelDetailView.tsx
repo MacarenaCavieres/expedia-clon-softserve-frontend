@@ -1,5 +1,5 @@
 import RoomCard from "@/components/bookings/RoomCard";
-import { getHotelById } from "@/services/hotelAPI";
+import { getHotelById } from "@/services/HotelAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 

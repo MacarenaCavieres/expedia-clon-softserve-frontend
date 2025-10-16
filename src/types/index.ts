@@ -25,6 +25,14 @@ export type setBookingIdPayload = {
     bookingId: BookingData["id"];
 };
 
+export type createBookingPayload = {
+    roomId: number;
+    checkInDate: string;
+    checkOutDate: string;
+    totalGuests: number;
+    guestNames: string;
+};
+
 export const roomSchema = z.object({
     id: z.number(),
     capacity: z.number(),
