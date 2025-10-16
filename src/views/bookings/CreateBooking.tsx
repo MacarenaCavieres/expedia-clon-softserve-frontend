@@ -1,9 +1,9 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useMutation, QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
-import { createBooking } from "@/services/bookingAPI"; // your POST /bookings function
+import { createBooking, getBookingById } from "@/services/bookingAPI";
 
 const queryClient = new QueryClient();
 
@@ -16,9 +16,15 @@ type ReservationFormData = z.infer<typeof reservationFormSchema>;
 
 function ReservationForm() {
   // Data from the Redux store
-  const { roomId, checkInDate, checkOutDate } = useSelector(
+  const { roomId, checkInDate, checkOutDate, bookingId } = useSelector(
     (state: RootState) => state.bookings
   );
+
+  const {data: existingBooking, isLoading: isLoadingBooking} = useQuery({
+    queryKey: ["booking", bookingId],
+    queryFn: () => getBookingById(bookingId!),
+    enabled: !!bookingId,
+  });
 
   const mutation = useMutation({
     mutationFn: async (data: ReservationFormData) => {
@@ -40,11 +46,13 @@ function ReservationForm() {
 
   const form = useForm({
     defaultValues: {
-      totalGuests: 1,
-      guestNames: "",
+      totalGuests: existingBooking?.totalGuests ?? 1,
+      guestNames: existingBooking?.guestNames ??"",
     },
     onSubmit: ({ value }) => mutation.mutate(value),
   });
+
+  if (isLoadingBooking) return <p>Loading booking info...</p>;
 
   return (
     <form

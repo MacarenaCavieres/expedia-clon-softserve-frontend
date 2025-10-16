@@ -16,6 +16,17 @@ export async function getBookings() {
     }
 }
 
+export async function getBookingById(id: BookingData["id"]) {
+    try {
+        const { data } = await api.get(`/bookings/${id}`);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
 export async function createBooking(bookingData: createBookingPayload) {
     try {
         const { data } = await api.post('/bookings', bookingData);
