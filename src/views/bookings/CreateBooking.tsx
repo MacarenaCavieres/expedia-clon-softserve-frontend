@@ -4,6 +4,8 @@ import { z } from "zod";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
 import { createBooking, getBookingById } from "@/services/bookingAPI";
+import {toast, ToastContainer} from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +17,7 @@ const reservationFormSchema = z.object({
 type ReservationFormData = z.infer<typeof reservationFormSchema>;
 
 function ReservationForm() {
+  const navigate = useNavigate();
   // Data from the Redux store
   const { roomId, checkInDate, checkOutDate, bookingId } = useSelector(
     (state: RootState) => state.bookings
@@ -42,7 +45,20 @@ function ReservationForm() {
 
       return createBooking(payload);
     },
+    onSuccess: (data) => {
+      console.log("Booking created!", data);
+      toast.success("Booking created succesfully!");
+      setTimeout(() => {
+        navigate("/my-trips");
+      }, 2500);   
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to create booking.");
+    },
   });
+
+  
+
 
   const form = useForm({
     defaultValues: {
@@ -55,6 +71,7 @@ function ReservationForm() {
   if (isLoadingBooking) return <p>Loading booking info...</p>;
 
   return (
+    <>
     <form
       onSubmit={(e) => {
         e.preventDefault();
@@ -107,6 +124,9 @@ function ReservationForm() {
       )}
       {mutation.isSuccess && <p className="text-green-500 mt-2">Booking successful!</p>}
     </form>
+
+    <ToastContainer position="top-right" autoClose={2000} theme = "colored"/>
+    </>
   );
 }
 

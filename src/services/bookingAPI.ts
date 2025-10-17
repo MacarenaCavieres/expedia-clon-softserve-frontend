@@ -34,6 +34,8 @@ export async function createBooking(bookingData: createBookingPayload) {
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
+        } else {
+            throw new Error("Unexpected error while creating booking");
         }
     }
 }
