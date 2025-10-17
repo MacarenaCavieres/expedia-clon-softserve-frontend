@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# Expedia Clone Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a **frontend clone of Expedia.com**, built as part of a learning project to practice modern web development with **React**, **TypeScript**, **React Query**, and **Redux Toolkit**.  
+It allows users to **search destinations, view hotel details, and manage their bookings (CRUD)** — all without authentication or login.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+-   **Home View**
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+    -   Displays a search bar where users can look for destinations.
+    -   Fetches and displays a list of hotels matching the selected destination.
 
-## Expanding the ESLint configuration
+-   **Hotel Detail View**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+    -   Accessed via dynamic route `/hotelId`.
+    -   Displays hotel information and available rooms.
+    -   Selecting a room saves its details in the global store and navigates the user to the booking form.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+-   **Create Booking**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+    -   Users can create a new reservation through a form.
+    -   Data is managed using **React Hook Form** and **Zod** for validation.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+-   **My Trips View**
+
+    -   Displays all user bookings.
+    -   Users can **edit**, **cancel**, or **delete** reservations.
+    -   Booking data is managed via **CRUD operations** using **React Query** and **Axios**.
+
+-   **State Management**
+    -   **Redux Toolkit** is used to handle global state across the app.
+    -   **React Query** manages data fetching and caching for API requests.
+
+---
+
+## Tech Stack
+
+| Category           | Technology                                                                |
+| ------------------ | ------------------------------------------------------------------------- |
+| Framework          | [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)              |
+| Language           | [TypeScript](https://www.typescriptlang.org/)                             |
+| State Management   | [Redux Toolkit](https://redux-toolkit.js.org/)                            |
+| Data Fetching      | [React Query](https://tanstack.com/query/latest)                          |
+| Forms & Validation | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
+| Styling            | [Tailwind CSS](https://tailwindcss.com/)                                  |
+| Icons              | [Heroicons](https://heroicons.com/)                                       |
+| Notifications      | [React Toastify](https://fkhadra.github.io/react-toastify/introduction)   |
+| Routing            | [React Router DOM v7](https://reactrouter.com/)                           |
+
+---
+
+## Setup & Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/MacarenaCavieres/expedia-clon-softserve-frontend.git
+cd expedia-clon-softserve-frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3. Run the development server
+
+```bash
+npm run dev
+```
+
+## Future Improvements
+
+-   Add user authentication (login/register flow).
+-   Implement booking confirmation emails.
+-   Enhance error handling and loading states.
+-   Add unit and integration tests.
+-   Improve responsive design and accessibility.
+
+## Authors
+
+Developed by the team as part of a SoftServe project.
