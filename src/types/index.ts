@@ -79,12 +79,18 @@ export const bookingSchema = z.object({
     hotelName: z.string(),
     hotelCity: z.string(),
     hotelImage: z.string(),
+    roomId: z.number(),
 });
 
 export const bookingsSchema = z.array(bookingSchema);
+export const reservationFormSchema = z.object({
+    totalGuests: z.number(),
+    guestNames: z.string(),
+});
 
 export type HotelData = z.infer<typeof hotelSearchedSchema>;
 export type HotelDetail = z.infer<typeof hotelDetailSchema>;
 export type Room = z.infer<typeof roomSchema>;
 export type BookingData = z.infer<typeof bookingSchema>;
 export type CancelTripInfo = Pick<BookingData, "id" | "status">;
+export type ReservationFormData = z.infer<typeof reservationFormSchema>;

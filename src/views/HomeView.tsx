@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import HotelCard from "@/components/bookings/HotelCard";
-import { getSearchedHotels } from "@/services/HotelAPI";
+import { getSearchedHotels } from "@/services/hotelAPI";
 import initialData from "@/static/hotels.json";
 import type { HotelData, SearchHotel, SetBookingDatesPayload } from "@/types/index";
 import Errors from "@/components/bookings/Errors";

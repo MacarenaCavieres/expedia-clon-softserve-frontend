@@ -35,7 +35,7 @@ function TripsView() {
 
     const handleEditTrip = (id: BookingData["id"]) => {
         setBookingIdStore(id);
-        navigate("/create-booking");
+        navigate(`/edit-booking/${id}`);
     };
 
     const handleClose = () => {
