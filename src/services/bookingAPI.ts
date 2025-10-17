@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { bookingsSchema, type BookingData, type CancelTripInfo } from "@/types/index";
+import { bookingsSchema, type BookingData, type CancelTripInfo, type createBookingPayload } from "@/types/index";
 import { isAxiosError } from "axios";
 
 export async function getBookings() {
@@ -12,6 +12,30 @@ export async function getBookings() {
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function getBookingById(id: BookingData["id"]) {
+    try {
+        const { data } = await api.get(`/bookings/${id}`);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export async function createBooking(bookingData: createBookingPayload) {
+    try {
+        const { data } = await api.post('/bookings', bookingData);
+        return data;
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw new Error("Unexpected error while creating booking");
         }
     }
 }
