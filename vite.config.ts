@@ -11,6 +11,7 @@ export default defineConfig({
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
+<<<<<<< HEAD
     server: {   
         proxy: {     
             // Cualquier petición que empiece con /api...
@@ -24,4 +25,6 @@ export default defineConfig({
             }
         }
     }
+=======
+>>>>>>> 0fc894e39aa5ee73650b75ff04aed68713f3a2a7
 });

@@ -24,7 +24,10 @@
     "react-router-dom": "^7.9.3",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4.1.14",
+<<<<<<< HEAD
     "uuid": "^13.0.0",
+=======
+>>>>>>> 0fc894e39aa5ee73650b75ff04aed68713f3a2a7
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -32,7 +35,10 @@
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.2.1",
+<<<<<<< HEAD
     "@types/uuid": "^10.0.0",
+=======
+>>>>>>> 0fc894e39aa5ee73650b75ff04aed68713f3a2a7
     "@vitejs/plugin-react-swc": "^4.1.0",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
