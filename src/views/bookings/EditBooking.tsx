@@ -2,9 +2,9 @@ import { useForm } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-// 🚨 Ensure updateBooking is available in bookingAPI
 import { getBookingById, updateBooking } from "@/services/bookingAPI";
 import type { ReservationFormData, BookingData } from "@/types/index";
+import { getOrGenerateSessionId } from "@/utils/sesionUtils";
 
 export default function EditBookingForm() {
     const navigate = useNavigate();
@@ -22,11 +22,14 @@ export default function EditBookingForm() {
                 throw new Error("Could not load data for update.");
             }
 
+            const sessionId = getOrGenerateSessionId();
+
             const payload = {
+                sessionId: sessionId,
                 roomId: existingBooking.roomId,
                 checkInDate: existingBooking.checkInDate,
                 checkOutDate: existingBooking.checkOutDate,
-                totalGuests: data.totalGuests,
+                passengerCount: data.totalGuests,
                 guestNames: data.guestNames,
             };
 
@@ -47,7 +50,7 @@ export default function EditBookingForm() {
 
     const form = useForm({
         defaultValues: {
-            totalGuests: existingBooking?.totalGuests ?? 1,
+            totalGuests: existingBooking?.passengerCount ?? 1,
             guestNames: existingBooking?.guestNames ?? "",
         },
         onSubmit: ({ value }) => mutation.mutate(value),

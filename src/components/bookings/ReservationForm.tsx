@@ -22,7 +22,8 @@ export default function CreateBookingForm() {
             const sessionId = getOrGenerateSessionId(); // <-- OBTENER ID
 
             // --- CONSTRUIR PAYLOAD ---
-            const payload: createBookingPayload = { // <-- Usar el tipo actualizado
+            const payload: createBookingPayload = {
+                // <-- Usar el tipo actualizado
                 sessionId: sessionId, // <-- AÑADIR SESSION ID
                 roomId,
                 checkInDate,

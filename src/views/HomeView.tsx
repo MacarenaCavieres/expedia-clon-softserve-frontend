@@ -7,7 +7,7 @@ import initialData from "@/static/hotels.json";
 import type { HotelData, SearchHotel, SetBookingDatesPayload } from "@/types/index";
 import Errors from "@/components/bookings/Errors";
 import { useBookingActions } from "@/hooks/useBookingActions";
-import { getSearchedHotels } from "@/services/HotelAPI";
+import { getSearchedHotels } from "@/services/hotelAPI";
 
 function HomeView() {
     const navigate = useNavigate();
@@ -29,7 +29,6 @@ function HomeView() {
         setValue,
         formState: { errors, isValid },
     } = useForm({ defaultValues: initialValues, mode: "onChange" });
-
 
     const { data, isFetching, refetch } = useQuery({
         queryKey: ["searchHotels", searchParams],
@@ -56,7 +55,6 @@ function HomeView() {
             }
         }
     }, [arrivalDate, setValue, watch]);
-
 
     const handleSearch = async (formData: SearchHotel) => {
         setSearchParams(formData);
@@ -170,7 +168,7 @@ function HomeView() {
                             valueAsNumber: true, // Importante para que react-hook-form lo trate como número
                             min: {
                                 value: 1,
-                                message: "Must be at least 1 guest"
+                                message: "Must be at least 1 guest",
                             },
                         })}
                     />

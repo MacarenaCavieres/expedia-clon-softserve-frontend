@@ -42,7 +42,7 @@ export const roomSchema = z.object({
     bedType: z.string(),
     pricePerNight: z.number(),
     imageUrl: z.string(),
-    description: z.string()
+    description: z.string(),
 });
 
 export const hotelSearchedSchema = z.object({
@@ -89,8 +89,8 @@ export const bookingsSchema = z.array(bookingSchema);
 
 // Schema para el formulario de reserva (solo los campos del form)
 export const reservationFormSchema = z.object({
-    totalGuests: z.number().min(1, { message: 'Must be at least 1 guest' }),
-    guestNames: z.string().min(1, { message: 'Guest names are required' }),
+    totalGuests: z.number().min(1, { message: "Must be at least 1 guest" }),
+    guestNames: z.string().min(1, { message: "Guest names are required" }),
 });
 
 export type HotelData = z.infer<typeof hotelSearchedSchema>;

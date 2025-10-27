@@ -53,7 +53,6 @@ export async function createBooking(bookingData: createBookingPayload) {
 export async function updateBooking(bookingData: createBookingPayload, bookingId: BookingData["id"]) {
     try {
         const { data } = await api.put(`/bookings/${bookingId}`, bookingData);
-        console.log(data);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
