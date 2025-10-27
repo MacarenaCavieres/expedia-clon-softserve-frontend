@@ -7,9 +7,10 @@ export enum BookingStatus {
 }
 
 export type SearchHotel = {
-    destination: string;
+    city: string;
     arrivalDate: string;
     exitDate: string;
+    passengerCount: number; // Campo añadido
 };
 
 export type SetRoomIdPayload = {
@@ -26,10 +27,11 @@ export type setBookingIdPayload = {
 };
 
 export type createBookingPayload = {
+    sessionId: string; // NECESARIO para invitados - ¡Añadir al backend también!
     roomId: number;
     checkInDate: string;
     checkOutDate: string;
-    totalGuests: number;
+    passengerCount: number;
     guestNames: string;
 };
 
@@ -40,6 +42,7 @@ export const roomSchema = z.object({
     bedType: z.string(),
     pricePerNight: z.number(),
     imageUrl: z.string(),
+    description: z.string()
 });
 
 export const hotelSearchedSchema = z.object({
@@ -72,7 +75,7 @@ export const bookingSchema = z.object({
     id: z.number(),
     checkInDate: z.string(),
     checkOutDate: z.string(),
-    totalGuests: z.number(),
+    passengerCount: z.number(),
     guestNames: z.string(),
     totalPrice: z.number(),
     status: z.string(),
@@ -83,9 +86,11 @@ export const bookingSchema = z.object({
 });
 
 export const bookingsSchema = z.array(bookingSchema);
+
+// Schema para el formulario de reserva (solo los campos del form)
 export const reservationFormSchema = z.object({
-    totalGuests: z.number(),
-    guestNames: z.string(),
+    totalGuests: z.number().min(1, { message: 'Must be at least 1 guest' }),
+    guestNames: z.string().min(1, { message: 'Guest names are required' }),
 });
 
 export type HotelData = z.infer<typeof hotelSearchedSchema>;

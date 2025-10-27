@@ -28,7 +28,7 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
                         <span className="font-semibold">{item.checkOutDate}</span>
                     </p>
                     <p>
-                        Total Guests: <span className="font-semibold">{item.totalGuests}</span>
+                        Total Guests: <span className="font-semibold">{item.passengerCount}</span>
                     </p>
                     <p>
                         Guest Name: <span className="font-semibold">{item.guestNames}</span>

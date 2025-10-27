@@ -11,4 +11,17 @@ export default defineConfig({
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
+    server: {   
+        proxy: {     
+            // Cualquier petición que empiece con /api...
+            '/api': {
+                // ...se redirige a tu backend en el puerto 8080
+                target: 'http://localhost:8080',
+                // Necesario para que el backend acepte la petición
+                changeOrigin: true,
+                // Opcional: Si tu backend NO espera '/api' al principio de la ruta, descomenta la siguiente línea
+                //rewrite: (path) => path.replace(/^\/api/, '')
+            }
+        }
+    }
 });

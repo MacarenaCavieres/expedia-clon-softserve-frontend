@@ -5,7 +5,8 @@ import type { RootState } from "@/store/store";
 import { createBooking } from "@/services/bookingAPI";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import type { ReservationFormData } from "@/types/index";
+import type { createBookingPayload, ReservationFormData } from "@/types/index";
+import { getOrGenerateSessionId } from "@/utils/sesionUtils";
 
 export default function CreateBookingForm() {
     const navigate = useNavigate();
@@ -17,14 +18,20 @@ export default function CreateBookingForm() {
                 throw new Error("Reservation details (room or dates) are missing.");
             }
 
-            const payload = {
+            // --- OBTENER SESSION ID ---
+            const sessionId = getOrGenerateSessionId(); // <-- OBTENER ID
+
+            // --- CONSTRUIR PAYLOAD ---
+            const payload: createBookingPayload = { // <-- Usar el tipo actualizado
+                sessionId: sessionId, // <-- AÑADIR SESSION ID
                 roomId,
                 checkInDate,
                 checkOutDate,
-                totalGuests: data.totalGuests,
+                passengerCount: data.totalGuests,
                 guestNames: data.guestNames,
             };
 
+            // Llamar a la API con el payload completo
             return createBooking(payload);
         },
         onSuccess: () => {
