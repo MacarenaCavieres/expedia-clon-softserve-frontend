@@ -82,4 +82,4 @@ npm run dev
 
 ## Authors
 
-Developed by the team as part of a SoftServe project.
+Developed by the team as part of a SoftServe project SS.
