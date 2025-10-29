@@ -5,6 +5,9 @@ import TripsView from "@/views/bookings/TripsView";
 import CreateBooking from "@/views/bookings/CreateBooking";
 import HotelDetailView from "@/views/bookings/HotelDetailView";
 import EditBooking from "@/views/bookings/EditBooking";
+import AuthLayout from "./layouts/AuthLayout";
+import RegisterView from "./views/auth/RegisterView";
+import LoginView from "./views/auth/LoginView";
 
 function Router() {
     return (
@@ -16,6 +19,10 @@ function Router() {
                     <Route path="/create-booking" element={<CreateBooking />} />
                     <Route path="/edit-booking/:bookingId" element={<EditBooking />} />
                     <Route path="/:hotelId" element={<HotelDetailView />} />
+                </Route>
+                <Route element={<AuthLayout />}>
+                    <Route path="/auth/login" element={<LoginView />} />
+                    <Route path="/auth/register" element={<RegisterView />} />
                 </Route>
             </Routes>
         </BrowserRouter>

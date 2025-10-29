@@ -1,63 +1,61 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBookingById, updateBooking } from "@/services/bookingAPI";
-import type { ReservationFormData, BookingData } from "@/types/index";
-import { getOrGenerateSessionId } from "@/utils/sesionUtils";
+import { BOOKING_BY_ID_QUERY, UPDATE_BOOKING_MUTATION } from "@/services/bookingAPI";
+import { useQuery, useMutation } from "@apollo/client/react";
+import type { BookingById } from "@/types/index";
 
 export default function EditBookingForm() {
     const navigate = useNavigate();
     const { bookingId } = useParams<{ bookingId: string }>();
 
-    const { data: existingBooking, isLoading: isLoadingBooking } = useQuery<BookingData>({
-        queryKey: ["booking", bookingId],
-        queryFn: () => getBookingById(+(bookingId ?? "0")),
-        enabled: !!bookingId,
+    const {
+        loading: isLoadingBooking,
+        error: isError,
+        data: existingBooking,
+    } = useQuery<BookingById>(BOOKING_BY_ID_QUERY, {
+        variables: { id: Number(bookingId) },
+        fetchPolicy: "network-only",
     });
 
-    const mutation = useMutation({
-        mutationFn: async (data: ReservationFormData) => {
-            if (!existingBooking || !bookingId) {
-                throw new Error("Could not load data for update.");
-            }
-
-            const sessionId = getOrGenerateSessionId();
-
-            const payload = {
-                sessionId: sessionId,
-                roomId: existingBooking.roomId,
-                checkInDate: existingBooking.checkInDate,
-                checkOutDate: existingBooking.checkOutDate,
-                passengerCount: data.totalGuests,
-                guestNames: data.guestNames,
-            };
-
-            const { id } = existingBooking;
-
-            return updateBooking(payload, id);
-        },
-        onSuccess: () => {
+    const [updateBooking, { loading: updating, error: updateError }] = useMutation(UPDATE_BOOKING_MUTATION, {
+        onCompleted: () => {
             toast.success("Reservation updated successfully");
-            setTimeout(() => {
-                navigate("/my-trips");
-            }, 1500);
+            setTimeout(() => navigate("/my-trips"), 500);
         },
-        onError: (error) => {
-            toast.error(error.message || "Failed to update reservation.");
+        onError: (err) => {
+            toast.error(err.message || "Failed to update reservation.");
         },
     });
 
     const form = useForm({
         defaultValues: {
-            totalGuests: existingBooking?.passengerCount ?? 1,
-            guestNames: existingBooking?.guestNames ?? "",
+            totalGuests: existingBooking?.bookingById.passengerCount ?? 1,
+            guestNames: existingBooking?.bookingById.guestNames ?? "",
         },
-        onSubmit: ({ value }) => mutation.mutate(value),
+        onSubmit: async ({ value }) => {
+            if (!existingBooking) {
+                toast.error("Could not load data for update.");
+                return;
+            }
+
+            await updateBooking({
+                variables: {
+                    id: Number(existingBooking.bookingById.id),
+                    input: {
+                        roomId: Number(existingBooking.bookingById.roomId),
+                        passengerCount: Number(value.totalGuests),
+                        checkInDate: existingBooking.bookingById.checkInDate,
+                        checkOutDate: existingBooking.bookingById.checkOutDate,
+                        guestNames: value.guestNames,
+                    },
+                },
+            });
+        },
     });
 
     if (isLoadingBooking) return <p className="text-center mt-8">Loading reservation information...</p>;
-    if (!existingBooking) return <p className="text-center mt-8 text-red-600">Reservation not found.</p>;
+    if (isError) return <p className="text-center mt-8 text-red-600">Reservation not found.</p>;
 
     return (
         <form
@@ -102,13 +100,12 @@ export default function EditBookingForm() {
             <button
                 type="submit"
                 className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 w-full cursor-pointer"
-                disabled={mutation.isPending}
+                disabled={updating}
             >
-                {mutation.isPending ? "Saving..." : "Save Changes"}
+                {updating ? "Saving..." : "Save Changes"}
             </button>
 
-            {mutation.isError && <p className="text-red-500 mt-2">{(mutation.error as Error).message}</p>}
-            {mutation.isSuccess && <p className="text-green-500 mt-2">Reservation updated successfully!</p>}
+            {updateError && <p className="text-red-500 mt-2">{updateError.message}</p>}
         </form>
     );
 }

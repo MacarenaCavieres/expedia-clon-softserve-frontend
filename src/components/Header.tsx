@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { XMarkIcon, Bars3Icon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,11 +36,18 @@ function Header() {
                     >
                         My trips
                     </NavLink>
-                    <div className="flex justify-center gap-1 items-center">
+                    <NavLink
+                        to="/auth/login"
+                        className={({ isActive }) =>
+                            isActive ? "text-blue-800 font-bold" : "hover:text-blue-800 font-bold"
+                        }
+                    >
+                        Login
+                    </NavLink>
+                    {/* <div className="flex justify-center gap-1 items-center">
                         <UserCircleIcon className="h-6 w-6" />
-
-                        <p className="font-bold">John Smith</p>
-                    </div>
+                        <p className="font-bold">John Smith</p> 
+                    </div> */}
                 </nav>
             </div>
 
@@ -65,10 +72,10 @@ function Header() {
                         My trips
                     </NavLink>
 
-                    <div className="flex items-center gap-1 py-2 mt-2 border-t w-full justify-center">
+                    {/* <div className="flex items-center gap-1 py-2 mt-2 border-t w-full justify-center">
                         <UserCircleIcon className="h-6 w-6" />
-                        <p className="font-bold">John Smith</p>
-                    </div>
+                        <p className="font-bold">John Smith</p> 
+                    </div> */}
                 </div>
             )}
         </header>

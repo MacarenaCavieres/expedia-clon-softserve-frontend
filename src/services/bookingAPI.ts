@@ -1,86 +1,77 @@
-import api from "@/lib/axios";
-import {
-    bookingSchema,
-    bookingsSchema,
-    type BookingData,
-    type CancelTripInfo,
-    type createBookingPayload,
-} from "@/types/index";
-import { isAxiosError } from "axios";
+import { gql } from "@apollo/client";
 
-export async function getBookings() {
-    try {
-        const { data } = await api.get(`/bookings`);
-        const result = bookingsSchema.safeParse(data);
-        if (result.success) {
-            return result.data;
-        }
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
+export const ALL_BOOKINGS_QUERY = gql`
+    query AllBookings {
+        allBookings {
+            id
+            checkInDate
+            checkOutDate
+            passengerCount
+            guestNames
+            totalPrice
+            status
+            hotelName
+            hotelCity
+            hotelImage
+            roomId
         }
     }
-}
+`;
 
-export async function getBookingById(id: BookingData["id"]) {
-    try {
-        const { data } = await api.get(`/bookings/${id}`);
-        const result = bookingSchema.safeParse(data);
-        if (result.success) {
-            return result.data;
-        }
-        return data;
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
+export const BOOKING_BY_ID_QUERY = gql`
+    query BookingById($id: ID!) {
+        bookingById(id: $id) {
+            id
+            checkInDate
+            checkOutDate
+            passengerCount
+            guestNames
+            totalPrice
+            status
+            hotelName
+            hotelCity
+            hotelImage
+            roomId
         }
     }
-}
+`;
 
-export async function createBooking(bookingData: createBookingPayload) {
-    try {
-        const { data } = await api.post("/bookings", bookingData);
-        return data;
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw new Error("Unexpected error while creating booking");
+export const CREATE_BOOKING_MUTATION = gql`
+    mutation CreateBooking($input: BookingInput!) {
+        createBooking(input: $input) {
+            checkInDate
+            checkOutDate
+            guestNames
+            passengerCount
+            roomId
         }
     }
-}
+`;
 
-export async function updateBooking(bookingData: createBookingPayload, bookingId: BookingData["id"]) {
-    try {
-        const { data } = await api.put(`/bookings/${bookingId}`, bookingData);
-        return data;
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw new Error("Unexpected error while creating booking");
+export const UPDATE_BOOKING_MUTATION = gql`
+    mutation UpdateBooking($id: ID!, $input: BookingInput!) {
+        updateBooking(id: $id, input: $input) {
+            id
+            checkInDate
+            checkOutDate
+            guestNames
+            passengerCount
+            roomId
         }
     }
-}
+`;
 
-export async function cancelTrip(info: CancelTripInfo) {
-    try {
-        await api.patch(`/bookings/${info.id}/status`, {
-            status: info.status,
-        });
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
+export const CANCEL_TRIP_MUTATION = gql`
+    mutation UpdateBookingStatus($bookingId: ID!, $status: BookingStatus!) {
+        updateBookingStatus(input: { bookingId: $bookingId, status: $status }) {
+            id
+            status
         }
     }
-}
+`;
 
-export async function deleteTrip(id: BookingData["id"]) {
-    try {
-        await api.delete(`/bookings/${id}`);
-    } catch (error) {
-        if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
-        }
+export const DELETE_TRIP_MUTATION = gql`
+    mutation DeleteBooking($id: ID!) {
+        deleteBooking(id: $id)
     }
-}
+`;
