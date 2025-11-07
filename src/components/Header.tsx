@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    const { auth, clearAuth } = useAuth();
+    const navigate = useNavigate();
+    console.log("auth: ", auth);
+    const handleLogout = () => {
+        clearAuth();
+        navigate("/");
+    };
+
+    const isLogged = !!auth.accessToken;
+    const userName = auth.user ? `${auth.user.name}` : undefined;
 
     return (
         <header className="pt-10 pb-5 max-w-7xl mx-auto px-10">
@@ -36,14 +48,23 @@ function Header() {
                     >
                         My trips
                     </NavLink>
-                    <NavLink
-                        to="/auth/login"
-                        className={({ isActive }) =>
-                            isActive ? "text-blue-800 font-bold" : "hover:text-blue-800 font-bold"
-                        }
-                    >
-                        Login
-                    </NavLink>
+                    {isLogged ? (
+                        <div className="flex items-center gap-3">
+                            <p className="font-semibold">Welcome, {userName ?? "Guest"}</p>
+                            <button onClick={handleLogout} className="text-sm text-red-600 underline">
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <NavLink
+                            to="/auth/login"
+                            className={({ isActive }) =>
+                                isActive ? "text-blue-800 font-bold" : "hover:text-blue-800 font-bold"
+                            }
+                        >
+                            Login
+                        </NavLink>
+                    )}
                     {/* <div className="flex justify-center gap-1 items-center">
                         <UserCircleIcon className="h-6 w-6" />
                         <p className="font-bold">John Smith</p> 
@@ -71,6 +92,19 @@ function Header() {
                     >
                         My trips
                     </NavLink>
+
+                    {isLogged ? (
+                        <div className="flex items-center gap-3 mt-3">
+                            <p className="font-semibold">Welcome, {userName ?? "Guest"}</p>
+                            <button onClick={() => { clearAuth(); navigate("/"); }} className="text-sm text-red-600 underline">
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <NavLink to="/auth/login" onClick={toggleMenu} className="mt-3 text-blue-600 underline">
+                            Login
+                        </NavLink>
+                    )}
 
                     {/* <div className="flex items-center gap-1 py-2 mt-2 border-t w-full justify-center">
                         <UserCircleIcon className="h-6 w-6" />
