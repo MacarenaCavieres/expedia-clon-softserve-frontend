@@ -5,9 +5,10 @@ import TripsView from "@/views/bookings/TripsView";
 import CreateBooking from "@/views/bookings/CreateBooking";
 import HotelDetailView from "@/views/bookings/HotelDetailView";
 import EditBooking from "@/views/bookings/EditBooking";
-import AuthLayout from "./layouts/AuthLayout";
-import RegisterView from "./views/auth/RegisterView";
-import LoginView from "./views/auth/LoginView";
+import AuthLayout from "@/layouts/AuthLayout";
+import RegisterView from "@/views/auth/RegisterView";
+import LoginView from "@/views/auth/LoginView";
+import ProfileView from "@/views/auth/ProfileView";
 
 function Router() {
     return (
@@ -23,6 +24,7 @@ function Router() {
                 <Route element={<AuthLayout />}>
                     <Route path="/auth/login" element={<LoginView />} />
                     <Route path="/auth/register" element={<RegisterView />} />
+                    <Route path="/auth/user-profile" element={<ProfileView />} />
                 </Route>
             </Routes>
         </BrowserRouter>
