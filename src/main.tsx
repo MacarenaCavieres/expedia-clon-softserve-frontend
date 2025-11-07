@@ -7,6 +7,7 @@ import { ApolloProvider } from "@apollo/client/react";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
 import { store } from "@/store/store.ts";
+import { AuthProvider } from "@/context/AuthContext";
 import client from "@/lib/client.ts";
 
 // const queryClient = new QueryClient();
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <ApolloProvider client={client}>
             <Provider store={store}>
-                <Router />
+                <AuthProvider>
+                    <Router />
+                </AuthProvider>
                 {/* <ReactQueryDevtools /> */}
             </Provider>
         </ApolloProvider>
