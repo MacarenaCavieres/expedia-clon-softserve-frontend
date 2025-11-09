@@ -11,12 +11,12 @@ export const LOGIN_USER = gql`
                 lastname
                 email
             }
-            }
         }
+    }
 `;
 
 export const REGISTER_USER = gql`
-    mutation RegisterUser($input: UserInput!){
+    mutation RegisterUser($input: UserInput!) {
         registerUser(input: $input) {
             id
             email
@@ -37,6 +37,34 @@ export const RESET_PASSWORD = gql`
         resetPassword(input: $input) {
             id
             email
+        }
+    }
+`;
+
+export const GET_USER_INFO = gql`
+    query GetUserInfo {
+        getUserInfo {
+            id
+            email
+            phone
+            name
+            lastname
+            createdAt
+            updatedAt
+        }
+    }
+`;
+
+export const UPDATE_USER_INFO = gql`
+    mutation UpdateUserInfo($input: UserUpdateInput!) {
+        updateUserInfo(input: $input) {
+            id
+            email
+            phone
+            name
+            lastname
+            createdAt
+            updatedAt
         }
     }
 `;

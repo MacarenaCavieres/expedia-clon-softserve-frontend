@@ -34,13 +34,11 @@ export type CreateBookingPayload = {
     guestNames: string;
 };
 
-export type UserInformation = {
-    name: string;
-    lastname: string;
-    email: string;
-    phone: string;
-    creationDate: string;
-    modificationDate: string;
+export type UserInfoForm = {
+    name?: string;
+    lastname?: string;
+    email?: string;
+    phone?: string;
 };
 
 export const roomSchema = z.object({
@@ -98,7 +96,7 @@ export const singleBookingDataSchema = z.object({
 });
 
 export const bookingSchema = z.object({
-    allBookings: z.array(singleBookingDataSchema),
+    allBookingsByUserId: z.array(singleBookingDataSchema),
 });
 
 export const bookingsSchema = z.array(bookingSchema);
@@ -112,6 +110,19 @@ export const reservationFormSchema = z.object({
     guestNames: z.string().min(1, { message: "Guest names are required" }),
 });
 
+export const singleUserInfo = z.object({
+    id: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    name: z.string(),
+    lastname: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+});
+
+export const userInfoSchema = z.object({
+    getUserInfo: singleUserInfo,
+});
 export type HotelData = z.infer<typeof hotelSearchedSchema>;
 export type SearchHotelsQueryResponse = z.infer<typeof hotelsSearchedSchema>;
 export type HotelDetail = z.infer<typeof hotelDetailSchema>;
@@ -121,3 +132,5 @@ export type BookingById = z.infer<typeof bookingByIdSchema>;
 export type Bookings = z.infer<typeof bookingSchema>;
 export type CancelTripInfo = Pick<BookingData, "id" | "status">;
 export type ReservationFormData = z.infer<typeof reservationFormSchema>;
+export type UserInfo = z.infer<typeof userInfoSchema>;
+export type SingleUserInfo = z.infer<typeof singleUserInfo>;

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const ALL_BOOKINGS_QUERY = gql`
-    query AllBookings {
-        allBookings {
+    query AllBookingsByUserId {
+        allBookingsByUserId {
             id
             checkInDate
             checkOutDate
