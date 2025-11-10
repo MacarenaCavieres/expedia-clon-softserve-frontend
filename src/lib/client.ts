@@ -3,7 +3,6 @@ import { SetContextLink } from "@apollo/client/link/context";
 
 const authLink = new SetContextLink((prevContext) => {
     const token = localStorage.getItem("accessToken");
-
     return {
         headers: {
             ...prevContext.headers,

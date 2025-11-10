@@ -68,3 +68,19 @@ export const UPDATE_USER_INFO = gql`
         }
     }
 `;
+
+export const REFRESH_TOKEN = gql`
+    mutation RefreshToken($refreshToken: String!) {
+        refreshToken(refreshToken: $refreshToken) {
+            accessToken
+            refreshToken
+            user {
+                id
+                email
+                phone
+                name
+                lastname
+            }
+        }
+    }
+`;

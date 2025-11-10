@@ -14,6 +14,7 @@ function ProfileView() {
 
     const { loading: isLoading, error: isError, data } = useQuery<UserInfo>(GET_USER_INFO);
     const [updateUserInfo, { loading, error }] = useMutation(UPDATE_USER_INFO, {
+        refetchQueries: [{ query: GET_USER_INFO }],
         onCompleted: () => {
             toast.success("User information successfully updated");
         },

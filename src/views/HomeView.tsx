@@ -206,7 +206,7 @@ function HomeView() {
             <section className="mt-16">
                 <h2 className="text-2xl font-bold mb-1">Recommended stays for you</h2>
                 <p className="mb-5 text-sm">
-                    Showing deals for: <span className="font-bold">Oct 31 - Nov 2</span>
+                    Showing deals for: <span className="font-bold">Dec 03 - Dec 10</span>
                 </p>
                 <div className="flex gap-5 flex-wrap xl:flex-nowrap justify-center">
                     {initialData.map((item) => (
