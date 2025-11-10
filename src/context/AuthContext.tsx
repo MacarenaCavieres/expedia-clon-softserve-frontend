@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const ACCESS_KEY = "accessToken";
 const REFRESH_KEY = "refreshToken";
-const USER_KEY = "user"; 
+const USER_KEY = "user";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [auth, setAuthState] = useState<AuthState>({
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const refreshToken = localStorage.getItem(REFRESH_KEY);
         const userJson = localStorage.getItem(USER_KEY);
         const user = userJson ? JSON.parse(userJson) : null;
-        console.info("[AuthProvider] init from localStorage:", { accessToken, refreshToken, user });
+        // console.info("[AuthProvider] init from localStorage:", { accessToken, refreshToken, user });
         setAuthState({ accessToken, refreshToken, user });
     }, []);
 
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (next.user) localStorage.setItem(USER_KEY, JSON.stringify(next.user));
         else localStorage.removeItem(USER_KEY);
 
-        console.info("[AuthProvider] setAuth called:", next);
+        // console.info("[AuthProvider] setAuth called:", next);
         setAuthState(next);
     };
     //When user Logs out
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem(ACCESS_KEY);
         localStorage.removeItem(REFRESH_KEY);
         localStorage.removeItem(USER_KEY);
-        console.info("[AuthProvider] clearAuth called");
+        // console.info("[AuthProvider] clearAuth called");
         setAuthState({ accessToken: null, refreshToken: null, user: null });
     };
 
