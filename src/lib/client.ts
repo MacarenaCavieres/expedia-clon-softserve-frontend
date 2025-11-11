@@ -1,15 +1,18 @@
-// import axios from "axios";
-
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { SetContextLink } from "@apollo/client/link/context";
 
-// const api = axios.create({
-//     baseURL: import.meta.env.VITE_API_URL,
-// });
-
-// export default api;
+const authLink = new SetContextLink((prevContext) => {
+    const token = localStorage.getItem("accessToken");
+    return {
+        headers: {
+            ...prevContext.headers,
+            Authorization: token ? `Bearer ${token}` : "",
+        },
+    };
+});
 
 const client = new ApolloClient({
-    link: new HttpLink({ uri: import.meta.env.VITE_API_URL }),
+    link: authLink.concat(new HttpLink({ uri: import.meta.env.VITE_API_URL })),
     cache: new InMemoryCache(),
 });
 

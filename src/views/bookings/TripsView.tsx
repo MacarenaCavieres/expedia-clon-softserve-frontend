@@ -17,14 +17,14 @@ function TripsView() {
     const { loading: isLoading, error: isError, data } = useQuery<Bookings>(ALL_BOOKINGS_QUERY);
 
     const handleCancelTrip = (id: BookingData["id"]) => {
-        const booking = data?.allBookings.find((item) => item.id === id);
+        const booking = data?.allBookingsByUserId.find((item) => item.id === id);
         setIsModalOpen(true);
         setReservationInfo(booking);
         setIsCancel(true);
     };
 
     const handleDeleteTrip = (id: BookingData["id"]) => {
-        const booking = data?.allBookings.find((item) => item.id === id);
+        const booking = data?.allBookingsByUserId.find((item) => item.id === id);
         setIsModalOpen(true);
         setReservationInfo(booking);
         setIsCancel(false);
@@ -51,8 +51,8 @@ function TripsView() {
                 </p>
 
                 <section className="mt-10 space-y-2 max-w-3xl mx-auto ">
-                    {data.allBookings.length ? (
-                        data.allBookings.map((item) => (
+                    {data.allBookingsByUserId.length ? (
+                        data.allBookingsByUserId.map((item) => (
                             <BookingCard
                                 item={item}
                                 key={item.id}
