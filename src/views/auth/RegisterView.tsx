@@ -107,6 +107,24 @@ function RegisterView() {
                         </div>
 
                         <div>
+                            <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">
+                                Last Name
+                            </label>
+                            <input
+                                {...register("lastname")}
+                                id="lastname"
+                                type="text"
+                                autoComplete="family-name"
+                                required
+                                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Last name"
+                            />
+                            {errors.lastname && (
+                                <p className="mt-1 text-sm text-red-600">{errors.lastname.message}</p>
+                            )}
+                        </div>
+                        
+                        <div>
                             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                                 Phone
                             </label>
@@ -124,23 +142,7 @@ function RegisterView() {
                             )}
                         </div>
 
-                        <div>
-                            <label htmlFor="lastname" className="block text-sm font-medium text-gray-700">
-                                Last Name
-                            </label>
-                            <input
-                                {...register("lastname")}
-                                id="lastname"
-                                type="text"
-                                autoComplete="family-name"
-                                required
-                                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Last name"
-                            />
-                            {errors.lastname && (
-                                <p className="mt-1 text-sm text-red-600">{errors.lastname.message}</p>
-                            )}
-                        </div>
+                        
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">

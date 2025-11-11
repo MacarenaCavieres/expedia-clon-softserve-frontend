@@ -72,25 +72,26 @@ function LoginView() {
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
 
-                <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">Log in</button>
-            </form>
-            <div className="space-y-2">
-                <p className="text-sm text-gray-600 text-center">
-                    ¿No tienes una cuenta?{" "}
-                    <button onClick={goToRegister} className="text-blue-500 hover:text-blue-600 underline">
-                        Regístrate ahora
-                    </button>
-                </p>
-                <p className="text-sm text-gray-600 text-center">
-                    <button
-                        onClick={() => navigate("/auth/forgot-password")}
-                        className="text-blue-500 hover:text-blue-600 underline"
-                    >
-                        ¿Olvidaste tu contraseña?
-                    </button>
-                </p>
-            </div>
-        </>
-    );
+      <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
+        Log in
+      </button>
+    </form>
+    <div className="space-y-2">
+      <p className="text-sm text-gray-600 text-center">
+        Don't have an account?{" "}
+        <button onClick={goToRegister} className="text-blue-500 hover:text-blue-600 underline">
+          Register now
+        </button>
+      </p>
+      <p className="text-sm text-gray-600 text-center">
+        <button onClick={() => navigate("/auth/forgot-password")} className="text-blue-500 hover:text-blue-600 underline">
+          Forgot your password?
+        </button>
+      </p>
+    </div>
+    </>
+
+    
+  );
 }
 export default LoginView;
