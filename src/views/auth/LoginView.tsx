@@ -78,14 +78,14 @@ function LoginView() {
     </form>
     <div className="space-y-2">
       <p className="text-sm text-gray-600 text-center">
-        ¿No tienes una cuenta?{" "}
+        Don't have an account?{" "}
         <button onClick={goToRegister} className="text-blue-500 hover:text-blue-600 underline">
-          Regístrate ahora
+          Register now
         </button>
       </p>
       <p className="text-sm text-gray-600 text-center">
         <button onClick={() => navigate("/auth/forgot-password")} className="text-blue-500 hover:text-blue-600 underline">
-          ¿Olvidaste tu contraseña?
+          Forgot your password?
         </button>
       </p>
     </div>
