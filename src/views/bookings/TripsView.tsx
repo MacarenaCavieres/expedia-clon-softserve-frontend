@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingCard from "@/components/bookings/BookingCard";
 import ConfirmAction from "@/components/bookings/ConfirmAction";
-import type { BookingData } from "@/types/index";
-import { useQuery } from "@tanstack/react-query";
-import { getBookings } from "@/services/bookingAPI";
+import type { BookingData, Bookings } from "@/schemas/bookingSchemas";
+import { useQuery } from "@apollo/client/react";
+import { ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { useBookingActions } from "@/hooks/useBookingActions";
 
 function TripsView() {
@@ -14,20 +14,17 @@ function TripsView() {
     const [reservationInfo, setReservationInfo] = useState<BookingData | undefined>(undefined);
     const [isCancel, setIsCancel] = useState(false);
 
-    const { data, isError, isLoading } = useQuery({
-        queryKey: ["bookings"],
-        queryFn: getBookings,
-    });
+    const { loading: isLoading, error: isError, data } = useQuery<Bookings>(ALL_BOOKINGS_QUERY);
 
     const handleCancelTrip = (id: BookingData["id"]) => {
-        const booking = data?.find((item) => item.id === id);
+        const booking = data?.allBookingsByUserId.find((item) => item.id === id);
         setIsModalOpen(true);
         setReservationInfo(booking);
         setIsCancel(true);
     };
 
     const handleDeleteTrip = (id: BookingData["id"]) => {
-        const booking = data?.find((item) => item.id === id);
+        const booking = data?.allBookingsByUserId.find((item) => item.id === id);
         setIsModalOpen(true);
         setReservationInfo(booking);
         setIsCancel(false);
@@ -54,8 +51,8 @@ function TripsView() {
                 </p>
 
                 <section className="mt-10 space-y-2 max-w-3xl mx-auto ">
-                    {data.length ? (
-                        data.map((item) => (
+                    {data.allBookingsByUserId.length ? (
+                        data.allBookingsByUserId.map((item) => (
                             <BookingCard
                                 item={item}
                                 key={item.id}

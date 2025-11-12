@@ -1,7 +1,7 @@
 import z from "zod";
 
 export enum BookingStatus {
-    "CANCELED" = "CANCELED",
+    "CANCELLED" = "CANCELLED",
     "PENDING" = "PENDING",
     "CONFIRMED" = "CONFIRMED",
 }
@@ -10,7 +10,7 @@ export type SearchHotel = {
     city: string;
     arrivalDate: string;
     exitDate: string;
-    passengerCount: number; // Campo añadido
+    passengerCount: number;
 };
 
 export type SetRoomIdPayload = {
@@ -22,12 +22,11 @@ export type SetBookingDatesPayload = {
     checkOutDate: BookingData["checkOutDate"];
 };
 
-export type setBookingIdPayload = {
+export type SetBookingIdPayload = {
     bookingId: BookingData["id"];
 };
 
-export type createBookingPayload = {
-    sessionId: string; // NECESARIO para invitados - ¡Añadir al backend también!
+export type CreateBookingPayload = {
     roomId: number;
     checkInDate: string;
     checkOutDate: string;
@@ -35,44 +34,55 @@ export type createBookingPayload = {
     guestNames: string;
 };
 
+export type UserInfoForm = {
+    name?: string;
+    lastname?: string;
+    email?: string;
+    phone?: string;
+};
+
 export const roomSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     capacity: z.number(),
     name: z.string(),
     bedType: z.string(),
-    pricePerNight: z.number(),
+    pricePerNight: z.string(),
     imageUrl: z.string(),
     description: z.string(),
 });
 
 export const hotelSearchedSchema = z.object({
-    id: z.number(),
+    id: z.string(),
     name: z.string(),
     city: z.string(),
     mainImage: z.string(),
-    pricePerNight: z.number(),
+    pricePerNight: z.string(),
     rating: z.number(),
     comment: z.string(),
 });
 
-export const hotelsSearchedSchema = z.array(hotelSearchedSchema);
+export const hotelsSearchedSchema = z.object({
+    searchHotels: z.array(hotelSearchedSchema),
+});
 
 export const hotelDetailSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    rating: z.number(),
-    comment: z.string(),
-    description: z.string(),
-    city: z.string(),
-    latitude: z.number(),
-    longitude: z.number(),
-    address: z.string(),
-    images: z.array(z.string()),
-    rooms: z.array(roomSchema),
+    hotelDetailsById: z.object({
+        id: z.string(),
+        name: z.string(),
+        rating: z.number(),
+        comment: z.string(),
+        description: z.string(),
+        city: z.string(),
+        latitude: z.number(),
+        longitude: z.number(),
+        address: z.string(),
+        images: z.array(z.string()),
+        rooms: z.array(roomSchema),
+    }),
 });
 
-export const bookingSchema = z.object({
-    id: z.number(),
+export const singleBookingDataSchema = z.object({
+    id: z.string(),
     checkInDate: z.string(),
     checkOutDate: z.string(),
     passengerCount: z.number(),
@@ -82,20 +92,45 @@ export const bookingSchema = z.object({
     hotelName: z.string(),
     hotelCity: z.string(),
     hotelImage: z.string(),
-    roomId: z.number(),
+    roomId: z.string(),
+});
+
+export const bookingSchema = z.object({
+    allBookingsByUserId: z.array(singleBookingDataSchema),
 });
 
 export const bookingsSchema = z.array(bookingSchema);
 
-// Schema para el formulario de reserva (solo los campos del form)
+export const bookingByIdSchema = z.object({
+    bookingById: singleBookingDataSchema,
+});
+
 export const reservationFormSchema = z.object({
     totalGuests: z.number().min(1, { message: "Must be at least 1 guest" }),
     guestNames: z.string().min(1, { message: "Guest names are required" }),
 });
 
+export const singleUserInfo = z.object({
+    id: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    name: z.string(),
+    lastname: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+});
+
+export const userInfoSchema = z.object({
+    getUserInfo: singleUserInfo,
+});
 export type HotelData = z.infer<typeof hotelSearchedSchema>;
+export type SearchHotelsQueryResponse = z.infer<typeof hotelsSearchedSchema>;
 export type HotelDetail = z.infer<typeof hotelDetailSchema>;
 export type Room = z.infer<typeof roomSchema>;
-export type BookingData = z.infer<typeof bookingSchema>;
+export type BookingData = z.infer<typeof singleBookingDataSchema>;
+export type BookingById = z.infer<typeof bookingByIdSchema>;
+export type Bookings = z.infer<typeof bookingSchema>;
 export type CancelTripInfo = Pick<BookingData, "id" | "status">;
 export type ReservationFormData = z.infer<typeof reservationFormSchema>;
+export type UserInfo = z.infer<typeof userInfoSchema>;
+export type SingleUserInfo = z.infer<typeof singleUserInfo>;

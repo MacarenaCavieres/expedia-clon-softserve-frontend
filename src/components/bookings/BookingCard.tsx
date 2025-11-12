@@ -1,4 +1,4 @@
-import { BookingStatus, type BookingData } from "@/types/index";
+import { BookingStatus, type BookingData } from "@/schemas/bookingSchemas";
 import { PencilSquareIcon, TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
 type Props = {

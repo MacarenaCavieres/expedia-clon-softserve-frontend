@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useLazyQuery } from "@apollo/client/react";
 import HotelCard from "@/components/bookings/HotelCard";
 import initialData from "@/static/hotels.json";
-import type { HotelData, SearchHotel, SetBookingDatesPayload } from "@/types/index";
-import Errors from "@/components/bookings/Errors";
+import type {
+    HotelData,
+    SearchHotel,
+    SearchHotelsQueryResponse,
+} from "@/schemas/hotelSchemas";
+import type {
+    SetBookingDatesPayload,
+} from "@/schemas/bookingSchemas";
+import Errors from "@/components/Errors";
 import { useBookingActions } from "@/hooks/useBookingActions";
-import { getSearchedHotels } from "@/services/hotelAPI";
+import { SEARCH_HOTELS_QUERY } from "@/services/HotelAPI";
 
 function HomeView() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState<SearchHotel | null>(null);
     const { setBookingDatesStore } = useBookingActions();
 
-    // --- VALORES INICIALES ACTUALIZADOS ---
     const initialValues: SearchHotel = {
-        city: "", // Considera renombrar a 'city' aquí y en el register
+        city: "",
         arrivalDate: "",
         exitDate: "",
-        passengerCount: 1, // Valor inicial para pasajeros
+        passengerCount: 1,
     };
 
     const {
@@ -30,12 +36,12 @@ function HomeView() {
         formState: { errors, isValid },
     } = useForm({ defaultValues: initialValues, mode: "onChange" });
 
-    const { data, isFetching, refetch } = useQuery({
-        queryKey: ["searchHotels", searchParams],
-        queryFn: () => getSearchedHotels(searchParams!),
-        enabled: !!searchParams, // Habilitado solo cuando searchParams no es null
-        retry: false, // Evita reintentos automáticos en caso de error
-    });
+    const [searchHotels, { loading: isLoading, data }] = useLazyQuery<SearchHotelsQueryResponse>(
+        SEARCH_HOTELS_QUERY,
+        {
+            fetchPolicy: "network-only",
+        }
+    );
 
     const arrivalDate = watch("arrivalDate");
 
@@ -43,11 +49,9 @@ function HomeView() {
         if (arrivalDate) {
             const currentDeparture = watch("exitDate");
             const checkInDate = new Date(arrivalDate);
-            // Asegurarse de que la fecha sea válida antes de operar
             if (!isNaN(checkInDate.getTime())) {
                 checkInDate.setDate(checkInDate.getDate() + 1);
                 const nextDay = checkInDate.toISOString().split("T")[0];
-                // Solo setear si no hay fecha de salida o si es anterior/igual a la de llegada + 1
                 const departureDate = currentDeparture ? new Date(currentDeparture) : null;
                 if (!departureDate || departureDate <= checkInDate) {
                     setValue("exitDate", nextDay);
@@ -58,16 +62,16 @@ function HomeView() {
 
     const handleSearch = async (formData: SearchHotel) => {
         setSearchParams(formData);
+        searchHotels({
+            variables: {
+                city: formData.city,
+                passengerCount: formData.passengerCount,
+            },
+        });
     };
 
-    useEffect(() => {
-        if (searchParams) {
-            refetch();
-        }
-    }, [searchParams, refetch]);
-
     const handleClick = (id: HotelData["id"]) => {
-        if (!searchParams) return; // Asegurar que searchParams exista
+        if (!searchParams) return;
         const bookingDates: SetBookingDatesPayload = {
             checkInDate: searchParams!.arrivalDate,
             checkOutDate: searchParams!.exitDate,
@@ -152,8 +156,6 @@ function HomeView() {
                     />
                     <Errors>{errors.exitDate?.message}</Errors>
                 </div>
-
-                {/* --- NUEVO INPUT: PASSENGER COUNT --- */}
                 <div className="flex flex-col flex-1 gap-1 md:col-span-1">
                     <label htmlFor="passengerCount" className="font-semibold">
                         Passengers
@@ -161,11 +163,11 @@ function HomeView() {
                     <input
                         type="number"
                         id="passengerCount"
-                        min={1} // Mínimo 1 pasajero
+                        min={1}
                         className="border rounded-lg p-2"
                         {...register("passengerCount", {
                             required: "Number of guests is required",
-                            valueAsNumber: true, // Importante para que react-hook-form lo trate como número
+                            valueAsNumber: true,
                             min: {
                                 value: 1,
                                 message: "Must be at least 1 guest",
@@ -177,22 +179,22 @@ function HomeView() {
 
                 <input
                     type="submit"
-                    value={isFetching ? "Searching..." : "Search"}
+                    value={isLoading ? "Searching..." : "Search"}
                     className="border w-full md:w-1/5 rounded-lg bg-blue-800 hover:bg-blue-900 uppercase text-slate-100 px-2 h-10 hover:cursor-pointer font-semibold mt-6 disabled:bg-slate-600 disabled:cursor-default"
-                    disabled={!isValid || isFetching}
+                    disabled={!isValid || isLoading}
                 />
             </form>
 
             {searchParams &&
-                (isFetching ? (
+                (isLoading ? (
                     <p className="text-3xl font-bold mb-5 mt-10">Searching...</p>
-                ) : data?.length ? (
+                ) : data?.searchHotels.length ? (
                     <section className="mb-28">
                         <h2 className="text-3xl font-bold mb-5 mt-10">
                             Search results for "{searchParams?.city}"
                         </h2>
                         <div className="flex gap-4 justify-around max-w-5xl mx-auto flex-wrap md:flex-nowrap">
-                            {data.map((item) => (
+                            {data.searchHotels.map((item) => (
                                 <HotelCard item={item} key={item.id} handleClick={handleClick} />
                             ))}
                         </div>
@@ -206,7 +208,7 @@ function HomeView() {
             <section className="mt-16">
                 <h2 className="text-2xl font-bold mb-1">Recommended stays for you</h2>
                 <p className="mb-5 text-sm">
-                    Showing deals for: <span className="font-bold">Oct 31 - Nov 2</span>
+                    Showing deals for: <span className="font-bold">Dec 03 - Dec 10</span>
                 </p>
                 <div className="flex gap-5 flex-wrap xl:flex-nowrap justify-center">
                     {initialData.map((item) => (

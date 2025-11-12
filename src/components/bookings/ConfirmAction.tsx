@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { cancelTrip, deleteTrip } from "@/services/bookingAPI";
-import { BookingStatus, type BookingData, type CancelTripInfo } from "@/types/index";
+import { useMutation } from "@apollo/client/react";
+import { CANCEL_TRIP_MUTATION, DELETE_TRIP_MUTATION, ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
+import { BookingStatus, type BookingData } from "@/schemas/bookingSchemas";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 
@@ -22,30 +22,38 @@ function ConfirmAction({
     buttonColor,
     handleClose,
 }: Props) {
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: (info: CancelTripInfo) => {
-            return isCancel ? cancelTrip(info) : deleteTrip(info.id);
-        },
-        onError: (response) => {
-            toast.error(response.message);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["bookings"] });
-            toast.success(
-                isCancel ? "Reservation successfully canceled" : "Reservation successfully deleted"
-            );
+    const [cancelTrip] = useMutation(CANCEL_TRIP_MUTATION, {
+        onCompleted: () => {
+            toast.success("Reservation successfully canceled");
             handleClose();
         },
+        onError: (err) => toast.error(err.message),
     });
 
-    const handleCancel = () => {
-        const info: CancelTripInfo = {
-            id: reservationInfo!.id,
-            status: BookingStatus.CANCELED,
-        };
-        mutation.mutate(info);
+    const [deleteTrip] = useMutation(DELETE_TRIP_MUTATION, {
+        refetchQueries: [{ query: ALL_BOOKINGS_QUERY }],
+        onCompleted: () => {
+            toast.success("Reservation successfully deleted");
+            handleClose();
+        },
+        onError: (err) => toast.error(err.message),
+    });
+
+    const handleConfirm = async () => {
+        if (!reservationInfo) return;
+
+        if (isCancel) {
+            await cancelTrip({
+                variables: {
+                    bookingId: reservationInfo.id,
+                    status: BookingStatus.CANCELLED,
+                },
+            });
+        } else {
+            await deleteTrip({
+                variables: { id: reservationInfo.id },
+            });
+        }
     };
 
     return (
@@ -82,7 +90,7 @@ function ConfirmAction({
 
                     <button
                         className={`px-4 py-2 text-sm font-medium text-white cursor-pointer ${buttonColor} border border-transparent rounded-md   transition-colors duration-150`}
-                        onClick={handleCancel}
+                        onClick={handleConfirm}
                     >
                         {confirmButtonText}
                     </button>
