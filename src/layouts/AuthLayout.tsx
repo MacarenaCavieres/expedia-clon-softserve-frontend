@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 function AuthLayout() {
     return (
@@ -9,6 +10,7 @@ function AuthLayout() {
             <main className="md:max-w-7xl mx-auto px-5 md:px-10 mt-10 min-h-screen">
                 <Outlet />
             </main>
+            <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} />
         </>
     );
 }
