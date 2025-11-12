@@ -6,8 +6,8 @@ import {
     setRoomId,
 } from "@/store/bookingSlice";
 import { useAppDispatch } from "./storeHook";
-import type { BookingData, SetBookingDatesPayload, SetRoomIdPayload } from "@/types/index";
-
+import type { BookingData, SetBookingDatesPayload} from "@/schemas/bookingSchemas";
+import type { SetRoomIdPayload } from "@/schemas/hotelSchemas";
 export const useBookingActions = () => {
     const dispatch = useAppDispatch();
 

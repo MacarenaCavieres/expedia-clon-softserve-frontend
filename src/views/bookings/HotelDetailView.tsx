@@ -1,6 +1,6 @@
 import RoomCard from "@/components/bookings/RoomCard";
 import { HOTEL_DETAILS_QUERY } from "@/services/HotelAPI";
-import type { HotelDetail } from "@/types/index";
+import type { HotelDetail } from "@/schemas/hotelSchemas";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
 

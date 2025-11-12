@@ -1,5 +1,5 @@
 import { useBookingActions } from "@/hooks/useBookingActions";
-import type { SetRoomIdPayload, Room } from "@/types/index";
+import type { SetRoomIdPayload, Room } from "@/schemas/hotelSchemas";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

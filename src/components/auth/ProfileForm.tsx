@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import type { SingleUserInfo, UserInfoForm } from "@/types/index";
+import type { SingleUserInfo, UserInfoForm } from "@/schemas/userSchemas";
 import { formatTimestamp } from "@/utils/dateFormat";
 import Errors from "../Errors";
 import { useEffect, type RefObject } from "react";

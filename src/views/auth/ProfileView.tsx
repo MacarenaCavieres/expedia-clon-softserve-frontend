@@ -1,7 +1,7 @@
 import ProfileButton from "@/components/auth/ProfileButton";
 import ProfileForm from "@/components/auth/ProfileForm";
 import ProfileInfo from "@/components/auth/ProfileInfo";
-import type { UserInfo, UserInfoForm } from "@/types/index";
+import type { UserInfo, UserInfoForm } from "@/schemas/userSchemas";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { GET_USER_INFO, UPDATE_USER_INFO } from "@/services/authAPI";
 import { useCallback, useRef, useState } from "react";

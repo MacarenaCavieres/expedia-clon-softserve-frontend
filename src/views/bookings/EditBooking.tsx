@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { BOOKING_BY_ID_QUERY, UPDATE_BOOKING_MUTATION } from "@/services/bookingAPI";
 import { useQuery, useMutation } from "@apollo/client/react";
-import type { BookingById } from "@/types/index";
+import type { BookingById } from "@/schemas/bookingSchemas";
 
 export default function EditBookingForm() {
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import type { HotelData } from "@/types/index";
+import type { HotelData } from "@/schemas/hotelSchemas";
 
 type Props = {
     item: HotelData;

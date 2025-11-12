@@ -21,6 +21,7 @@
             "@/static/*": ["static/*"],
             "@/store/*": ["store/*"],
             "@/context/*": ["context/*"],
+            "@/schemas/*": ["schemas/*"],
         },
 
         /* Bundler mode */

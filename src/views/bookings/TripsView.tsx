@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingCard from "@/components/bookings/BookingCard";
 import ConfirmAction from "@/components/bookings/ConfirmAction";
-import type { BookingData, Bookings } from "@/types/index";
+import type { BookingData, Bookings } from "@/schemas/bookingSchemas";
 import { useQuery } from "@apollo/client/react";
 import { ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { useBookingActions } from "@/hooks/useBookingActions";

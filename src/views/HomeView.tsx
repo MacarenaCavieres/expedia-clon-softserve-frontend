@@ -8,8 +8,10 @@ import type {
     HotelData,
     SearchHotel,
     SearchHotelsQueryResponse,
+} from "@/schemas/hotelSchemas";
+import type {
     SetBookingDatesPayload,
-} from "@/types/index";
+} from "@/schemas/bookingSchemas";
 import Errors from "@/components/Errors";
 import { useBookingActions } from "@/hooks/useBookingActions";
 import { SEARCH_HOTELS_QUERY } from "@/services/HotelAPI";

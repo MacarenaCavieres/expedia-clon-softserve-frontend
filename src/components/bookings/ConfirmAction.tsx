@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client/react";
 import { CANCEL_TRIP_MUTATION, DELETE_TRIP_MUTATION, ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
-import { BookingStatus, type BookingData } from "@/types/index";
+import { BookingStatus, type BookingData } from "@/schemas/bookingSchemas";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 

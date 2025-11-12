@@ -1,4 +1,4 @@
-import type { SingleUserInfo } from "@/types/index";
+import type { SingleUserInfo } from "@/schemas/userSchemas";
 import { formatTimestamp } from "@/utils/dateFormat";
 
 type Props = {
