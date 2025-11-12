@@ -1,11 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type {
-    BookingData,
-    Room,
-    SetBookingDatesPayload,
-    setBookingIdPayload,
-    SetRoomIdPayload,
-} from "@/types/index";
+import type { SetBookingDatesPayload, SetRoomIdPayload } from "@/types/index";
+import type { BookingData, setBookingIdPayload } from "@/schemas/bookingSchemas";
+import type { Room } from "@/schemas/hotelSchemas";
 
 type BookingState = {
     roomId: Room["id"] | null;
