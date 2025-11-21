@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { XMarkIcon, Bars3Icon, UserCircleIcon } from "@heroicons/react/24/outline";
 
 function Header() {
@@ -9,8 +9,8 @@ function Header() {
 
     const { auth, clearAuth } = useAuth();
     const navigate = useNavigate();
-    const handleLogout = () => {
-        clearAuth();
+    const handleLogout = async () => {
+        await clearAuth();
         navigate("/");
     };
 

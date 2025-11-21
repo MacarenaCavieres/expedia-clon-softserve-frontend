@@ -5,6 +5,7 @@ import type { RootState } from "@/store/store";
 import { CREATE_BOOKING_MUTATION, ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Errors from "@/components/Errors";
 
 function CreateBooking() {
     const navigate = useNavigate();
@@ -15,9 +16,6 @@ function CreateBooking() {
         onCompleted: () => {
             toast.success("Reservation created successfully");
             setTimeout(() => navigate("/my-trips"), 500);
-        },
-        onError: (err: Error) => {
-            toast.error(err.message || "Failed to create reservation");
         },
     });
 
@@ -91,7 +89,7 @@ function CreateBooking() {
                 {loading ? "Confirming..." : "Confirm Reservation"}
             </button>
 
-            {error && <p className="text-red-500 mt-2">{error.message}</p>}
+            {error && <Errors>{error.message}</Errors>}
         </form>
     );
 }

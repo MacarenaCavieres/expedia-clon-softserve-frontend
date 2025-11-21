@@ -27,7 +27,14 @@ function Router() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route path="/create-booking" element={<CreateBooking />} />
+                    <Route
+                        path="/create-booking"
+                        element={
+                            <ProtectedRoute>
+                                <CreateBooking />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route path="/edit-booking/:bookingId" element={<EditBooking />} />
                     <Route path="/:hotelId" element={<HotelDetailView />} />
                 </Route>

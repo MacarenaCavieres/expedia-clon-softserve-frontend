@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BOOKING_BY_ID_QUERY, UPDATE_BOOKING_MUTATION } from "@/services/bookingAPI";
 import { useQuery, useMutation } from "@apollo/client/react";
 import type { BookingById } from "@/schemas/bookingSchemas";
+import Errors from "@/components/Errors";
 
 export default function EditBookingForm() {
     const navigate = useNavigate();
@@ -22,9 +23,6 @@ export default function EditBookingForm() {
         onCompleted: () => {
             toast.success("Reservation updated successfully");
             setTimeout(() => navigate("/my-trips"), 500);
-        },
-        onError: (err) => {
-            toast.error(err.message || "Failed to update reservation.");
         },
     });
 
@@ -105,7 +103,7 @@ export default function EditBookingForm() {
                 {updating ? "Saving..." : "Save Changes"}
             </button>
 
-            {updateError && <p className="text-red-500 mt-2">{updateError.message}</p>}
+            {updateError && <Errors>{updateError.message}</Errors>}
         </form>
     );
 }

@@ -41,3 +41,35 @@ export type UserInfoForm = {
     email?: string;
     phone?: string;
 };
+
+export type LoginUserResponse = {
+    loginUser: {
+        accessToken: string;
+        refreshToken: string;
+        user: {
+            id: string;
+            name: string;
+            lastname: string;
+            email: string;
+        };
+    };
+};
+
+export type User = {
+    id?: string;
+    name?: string;
+    lastname?: string;
+    email?: string;
+};
+
+export type AuthState = {
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    user?: User | null;
+};
+
+export type AuthContextValue = {
+    auth: AuthState;
+    setAuth: (next: AuthState) => void; //Login
+    clearAuth: () => void; //Logout
+};

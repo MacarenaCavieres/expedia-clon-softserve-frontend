@@ -1,23 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-
-type User = {
-    id?: string;
-    name?: string;
-    lastname?: string;
-    email?: string;
-};
-
-type AuthState = {
-    accessToken?: string | null;
-    refreshToken?: string | null;
-    user?: User | null;
-};
-
-type AuthContextValue = {
-    auth: AuthState;
-    setAuth: (next: AuthState) => void; //Login
-    clearAuth: () => void; //Logout
-};
+import client from "@/lib/client";
+import React, { createContext, useEffect, useState } from "react";
+import type { AuthContextValue, AuthState } from "../types";
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
@@ -37,7 +20,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const refreshToken = localStorage.getItem(REFRESH_KEY);
         const userJson = localStorage.getItem(USER_KEY);
         const user = userJson ? JSON.parse(userJson) : null;
-        // console.info("[AuthProvider] init from localStorage:", { accessToken, refreshToken, user });
         setAuthState({ accessToken, refreshToken, user });
     }, []);
 
@@ -51,25 +33,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (next.user) localStorage.setItem(USER_KEY, JSON.stringify(next.user));
         else localStorage.removeItem(USER_KEY);
 
-        // console.info("[AuthProvider] setAuth called:", next);
         setAuthState(next);
     };
-    //When user Logs out
-    const clearAuth = () => {
+    const clearAuth = async () => {
         localStorage.removeItem(ACCESS_KEY);
         localStorage.removeItem(REFRESH_KEY);
         localStorage.removeItem(USER_KEY);
-        // console.info("[AuthProvider] clearAuth called");
+
+        try {
+            await client.resetStore();
+        } catch (error) {
+            console.error("Error al resetear la caché de Apollo:", error);
+        }
+
         setAuthState({ accessToken: null, refreshToken: null, user: null });
     };
 
     return <AuthContext.Provider value={{ auth, setAuth, clearAuth }}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = (): AuthContextValue => {
-    const ctx = useContext(AuthContext);
-    if (!ctx) throw new Error("useAuth must be used within AuthProvider");
-    return ctx;
 };
 
 export default AuthContext;

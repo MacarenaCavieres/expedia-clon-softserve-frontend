@@ -13,13 +13,13 @@ function ProfileView() {
     const formRef = useRef<HTMLFormElement>(null);
 
     const { loading: isLoading, error: isError, data } = useQuery<UserInfo>(GET_USER_INFO);
-    const [updateUserInfo, { loading, error }] = useMutation(UPDATE_USER_INFO, {
+    const [updateUserInfo, { loading }] = useMutation(UPDATE_USER_INFO, {
         refetchQueries: [{ query: GET_USER_INFO }],
         onCompleted: () => {
             toast.success("User information successfully updated");
         },
         onError: (err: Error) => {
-            toast.error(err.message || "Failed to update user information");
+            toast.error(err.message);
         },
     });
 
@@ -38,24 +38,27 @@ function ProfileView() {
     }, []);
 
     const handleSuccessfulSubmit = async (formData: UserInfoForm) => {
-        await updateUserInfo({
-            variables: {
-                input: {
-                    email: formData.email,
-                    phone: formData.phone,
-                    name: formData.name,
-                    lastname: formData.lastname,
+        try {
+            await updateUserInfo({
+                variables: {
+                    input: {
+                        email: formData.email,
+                        phone: formData.phone,
+                        name: formData.name,
+                        lastname: formData.lastname,
+                    },
                 },
-            },
-        });
+            });
 
-        setIsEditing(false);
+            setIsEditing(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     if (isLoading) return "Loading...";
     if (isError) return "Error loading user information";
     if (loading) return "Loading...";
-    if (error) return "Error updating user information";
 
     return (
         <>

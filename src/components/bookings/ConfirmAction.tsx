@@ -22,7 +22,7 @@ function ConfirmAction({
     buttonColor,
     handleClose,
 }: Props) {
-    const [cancelTrip] = useMutation(CANCEL_TRIP_MUTATION, {
+    const [cancelTrip, { loading }] = useMutation(CANCEL_TRIP_MUTATION, {
         onCompleted: () => {
             toast.success("Reservation successfully canceled");
             handleClose();
@@ -30,7 +30,7 @@ function ConfirmAction({
         onError: (err) => toast.error(err.message),
     });
 
-    const [deleteTrip] = useMutation(DELETE_TRIP_MUTATION, {
+    const [deleteTrip, { loading: lodingDelete }] = useMutation(DELETE_TRIP_MUTATION, {
         refetchQueries: [{ query: ALL_BOOKINGS_QUERY }],
         onCompleted: () => {
             toast.success("Reservation successfully deleted");
@@ -89,8 +89,9 @@ function ConfirmAction({
                     </button>
 
                     <button
-                        className={`px-4 py-2 text-sm font-medium text-white cursor-pointer ${buttonColor} border border-transparent rounded-md   transition-colors duration-150`}
+                        className={`px-4 py-2 text-sm font-medium text-white cursor-pointer ${buttonColor} border border-transparent rounded-md   transition-colors duration-150 disabled:bg-slate-500 disabled:cursor-not-allowed`}
                         onClick={handleConfirm}
+                        disabled={loading || lodingDelete}
                     >
                         {confirmButtonText}
                     </button>
