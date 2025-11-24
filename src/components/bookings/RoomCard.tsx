@@ -30,13 +30,16 @@ export default function RoomCard({ item }: Props) {
                 <p>Capacity: {item.capacity} people</p>
 
                 <div className="flex justify-end">
-                    <p className="font-bold text-xl">USD {item.pricePerNight}</p>
+                    <p className="font-bold text-xl">USD ${item.pricePerNight}</p>
                 </div>
                 <button
-                    className="bg-[#1668e3] rounded-4xl p-2 w-full text-slate-100 mt-3 cursor-pointer"
+                    className="bg-[#1668e3] rounded-4xl p-2 w-full text-slate-100 mt-3 cursor-pointer flex items-center justify-center gap-2"
                     onClick={handleClick}
                 >
-                    Reserve
+                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z" clip-rule="evenodd"/>
+                        </svg>
+                    Book Now 
                 </button>
             </div>
         </article>

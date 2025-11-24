@@ -20,6 +20,9 @@ function HomeView() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState<SearchHotel | null>(null);
     const { setBookingDatesStore } = useBookingActions();
+    
+    //list of cities for the dropdown input
+    const cities = [...new Set(initialData.map((hotel) => hotel.city))]
 
     const initialValues: SearchHotel = {
         city: "",
@@ -91,19 +94,20 @@ function HomeView() {
                         City
                     </label>
 
-                    <input
-                        type="text"
+                    <select
                         id="city"
-                        placeholder="Enter a destination"
                         className="border rounded-lg p-2"
                         {...register("city", {
                             required: "City is required",
-                            pattern: {
-                                value: /^[a-zA-Z0-9 áéíóúÁÉÍÓÚüÜñÑ@.]*$/,
-                                message: "Special characters are not accepted",
-                            },
                         })}
-                    />
+                    >
+                        <option value="">Select a city</option>
+                        {cities.map((city) => (
+                            <option key={city} value={city}>
+                                {city}
+                            </option>
+                        ))}
+                    </select>
 
                     <Errors>{errors.city?.message}</Errors>
                 </div>
@@ -176,13 +180,32 @@ function HomeView() {
                     />
                     <Errors>{errors.passengerCount?.message}</Errors>
                 </div>
-
-                <input
-                    type="submit"
-                    value={isLoading ? "Searching..." : "Search"}
-                    className="border w-full md:w-1/5 rounded-lg bg-blue-800 hover:bg-blue-900 uppercase text-slate-100 px-2 h-10 hover:cursor-pointer font-semibold mt-6 disabled:bg-slate-600 disabled:cursor-default"
-                    disabled={!isValid || isLoading}
-                />
+                <button 
+                    type="submit" disabled={!isValid || isLoading} 
+                    className="flex items-center justify-center gap-2 border w-full md:w-1/5 rounded-lg bg-blue-800 hover:bg-blue-900 uppercase text-slate-100 
+                    px-2 h-10 cursor-pointer font-semibold mt-6 disabled:bg-slate-600 disabled:cursor-default">
+                        {isLoading ? (
+                            "Searching..."
+                        ): (
+                            <>
+                                <svg
+                                className="w-5 h-5 text-slate-100"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                >
+                                <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeWidth="2"
+                                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                />
+                                </svg>
+                                Search
+                            </>
+                        )}
+                    </button>
             </form>
 
             {searchParams &&
