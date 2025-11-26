@@ -35,7 +35,7 @@ function BookingCard({ item, handleCancel, handleDelete, handleEdit }: Props) {
                     </p>
 
                     <p>
-                        Price: <span className="font-semibold">USD {item.totalPrice}</span>
+                        Price: <span className="font-semibold">USD ${item.totalPrice}</span>
                     </p>
                     {item.status === BookingStatus.PENDING ? (
                         <div className="flex gap-2 mt-2">

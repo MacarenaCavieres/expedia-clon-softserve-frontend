@@ -58,8 +58,8 @@ function ProfileView() {
     if (error) return "Error updating user information";
 
     return (
-        <>
-            <div className="flex justify-end items-start align-top">
+        <div className="max-w-4xl mx-auto px-4">
+            <div className="flex justify-end mb-6">
                 {isEditing ? (
                     <ProfileButton
                         text="Save"
@@ -96,7 +96,7 @@ function ProfileView() {
                     <ProfileInfo userInfo={data?.getUserInfo} />
                 )}
             </div>
-        </>
+        </div>
     );
 }
 export default ProfileView;

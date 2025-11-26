@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingCard from "@/components/bookings/BookingCard";
+import BookingDetailsModal from "@/components/bookings/BookingDetailsModal";
+import BookingListItem from "@/components/bookings/BookingListItem";  
 import ConfirmAction from "@/components/bookings/ConfirmAction";
 import type { BookingData, Bookings } from "@/schemas/bookingSchemas";
 import { useQuery } from "@apollo/client/react";
@@ -13,6 +15,7 @@ function TripsView() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reservationInfo, setReservationInfo] = useState<BookingData | undefined>(undefined);
     const [isCancel, setIsCancel] = useState(false);
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
     const { loading: isLoading, error: isError, data } = useQuery<Bookings>(ALL_BOOKINGS_QUERY);
 
@@ -39,38 +42,44 @@ function TripsView() {
         setIsModalOpen(false);
     };
 
+
     if (isLoading) return "Loading...";
     if (isError) return "Reservations could not be loaded";
     if (data)
         return (
             <>
-                <h2 className="font-bold text-2xl mb-2">My Bookings</h2>
-                <p className="font-semibold text-sm">
-                    Need to make a change? Here, you can view your trip status, modify dates or details, and
-                    cancel any reservation swiftly.
+                <h2 className="font-bold text-3xl mb-3">My Bookings</h2>
+                <p className="font-gray-600 text-sm mb-8">
+                    View your reservation status, manage your bookings, or make changes anytime.
                 </p>
 
-                <section className="mt-10 space-y-2 max-w-3xl mx-auto ">
+                <section className="max-w.4xl mx-auto divide-y divide-gray-200 rounded-xl">
                     {data.allBookingsByUserId.length ? (
                         data.allBookingsByUserId.map((item) => (
-                            <BookingCard
+                            <BookingListItem
                                 item={item}
                                 key={item.id}
                                 handleCancel={handleCancelTrip}
                                 handleDelete={handleDeleteTrip}
                                 handleEdit={handleEditTrip}
+                                openDetails={() => {
+                                    setReservationInfo(item);
+                                    setIsCancel(false);
+                                    setIsDetailsOpen(true);
+
+                                }}
                             />
                         ))
                     ) : (
-                        <h6 className="text-3xl text-center mt-10 font-bold">No trips booked yet</h6>
+                        <h6 className="text-center py-20 text-gray-500 text-lg">No trips booked yet</h6>
                     )}
                 </section>
                 {isModalOpen && (
                     <ConfirmAction
                         title={
                             isCancel
-                                ? "Confirm cancellation of the reservation"
-                                : "Confirm deletion of the reservation"
+                                ? "Confirm cancellation"
+                                : "Confirm deletion"
                         }
                         message={`Are you sure you want to  ${
                             isCancel ? "cancel" : "permanently delete"
@@ -81,7 +90,13 @@ function TripsView() {
                         buttonColor={
                             isCancel ? "bg-slate-600 hover:bg-slate-500" : "bg-red-600 hover:bg-red-700"
                         }
-                        handleClose={handleClose}
+                        handleClose={() => setIsModalOpen(false)}
+                    />
+                )}
+                {isDetailsOpen && reservationInfo && (
+                    <BookingDetailsModal
+                        reservationInfo={reservationInfo}
+                        handleClose={() => setIsDetailsOpen(false)}
                     />
                 )}
             </>

@@ -6,11 +6,13 @@ function AuthLayout() {
     return (
         <>
             <Header />
-            <hr className="opacity-20" />
-            <main className="md:max-w-7xl mx-auto px-5 md:px-10 mt-10 min-h-screen">
-                <Outlet />
-            </main>
-            <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} />
+                <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-5 to blue-100">
+                <hr className="opacity-20" />
+                <main className="flex flex-1 items-center justify-center px-5">
+                    <Outlet />
+                </main>
+                <ToastContainer pauseOnHover={false} pauseOnFocusLoss={false} />
+            </div>
         </>
     );
 }
