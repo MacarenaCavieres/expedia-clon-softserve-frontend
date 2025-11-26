@@ -76,7 +76,7 @@ function ConfirmAction({
                     <p>
                         From: {reservationInfo?.checkInDate} To: {reservationInfo?.checkOutDate}
                     </p>
-                    <p className="">Price: USD {reservationInfo?.totalPrice}</p>
+                    <p className="">Price: USD ${reservationInfo?.totalPrice}</p>
                     <p className="text-gray-600 mt-5">{message}</p>
                 </div>
 

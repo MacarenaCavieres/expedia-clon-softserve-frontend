@@ -61,7 +61,7 @@ function Header() {
                                 <UserCircleIcon className="h-6 w-6" />
                                 <p className="font-bold">Welcome, {userName ?? "Guest"}</p>
                             </div>
-                            <button onClick={handleLogout} className="text-sm text-red-600 underline">
+                            <button onClick={handleLogout} className=" text-blue-800 bold underline hover:text-red-800 cursor-pointer ">
                                 Logout
                             </button>
                         </div>

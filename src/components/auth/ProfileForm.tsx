@@ -55,7 +55,7 @@ function ProfileForm({ userInfo, formRef, handleForm, onSuccessfulSubmit }: Prop
 
     return (
         <form
-            className="grid grid-cols-2 items-center max-w-4xl mx-auto flex-wrap md:flex-nowrap gap-5"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
             ref={formRef}
             onSubmit={handleSubmit(handleUserForm)}
         >
