@@ -29,7 +29,8 @@ export default function BookingListItem({
             : "bg-green-100 text-green-700";
 
     return (
-        <div className="group w-full flex items-center justify-between py-5 px-6 border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
+        <div className="group w-full flex items-center justify-between 
+            gap-6 p-6 mb-4 rounded-xl border border-gray-200 bg-white shadow-sm hover: shadow-md transition-all cursor-pointer">
             {/* MAIN CONTENT */}
             <div className="flex flex-col cursor-pointer" onClick={openDetails}>
                 <span className="text-lg font-semibold">{item.hotelName}</span>
@@ -51,13 +52,20 @@ export default function BookingListItem({
 
             {/* ACTIONS */}
             <div className="flex items-center gap-3">
-                <button
-                    onClick={() => handleEdit(item.id)}
-                    className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
-                >
-                    <PencilSquareIcon className="h-5 w-5 text-gray-600 " />
-                </button>
+                {/* Edit button */}
+                <div className="relative group/icon">
+                    <button
+                        onClick={() => handleEdit(item.id)}
+                        className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
+                    >
+                        <PencilSquareIcon className="h-5 w-5 text-gray-600 " />
+                    </button>
+                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover/icon:opacity-100 transition pointer-events-none whitespace-nowrap">
+                    Edit booking</span>
+                </div>
 
+                {/* Cancel button */}
+                <div className="relative group/icon">
                 {item.status === BookingStatus.PENDING && (
                     <button
                         onClick={() => handleCancel(item.id)}
@@ -66,20 +74,60 @@ export default function BookingListItem({
                         <XCircleIcon className="h-5 w-5 text-yellow-600" />
                     </button>
                 )}
+                    <span
+                        className="
+                            absolute -top-8 left-1/2 -translate-x-1/2
+                            bg-black text-white text-xs px-2 py-1 rounded opacity-0
+                            group-hover/icon:opacity-100 transition whitespace-nowrap
+                        "
+                    > Cancel booking</span>
+                </div>
 
-                <button
-                    onClick={() => handleDelete(item.id)}
-                    className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
-                >
-                    <TrashIcon className="h-5 w-5 text-red-600" />
-                </button>
+                {/*Delete button */}
+                <div className="relative group/icon">
+                    <button
+                        onClick={() => item.status === BookingStatus.CANCELLED && handleDelete(item.id)}
+                        disabled={item.status !== BookingStatus.CANCELLED}
+                        className={`
+                            p-2 rounded-lg
+                            ${item.status === BookingStatus.CANCELLED 
+                                ? "hover:bg-gray-100 cursor-pointer" 
+                                : "opacity-40 cursor-not-allowed"
+                            }
+                        `}
+                    >
+                        <TrashIcon className="h-5 w-5 text-red-600" />
+                    </button>
 
-                <button onClick={(e) =>{
-                        e.stopPropagation();
-                        openDetails();
-                    }} className="p-2 hover: bg-gray-100 rounded-lg hover:cursor-pointer">
-                    <ChevronRightIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition" />
-                </button>
+                    <span
+                        className="
+                            absolute -top-8 left-1/2 -translate-x-1/2
+                            bg-black text-white text-xs px-2 py-1 rounded opacity-0
+                            group-hover/icon:opacity-100 transition whitespace-nowrap
+                        "
+                    >
+                        {item.status === BookingStatus.CANCELLED 
+                            ? "Delete booking"
+                            : "Cancel first to delete"}
+                    </span>
+                </div>
+
+                {/*Details button */}
+                <div className="relative group/icon">
+                    <button onClick={(e) =>{
+                            e.stopPropagation();
+                            openDetails();
+                        }} className="p-2 hover: bg-gray-100 rounded-lg hover:cursor-pointer">
+                        <ChevronRightIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition" />
+                    </button>
+                    <span
+                        className="
+                            absolute -top-8 left-1/2 -translate-x-1/2
+                            bg-black text-white text-xs px-2 py-1 rounded opacity-0
+                            group-hover/icon:opacity-100 transition whitespace-nowrap
+                        "
+                    > Details</span>
+                </div>
             </div>
         </div>
     );

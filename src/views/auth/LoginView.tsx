@@ -62,7 +62,7 @@ function LoginView() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block flex justify-center items-center gap-1">
+                <label className="text-sm font-medium text-gray-700 mb-1 flex justify-center items-center gap-1">
                   Email <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
                 </label>
                 <input

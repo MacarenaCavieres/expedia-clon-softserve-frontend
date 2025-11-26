@@ -7,23 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {registerSchema} from "@/schemas/userSchemas";
 
-// Validation schema
-// const registerSchema = z.object({
-//     email: z.string().email("Invalid email address"),
-//     phone: z.string().min(7, "Phone must be at least 7 characters"),
-//     name: z.string().min(2, "Name must be at least 2 characters"),
-//     lastname: z.string().min(2, "Last name must be at least 2 characters"),
-//     password: z.string()
-//         .min(8, "Password must be at least 8 characters")
-//         .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-//         .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-//         .regex(/[0-9]/, "Password must contain at least one number"),
-//     confirmPassword: z.string()
-// }).refine(data => data.password === data.confirmPassword, {
-//     message: "Passwords don't match",
-//     path: ["confirmPassword"]
-// });
-
 registerSchema.refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"]
@@ -212,7 +195,7 @@ function RegisterView() {
     // );
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-12">
-            <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 space-y-6">
+            <div className="bg-white shadow-xl rounded-3xl w-full max-w-md p-8 space-y-6">
                 <h2 className="text-center text-3xl font-bold text-gray-900">
                     Create your account
                 </h2>

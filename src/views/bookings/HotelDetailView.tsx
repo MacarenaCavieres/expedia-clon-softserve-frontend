@@ -17,6 +17,12 @@ function HotelDetailView() {
         fetchPolicy: "network-only",
     });
 
+    //Google Maps clickable
+    const openInGoogleMaps = (address: string) => {
+        const encoded = encodeURIComponent(address);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, "_blank");
+    };
+
     if (isLoading) return "Loading...";
     if (isError) return "Error loading hotel";
     if (data)
@@ -46,7 +52,11 @@ function HotelDetailView() {
 
                 <div className="bg-amber-100 rounded-2xl p-8 mb-8">
                     <h6 className="text-4xl font-semibold">{data.hotelDetailsById.name}</h6>
-                    <p className="text-sm font-medium mt-2">{data.hotelDetailsById.address}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                        <p className="text-sm font-medium mt-2 hover: cursor-pointer text-blue-600"
+                            onClick={() => openInGoogleMaps(data.hotelDetailsById.address)}>{data.hotelDetailsById.address}</p>
+                    </div>
                     <p className="my-4">
                         <span className="border rounded-lg p-2 text-xs font-bold bg-green-700 text-slate-100">
                             {data.hotelDetailsById.rating}

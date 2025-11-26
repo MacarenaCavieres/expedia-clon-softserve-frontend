@@ -233,7 +233,7 @@ function HomeView() {
                 <p className="mb-5 text-sm">
                     Showing deals for: <span className="font-bold">Dec 03 - Dec 10</span>
                 </p>
-                <div className="flex gap-5 flex-wrap xl:flex-nowrap justify-center">
+                <div className="grid gap-5 sm: grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
                     {initialData.map((item) => (
                         <HotelCard item={item} key={item.id} handleClick={handleClick} />
                     ))}
