@@ -7,10 +7,10 @@ type Props = {
 function HotelCard({ item, handleClick }: Props) {
     return (
         <article
-            className="border border-slate-400 rounded-2xl pb-3 space-y-2 cursor-pointer w-72"
+            className="border border-slate-400 rounded-2xl pb-3 space-y-2 cursor-pointer w-72 h-96 flex flex-col"
             onClick={() => handleClick(item.id)}
         >
-            <img src={item.mainImage} alt={item.name} className="rounded-t-2xl w-xl h-52" />
+            <img src={item.mainImage} alt={item.name} className="rounded-t-2xl w-full h-52 object-cover" />
             <div className="px-3 space-y-1">
                 <p className="font-bold">{item.name}</p>
                 <p>{item.city}</p>

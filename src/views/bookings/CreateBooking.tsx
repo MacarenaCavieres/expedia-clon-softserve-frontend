@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useMutation } from "@apollo/client/react";
-import { useForm } from "@tanstack/react-form";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
 import { CREATE_BOOKING_MUTATION, ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Errors from "@/components/Errors";
-import { useState } from "react";
+import type { ReservationFormData } from "@/schemas/bookingSchemas";
+import { reservationFormSchema } from "@/schemas/bookingSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function CreateBooking() {
     const navigate = useNavigate();
@@ -24,77 +27,71 @@ function CreateBooking() {
         },
     });
 
-    const form = useForm({
-        defaultValues: { totalGuests: 1, guestNames: "" },
-        onSubmit: async ({ value }) => {
-            if (!roomId || !checkInDate || !checkOutDate) {
-                toast.error("Reservation details (room or dates) are missing.");
-                return;
-            }
-
-            setPendingData({
-                roomId,
-                checkInDate,
-                checkOutDate,
-                totalGuests: value.totalGuests,
-                guestNames: value.guestNames,
-            });
-            //Open Modal
-            setIsConfirmOpen(true);
-
-            // await createBooking({
-            //     variables: {
-            //         input: {
-            //             roomId: +roomId,
-            //             checkInDate,
-            //             checkOutDate,
-            //             passengerCount: value.totalGuests,
-            //             guestNames: value.guestNames,
-            //         },
-            //     },
-            // });
-        },
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<ReservationFormData>({
+        resolver: zodResolver(reservationFormSchema),
+        defaultValues: { totalGuests: "1", guestNames: "" },
+        mode: "onChange",
+        reValidateMode: "onChange",
     });
+
+    const onSubmit = (formData: ReservationFormData) => {
+        if (!roomId || !checkInDate || !checkOutDate) {
+            toast.error("Reservation details (room or dates) are missing.");
+            return;
+        }
+
+        setPendingData({
+            roomId: roomId,
+            checkInDate: checkInDate,
+            checkOutDate: checkOutDate,
+            totalGuests: +formData.totalGuests,
+            guestNames: formData.guestNames,
+        });
+        setIsConfirmOpen(true);
+    };
+
+    const handleConfirmBooking = async () => {
+        if (!pendingData) return;
+
+        await createBooking({
+            variables: {
+                input: {
+                    roomId: +pendingData.roomId,
+                    checkInDate: pendingData.checkInDate,
+                    checkOutDate: pendingData.checkOutDate,
+                    passengerCount: pendingData.totalGuests,
+                    guestNames: pendingData.guestNames,
+                },
+            },
+        });
+    };
 
     return (
         <>
             <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    form.handleSubmit();
-                }}
+                onSubmit={handleSubmit(onSubmit)}
                 className="max-w-md mx-auto bg-white shadow-md rounded-xl p-6 space-y-4"
             >
                 <h1 className="text-xl font-semibold">Guest Details (New Reservation)</h1>
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Number of Guests</label>
-                    <form.Field name="totalGuests">
-                        {(field) => (
-                            <input
-                                type="number"
-                                min={1}
-                                value={field.state.value}
-                                onChange={(e) => field.handleChange(Number(e.target.value))}
-                                className="border p-2 w-full rounded"
-                            />
-                        )}
-                    </form.Field>
+                    <input className="border p-2 w-full rounded" {...register("totalGuests")}></input>
+                    {errors.totalGuests && <Errors>{errors.totalGuests.message}</Errors>}
                 </div>
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Guest Names</label>
-                    <form.Field name="guestNames">
-                        {(field) => (
-                            <input
-                                type="text"
-                                value={field.state.value}
-                                onChange={(e) => field.handleChange(e.target.value)}
-                                placeholder="e.g. John Smith, Jane Doe"
-                                className="border p-2 w-full rounded"
-                            />
-                        )}
-                    </form.Field>
+                    <input
+                        className="border p-2 w-full rounded"
+                        {...register("guestNames")}
+                        placeholder="e.g. John Smith, Jane Doe"
+                    ></input>
+                    {errors.guestNames && <Errors>{errors.guestNames.message}</Errors>}
                 </div>
 
                 <button
@@ -140,19 +137,7 @@ function CreateBooking() {
 
                             <button
                                 className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-                                onClick={async () => {
-                                    await createBooking({
-                                        variables: {
-                                            input: {
-                                                roomId: +pendingData.roomId,
-                                                checkInDate: pendingData.checkInDate,
-                                                checkOutDate: pendingData.checkOutDate,
-                                                passengerCount: pendingData.totalGuests,
-                                                guestNames: pendingData.guestNames,
-                                            },
-                                        },
-                                    });
-                                }}
+                                onClick={handleConfirmBooking}
                                 disabled={loading}
                             >
                                 {loading ? "Booking…" : "Confirm"}

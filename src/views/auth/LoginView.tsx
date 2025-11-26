@@ -84,7 +84,7 @@ function LoginView() {
                 </div>
             )}
 
-            <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="min-h-screen min-w-lg flex items-center justify-center p-4">
                 <div className="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md">
                     <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Welcome Back</h1>
                     <form onSubmit={handleSubmit(handleLogin)} className="space-y-3 max-w-md mx-auto mt-20">
@@ -98,9 +98,9 @@ function LoginView() {
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                     className="lucide lucide-mail-icon lucide-mail"
                                 >
                                     <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
@@ -116,28 +116,8 @@ function LoginView() {
                             {errors.email && <Errors>{errors.email.message}</Errors>}
                         </div>
 
-                        {/* <>
-        <div className="min-h-screen flex items-center justify-center p-4">
-          <div className="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md">
-            <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-              Welcome Back
-            </h1>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 flex justify-center items-center gap-1">
-                  Email <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
-                </label>
-                <input
-                  className="border border-gray-300 p-3 w-full rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter your email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                />
-              </div> */}
-
                         <div>
-                            <label className="flex justify-center items-center gap-1 text-sm font-medium text-gray-700 mb-1 block">
+                            <label className="flex justify-center items-center gap-1 text-sm font-medium text-gray-700 mb-1">
                                 Password{" "}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -146,9 +126,9 @@ function LoginView() {
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                     className="lucide lucide-key-round-icon lucide-key-round"
                                 >
                                     <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
@@ -171,9 +151,9 @@ function LoginView() {
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                                 className="lucide lucide-log-in-icon lucide-log-in"
                             >
                                 <path d="m10 17 5-5-5-5" />
@@ -184,7 +164,7 @@ function LoginView() {
                         </button>
                     </form>
                     <div className="space-y-2">
-                        <p className="text-sm text-gray-600 text-center">
+                        <p className="text-sm text-gray-600 text-center mt-2">
                             Don't have an account?{" "}
                             <button
                                 onClick={goToRegister}
@@ -203,38 +183,6 @@ function LoginView() {
                         </p>
                     </div>
                 </div>
-                {/* className="border border-gray-300 p-3 w-full rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={form.password}
-                  onChange={(e) => setForm({ ...form, password: e.target.value })}
-                /> */}
-            </div>
-
-            {/* <button
-                className="flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 cursor-pointer text-white py-3 rounded-xl w-full font-semibold transition-all shadow-md"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-log-in-icon lucide-log-in"><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/></svg>
-                Log in
-              </button> */}
-
-            <div className="mt-6 space-y-3 text-center">
-                <p className="text-gray-600 text-sm">
-                    Don’t have an account?{" "}
-                    <button
-                        onClick={goToRegister}
-                        className="text-blue-600 font-semibold hover:underline cursor-pointer"
-                    >
-                        Register now
-                    </button>
-                </p>
-
-                <button
-                    onClick={() => navigate("/auth/forgot-password")}
-                    className="text-sm text-blue-600 hover:underline cursor-pointer font-medium"
-                >
-                    Forgot your password?
-                </button>
             </div>
         </div>
     );

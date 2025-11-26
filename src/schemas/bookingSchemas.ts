@@ -48,8 +48,13 @@ export const bookingByIdSchema = z.object({
 });
 
 export const reservationFormSchema = z.object({
-    totalGuests: z.number().min(1, { message: "Must be at least 1 guest" }),
-    guestNames: z.string().min(1, { message: "Guest names are required" }),
+    totalGuests: z.string().min(1, { message: "Must be at least 1 guest" }),
+    guestNames: z
+        .string()
+        .min(1, { message: "Guest names are required" })
+        .refine((value) => /^[a-zA-Z\s,.'-áéíóúÁÉÍÓÚñÑ]+$/.test(value), {
+            message: "Guest names can only contain letters, spaces, commas, hyphens, and apostrophes.",
+        }),
 });
 
 export type BookingData = z.infer<typeof singleBookingDataSchema>;

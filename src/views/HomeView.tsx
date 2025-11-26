@@ -3,26 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLazyQuery } from "@apollo/client/react";
 import HotelCard from "@/components/bookings/HotelCard";
-import initialData from "@/static/hotels.json";
-import type {
-    HotelData,
-    SearchHotel,
-    SearchHotelsQueryResponse,
-} from "@/schemas/hotelSchemas";
-import type {
-    SetBookingDatesPayload,
-} from "@/schemas/bookingSchemas";
+import staticHotels from "@/static/hotels.json";
+import type { HotelData, SearchHotel, SearchHotelsQueryResponse } from "@/schemas/hotelSchemas";
+import type { SetBookingDatesPayload } from "@/schemas/bookingSchemas";
 import Errors from "@/components/Errors";
 import { useBookingActions } from "@/hooks/useBookingActions";
 import { SEARCH_HOTELS_QUERY } from "@/services/HotelAPI";
+
+const initialData = [
+    "London",
+    "Maldives",
+    "New York",
+    "Paris",
+    "Punta Cana",
+    "Rio de Janeiro",
+    "Rome",
+    "Tokyo",
+];
 
 function HomeView() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState<SearchHotel | null>(null);
     const { setBookingDatesStore } = useBookingActions();
-    
-    //list of cities for the dropdown input
-    const cities = [...new Set(initialData.map((hotel) => hotel.city))]
+
+    const cities = [...new Set(initialData.map((hotel) => hotel))];
 
     const initialValues: SearchHotel = {
         city: "",
@@ -180,32 +184,34 @@ function HomeView() {
                     />
                     <Errors>{errors.passengerCount?.message}</Errors>
                 </div>
-                <button 
-                    type="submit" disabled={!isValid || isLoading} 
+                <button
+                    type="submit"
+                    disabled={!isValid || isLoading}
                     className="flex items-center justify-center gap-2 border w-full md:w-1/5 rounded-lg bg-blue-800 hover:bg-blue-900 uppercase text-slate-100 
-                    px-2 h-10 cursor-pointer font-semibold mt-6 disabled:bg-slate-600 disabled:cursor-default">
-                        {isLoading ? (
-                            "Searching..."
-                        ): (
-                            <>
-                                <svg
+                    px-2 h-10 cursor-pointer font-semibold mt-6 disabled:bg-slate-600 disabled:cursor-default"
+                >
+                    {isLoading ? (
+                        "Searching..."
+                    ) : (
+                        <>
+                            <svg
                                 className="w-5 h-5 text-slate-100"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                >
+                            >
                                 <path
                                     stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeWidth="2"
                                     d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
                                 />
-                                </svg>
-                                Search
-                            </>
-                        )}
-                    </button>
+                            </svg>
+                            Search
+                        </>
+                    )}
+                </button>
             </form>
 
             {searchParams &&
@@ -216,7 +222,7 @@ function HomeView() {
                         <h2 className="text-3xl font-bold mb-5 mt-10">
                             Search results for "{searchParams?.city}"
                         </h2>
-                        <div className="flex gap-4 justify-around max-w-5xl mx-auto flex-wrap md:flex-nowrap">
+                        <div className="grid gap-5 sm: grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
                             {data.searchHotels.map((item) => (
                                 <HotelCard item={item} key={item.id} handleClick={handleClick} />
                             ))}
@@ -234,7 +240,7 @@ function HomeView() {
                     Showing deals for: <span className="font-bold">Dec 03 - Dec 10</span>
                 </p>
                 <div className="grid gap-5 sm: grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
-                    {initialData.map((item) => (
+                    {staticHotels.map((item) => (
                         <HotelCard item={item} key={item.id} handleClick={handleClick} />
                     ))}
                 </div>

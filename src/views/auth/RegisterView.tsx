@@ -59,7 +59,6 @@ function RegisterView() {
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-4">
-                        {/* Name row */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label className="form-label">First Name</label>

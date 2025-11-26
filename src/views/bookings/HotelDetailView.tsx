@@ -3,7 +3,7 @@ import { HOTEL_DETAILS_QUERY } from "@/services/HotelAPI";
 import type { HotelDetail } from "@/schemas/hotelSchemas";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
-import {useState} from "react";
+import { useState } from "react";
 
 function HotelDetailView() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -53,9 +53,27 @@ function HotelDetailView() {
                 <div className="bg-amber-100 rounded-2xl p-8 mb-8">
                     <h6 className="text-4xl font-semibold">{data.hotelDetailsById.name}</h6>
                     <div className="flex items-center gap-2 mt-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-map-pin-icon lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                        <p className="text-sm font-medium mt-2 hover: cursor-pointer text-blue-600"
-                            onClick={() => openInGoogleMaps(data.hotelDetailsById.address)}>{data.hotelDetailsById.address}</p>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#000000"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="lucide lucide-map-pin-icon lucide-map-pin"
+                        >
+                            <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <p
+                            className="text-sm font-medium mt-2 hover: cursor-pointer text-blue-600"
+                            onClick={() => openInGoogleMaps(data.hotelDetailsById.address)}
+                        >
+                            {data.hotelDetailsById.address}
+                        </p>
                     </div>
                     <p className="my-4">
                         <span className="border rounded-lg p-2 text-xs font-bold bg-green-700 text-slate-100">
@@ -68,7 +86,23 @@ function HotelDetailView() {
 
                 <div className="flex items-center gap-3 ml-8 mb-4">
                     <h4 className="text-3xl font-bold ml-8">Choose your room</h4>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-bed-double-icon lucide-bed-double"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/></svg>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-bed-double-icon lucide-bed-double"
+                    >
+                        <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
+                        <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />
+                        <path d="M12 4v6" />
+                        <path d="M2 18h20" />
+                    </svg>
                 </div>
 
                 <div className="flex gap-3 mt-5 flex-wrap md:flex-nowrap">
@@ -91,10 +125,7 @@ function HotelDetailView() {
                                 x
                             </button>
 
-                            <img
-                                src={selectedImage}
-                                className="max-w-4xl max-h-[90vh] rounded-2xl"
-                            />
+                            <img src={selectedImage} className="max-w-4xl max-h-[90vh] rounded-2xl" />
                         </div>
                     </div>
                 )}
