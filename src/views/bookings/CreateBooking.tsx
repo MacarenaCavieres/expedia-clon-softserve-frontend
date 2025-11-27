@@ -10,20 +10,24 @@ import Errors from "@/components/Errors";
 import type { ReservationFormData } from "@/schemas/bookingSchemas";
 import { reservationFormSchema } from "@/schemas/bookingSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { PendingData } from "@/types/index";
+import ConfirmBookingModal from "@/components/bookings/ConfirmBookingModal";
 
 function CreateBooking() {
     const navigate = useNavigate();
-    const { roomId, checkInDate, checkOutDate } = useSelector((state: RootState) => state.bookings);
+    const { roomId, checkInDate, checkOutDate, roomPrice } = useSelector(
+        (state: RootState) => state.bookings
+    );
 
     //Confirm modal state
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-    const [pendingData, setPendingData] = useState<any>(null);
+    const [pendingData, setPendingData] = useState<PendingData>();
 
     const [createBooking, { loading, error }] = useMutation(CREATE_BOOKING_MUTATION, {
         refetchQueries: [{ query: ALL_BOOKINGS_QUERY }],
         onCompleted: () => {
             toast.success("Reservation created successfully");
-            setTimeout(() => navigate("/my-trips"), 500);
+            navigate("/my-trips");
         },
     });
 
@@ -38,6 +42,27 @@ function CreateBooking() {
         reValidateMode: "onChange",
     });
 
+    const calculateTotal = (): number => {
+        if (!checkInDate || !checkOutDate || !roomPrice || +roomPrice <= 0) {
+            return 0;
+        }
+        const startDate = new Date(checkInDate);
+        const endDate = new Date(checkOutDate);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+            return 0;
+        }
+        const timeDiff = endDate.getTime() - startDate.getTime();
+        const dayDiff = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+
+        if (dayDiff <= 0) {
+            return 0;
+        }
+        return dayDiff * +roomPrice;
+    };
+
+    const totalPrice = calculateTotal();
+
     const onSubmit = (formData: ReservationFormData) => {
         if (!roomId || !checkInDate || !checkOutDate) {
             toast.error("Reservation details (room or dates) are missing.");
@@ -50,6 +75,7 @@ function CreateBooking() {
             checkOutDate: checkOutDate,
             totalGuests: +formData.totalGuests,
             guestNames: formData.guestNames,
+            totalPrice: totalPrice,
         });
         setIsConfirmOpen(true);
     };
@@ -105,46 +131,12 @@ function CreateBooking() {
                 {error && <Errors>{error.message}</Errors>}
             </form>
             {isConfirmOpen && pendingData && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md space-y-4">
-                        <h2 className="text-xl font-bold">Confirm Reservation</h2>
-
-                        <div className="text-sm text-gray-700 space-y-1">
-                            <p>
-                                <strong>Room:</strong> {pendingData.roomId}
-                            </p>
-                            <p>
-                                <strong>Check-in:</strong> {pendingData.checkInDate}
-                            </p>
-                            <p>
-                                <strong>Check-out:</strong> {pendingData.checkOutDate}
-                            </p>
-                            <p>
-                                <strong>Guests:</strong> {pendingData.totalGuests}
-                            </p>
-                            <p>
-                                <strong>Guest Names:</strong> {pendingData.guestNames}
-                            </p>
-                        </div>
-
-                        <div className="flex justify-end gap-3 pt-3">
-                            <button
-                                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 cursor-pointer"
-                                onClick={() => setIsConfirmOpen(false)}
-                            >
-                                Cancel
-                            </button>
-
-                            <button
-                                className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-                                onClick={handleConfirmBooking}
-                                disabled={loading}
-                            >
-                                {loading ? "Booking…" : "Confirm"}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmBookingModal
+                    pendingData={pendingData}
+                    handleConfirmBooking={handleConfirmBooking}
+                    setIsConfirmOpen={setIsConfirmOpen}
+                    loading={loading}
+                />
             )}
         </>
     );

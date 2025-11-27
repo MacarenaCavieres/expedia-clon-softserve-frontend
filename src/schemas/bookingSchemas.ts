@@ -11,8 +11,12 @@ export type SetBookingDatesPayload = {
     checkOutDate: BookingData["checkOutDate"];
 };
 
-export type setBookingIdPayload = {
+export type SetBookingIdPayload = {
     bookingId: BookingData["id"];
+};
+
+export type SetRoomPrice = {
+    roomPrice: BookingData["totalPrice"];
 };
 
 export type createBookingPayload = {

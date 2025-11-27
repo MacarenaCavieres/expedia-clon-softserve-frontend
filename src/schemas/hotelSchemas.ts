@@ -1,14 +1,10 @@
-import {z} from "zod";
+import { z } from "zod";
 
 export type SearchHotel = {
     city: string;
     arrivalDate: string;
     exitDate: string;
     passengerCount: number;
-};
-
-export type SetRoomIdPayload = {
-    roomId: Room["id"];
 };
 
 export const roomSchema = z.object({
@@ -50,8 +46,6 @@ export const hotelDetailSchema = z.object({
         rooms: z.array(roomSchema),
     }),
 });
-
-
 
 export type HotelData = z.infer<typeof hotelSearchedSchema>;
 export type SearchHotelsQueryResponse = z.infer<typeof hotelsSearchedSchema>;

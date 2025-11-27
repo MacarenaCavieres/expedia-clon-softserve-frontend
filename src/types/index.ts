@@ -14,8 +14,9 @@ export type SearchHotel = {
     passengerCount: number;
 };
 
-export type SetRoomIdPayload = {
+export type SetRoomInfoPayload = {
     roomId: Room["id"];
+    roomPrice: Room["pricePerNight"];
 };
 
 export type SetBookingDatesPayload = {
@@ -72,4 +73,13 @@ export type AuthContextValue = {
     auth: AuthState;
     setAuth: (next: AuthState) => void; //Login
     clearAuth: () => void; //Logout
+};
+
+export type PendingData = {
+    roomId: string;
+    checkInDate: string;
+    checkOutDate: string;
+    totalGuests: number;
+    guestNames: string;
+    totalPrice: number;
 };

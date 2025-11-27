@@ -12,6 +12,7 @@ import LoginView from "@/views/auth/LoginView";
 import ProfileView from "@/views/auth/ProfileView";
 import ForgotPasswordView from "./views/auth/ForgotPasswordView";
 import ResetPasswordView from "./views/auth/ResetPasswordView";
+import Checkout from "@/components/payment/Checkout";
 
 function Router() {
     return (
@@ -35,6 +36,7 @@ function Router() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route path="/checkout/:bookingId" element={<Checkout />} />
                     <Route path="/edit-booking/:bookingId" element={<EditBooking />} />
                     <Route path="/:hotelId" element={<HotelDetailView />} />
                 </Route>

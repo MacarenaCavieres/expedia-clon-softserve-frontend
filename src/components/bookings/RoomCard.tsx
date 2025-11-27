@@ -1,5 +1,6 @@
 import { useBookingActions } from "@/hooks/useBookingActions";
-import type { SetRoomIdPayload, Room } from "@/schemas/hotelSchemas";
+import type { Room } from "@/schemas/hotelSchemas";
+import type { SetRoomInfoPayload } from "@/types/index";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -26,14 +27,15 @@ const capacityEmoji = (capacity: number) => {
 
 export default function RoomCard({ item }: Props) {
     const navigate = useNavigate();
-    const { setRoomIdStore } = useBookingActions();
+    const { setRoomInfoStore } = useBookingActions();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     const handleClick = () => {
-        const bookingInfo: SetRoomIdPayload = {
+        const bookingInfo: SetRoomInfoPayload = {
             roomId: item.id,
+            roomPrice: item.pricePerNight,
         };
-        setRoomIdStore(bookingInfo);
+        setRoomInfoStore(bookingInfo);
         navigate("/create-booking");
     };
 
