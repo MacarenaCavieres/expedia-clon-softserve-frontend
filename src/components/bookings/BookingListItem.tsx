@@ -1,5 +1,11 @@
 import { BookingStatus, type BookingData } from "@/schemas/bookingSchemas";
-import { ChevronRightIcon, PencilSquareIcon, TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import {
+    ChevronRightIcon,
+    PencilSquareIcon,
+    TrashIcon,
+    XCircleIcon,
+    CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 
 interface Props {
     item: BookingData;
@@ -7,6 +13,7 @@ interface Props {
     handleDelete: (id: BookingData["id"]) => void;
     handleEdit: (id: BookingData["id"]) => void;
     openDetails: () => void;
+    handleConfirm: (id: BookingData["id"]) => void;
 }
 
 export default function BookingListItem({
@@ -15,6 +22,7 @@ export default function BookingListItem({
     handleDelete,
     handleEdit,
     openDetails,
+    handleConfirm,
 }: Props) {
     const statusColor =
         item.status === BookingStatus.PENDING
@@ -36,6 +44,10 @@ export default function BookingListItem({
                     {item.checkInDate} → {item.checkOutDate}
                 </span>
 
+                <span className="text-md text-gray-500 mt-1">
+                    Total Price: <span className="font-bold">USD {item.totalPrice}</span>
+                </span>
+
                 <span className="text-sm text-gray-500 mt-1">
                     🧑‍🤝‍🧑 {item.passengerCount || 1} guest{item.passengerCount > 1 ? "s" : ""}
                 </span>
@@ -49,37 +61,61 @@ export default function BookingListItem({
             <div className="flex items-center gap-3">
                 {/* Edit button */}
                 <div className="relative group/icon">
-                    <button
-                        onClick={() => handleEdit(item.id)}
-                        className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
-                    >
-                        <PencilSquareIcon className="h-5 w-5 text-gray-600 " />
-                    </button>
-                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover/icon:opacity-100 transition pointer-events-none whitespace-nowrap">
-                        Edit booking
-                    </span>
+                    {item.status !== BookingStatus.CONFIRMED && (
+                        <>
+                            <button
+                                onClick={() => handleEdit(item.id)}
+                                disabled={item.status !== BookingStatus.CONFIRMED}
+                                className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
+                            >
+                                <PencilSquareIcon className="h-5 w-5 text-gray-600 " />
+                            </button>
+                            <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover/icon:opacity-100 transition pointer-events-none whitespace-nowrap">
+                                Edit booking
+                            </span>
+                        </>
+                    )}
+                </div>
+
+                <div className="relative group/icon">
+                    {item.status === BookingStatus.PENDING && (
+                        <>
+                            <button
+                                onClick={() => handleConfirm(item.id)}
+                                disabled={item.status !== BookingStatus.PENDING}
+                                className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                            >
+                                <CheckCircleIcon className="h-5 w-5 text-green-600 " />
+                            </button>
+                            <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover/icon:opacity-100 transition pointer-events-none whitespace-nowrap">
+                                Confirm booking
+                            </span>
+                        </>
+                    )}
                 </div>
 
                 {/* Cancel button */}
                 <div className="relative group/icon">
                     {item.status === BookingStatus.PENDING && (
-                        <button
-                            onClick={() => handleCancel(item.id)}
-                            className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
-                        >
-                            <XCircleIcon className="h-5 w-5 text-yellow-600" />
-                        </button>
-                    )}
-                    <span
-                        className="
+                        <>
+                            <button
+                                onClick={() => handleCancel(item.id)}
+                                className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
+                            >
+                                <XCircleIcon className="h-5 w-5 text-yellow-600" />
+                            </button>
+                            <span
+                                className="
                             absolute -top-8 left-1/2 -translate-x-1/2
                             bg-black text-white text-xs px-2 py-1 rounded opacity-0
                             group-hover/icon:opacity-100 transition whitespace-nowrap
                         "
-                    >
-                        {" "}
-                        Cancel booking
-                    </span>
+                            >
+                                {" "}
+                                Cancel booking
+                            </span>
+                        </>
+                    )}
                 </div>
 
                 {/*Delete button */}
@@ -108,6 +144,8 @@ export default function BookingListItem({
                     >
                         {item.status === BookingStatus.CANCELLED
                             ? "Delete booking"
+                            : item.status === BookingStatus.CONFIRMED
+                            ? "You cannot delete the booking"
                             : "Cancel first to delete"}
                     </span>
                 </div>

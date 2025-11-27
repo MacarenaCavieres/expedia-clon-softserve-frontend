@@ -6,8 +6,8 @@ import {
     setRoomId,
 } from "@/store/bookingSlice";
 import { useAppDispatch } from "./storeHook";
-import type { BookingData, SetBookingDatesPayload} from "@/schemas/bookingSchemas";
-import type { SetRoomIdPayload } from "@/schemas/hotelSchemas";
+import type { BookingData, SetBookingDatesPayload } from "@/schemas/bookingSchemas";
+import type { SetRoomInfoPayload } from "../types";
 export const useBookingActions = () => {
     const dispatch = useAppDispatch();
 
@@ -15,8 +15,8 @@ export const useBookingActions = () => {
         dispatch(setBookingDates(bookingDates));
     };
 
-    const setRoomIdStore = (bookingRoomId: SetRoomIdPayload) => {
-        dispatch(setRoomId(bookingRoomId));
+    const setRoomInfoStore = (roomInfo: SetRoomInfoPayload) => {
+        dispatch(setRoomId(roomInfo));
     };
 
     const setBookingIdStore = (bookingId: BookingData["id"]) => {
@@ -33,7 +33,7 @@ export const useBookingActions = () => {
 
     return {
         setBookingDatesStore,
-        setRoomIdStore,
+        setRoomInfoStore,
         setBookingIdStore,
         clearBookingStored,
         clearBookingIdStored,

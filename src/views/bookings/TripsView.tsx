@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import BookingCard from "@/components/bookings/BookingCard";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BookingDetailsModal from "@/components/bookings/BookingDetailsModal";
-import BookingListItem from "@/components/bookings/BookingListItem";  
+import BookingListItem from "@/components/bookings/BookingListItem";
 import ConfirmAction from "@/components/bookings/ConfirmAction";
 import type { BookingData, Bookings } from "@/schemas/bookingSchemas";
 import { useQuery } from "@apollo/client/react";
@@ -10,6 +9,7 @@ import { ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { useBookingActions } from "@/hooks/useBookingActions";
 
 function TripsView() {
+    const { state } = useLocation();
     const navigate = useNavigate();
     const { setBookingIdStore } = useBookingActions();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,7 +17,7 @@ function TripsView() {
     const [isCancel, setIsCancel] = useState(false);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
-    const { loading: isLoading, error: isError, data } = useQuery<Bookings>(ALL_BOOKINGS_QUERY);
+    const { loading: isLoading, error: isError, data, refetch } = useQuery<Bookings>(ALL_BOOKINGS_QUERY);
 
     const handleCancelTrip = (id: BookingData["id"]) => {
         const booking = data?.allBookingsByUserId.find((item) => item.id === id);
@@ -38,16 +38,22 @@ function TripsView() {
         navigate(`/edit-booking/${id}`);
     };
 
-    const handleClose = () => {
-        setIsModalOpen(false);
+    const handleConfirmBooking = (id: BookingData["id"]) => {
+        navigate(`/checkout/${id}`);
     };
 
+    useEffect(() => {
+        refetch();
+    }, []);
 
     if (isLoading) return "Loading...";
     if (isError) return "Reservations could not be loaded";
     if (data)
         return (
             <>
+                {state?.message && (
+                    <div className="bg-green-600 text-white p-3 rounded mb-4">{state.message}</div>
+                )}
                 <h2 className="font-bold text-3xl mb-3">My Bookings</h2>
                 <p className="font-gray-600 text-sm mb-8">
                     View your reservation status, manage your bookings, or make changes anytime.
@@ -66,21 +72,18 @@ function TripsView() {
                                     setReservationInfo(item);
                                     setIsCancel(false);
                                     setIsDetailsOpen(true);
-
                                 }}
+                                handleConfirm={handleConfirmBooking}
                             />
                         ))
                     ) : (
                         <h6 className="text-center py-20 text-gray-500 text-lg">No trips booked yet</h6>
                     )}
                 </section>
+
                 {isModalOpen && (
                     <ConfirmAction
-                        title={
-                            isCancel
-                                ? "Confirm cancellation"
-                                : "Confirm deletion"
-                        }
+                        title={isCancel ? "Confirm cancellation" : "Confirm deletion"}
                         message={`Are you sure you want to  ${
                             isCancel ? "cancel" : "permanently delete"
                         } the reservation? This action cannot be undone.`}
