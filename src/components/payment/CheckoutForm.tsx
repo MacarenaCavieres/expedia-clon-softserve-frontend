@@ -17,15 +17,19 @@ const CheckoutForm: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const { error } = await stripe.confirmPayment({
+        const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
-            confirmParams: {
-                return_url: `${window.location.origin}`,
-            },
+            redirect: "if_required",
         });
 
         if (error) {
             setError(error.message ?? "Error al procesar el pago.");
+            setLoading(false);
+            return;
+        }
+
+        if (paymentIntent?.status === "succeeded") {
+            window.location.href = "/my-trips";
         }
 
         setLoading(false);

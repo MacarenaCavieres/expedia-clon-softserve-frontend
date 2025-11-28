@@ -36,7 +36,14 @@ function Router() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route path="/checkout/:bookingId" element={<Checkout />} />
+                    <Route
+                        path="/checkout/:bookingId"
+                        element={
+                            <ProtectedRoute>
+                                <Checkout />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route path="/edit-booking/:bookingId" element={<EditBooking />} />
                     <Route path="/:hotelId" element={<HotelDetailView />} />
                 </Route>

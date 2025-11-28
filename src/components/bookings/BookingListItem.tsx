@@ -57,15 +57,13 @@ export default function BookingListItem({
                 </span>
             </div>
 
-            {/* ACTIONS */}
             <div className="flex items-center gap-3">
-                {/* Edit button */}
                 <div className="relative group/icon">
-                    {item.status !== BookingStatus.CONFIRMED && (
+                    {item.status === BookingStatus.PENDING && (
                         <>
                             <button
                                 onClick={() => handleEdit(item.id)}
-                                disabled={item.status !== BookingStatus.CONFIRMED}
+                                disabled={item.status !== BookingStatus.PENDING}
                                 className="p-2 hover:bg-gray-100 rounded-lg hover:cursor-pointer"
                             >
                                 <PencilSquareIcon className="h-5 w-5 text-gray-600 " />
@@ -82,7 +80,6 @@ export default function BookingListItem({
                         <>
                             <button
                                 onClick={() => handleConfirm(item.id)}
-                                disabled={item.status !== BookingStatus.PENDING}
                                 className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
                             >
                                 <CheckCircleIcon className="h-5 w-5 text-green-600 " />
@@ -94,7 +91,6 @@ export default function BookingListItem({
                     )}
                 </div>
 
-                {/* Cancel button */}
                 <div className="relative group/icon">
                     {item.status === BookingStatus.PENDING && (
                         <>
@@ -118,7 +114,6 @@ export default function BookingListItem({
                     )}
                 </div>
 
-                {/*Delete button */}
                 <div className="relative group/icon">
                     <button
                         onClick={() => item.status === BookingStatus.CANCELLED && handleDelete(item.id)}
@@ -150,7 +145,6 @@ export default function BookingListItem({
                     </span>
                 </div>
 
-                {/*Details button */}
                 <div className="relative group/icon">
                     <button
                         onClick={(e) => {
