@@ -12,7 +12,7 @@ const authLink = new SetContextLink((prevContext) => {
 });
 
 const client = new ApolloClient({
-    link: authLink.concat(new HttpLink({ uri: import.meta.env.VITE_API_URL })),
+    link: authLink.concat(new HttpLink({ uri: `${import.meta.env.VITE_API_URL}/graphql` })),
     cache: new InMemoryCache(),
 });
 
