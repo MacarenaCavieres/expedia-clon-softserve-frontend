@@ -5,16 +5,12 @@ import type { StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import Errors from "@/components/Errors";
+import { createPaymentIntent } from "@/services/paymentAPI";
 
 // Stripe init
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY as string);
-
-// Tipado de respuesta del backend
-interface PaymentIntentResponse {
-    clientSecret: string;
-    amount: number;
-    currency: string;
-}
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY as string, {
+    locale: "en",
+});
 
 const Checkout = () => {
     const { bookingId } = useParams<{ bookingId: string }>();
@@ -22,51 +18,36 @@ const Checkout = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [amount, setAmount] = useState<number | null>(null);
-    const [currency, setCurrency] = useState<string>("clp");
+    const [currency, setCurrency] = useState<string>("usd");
 
     useEffect(() => {
         if (!bookingId) {
-            setError("Invalid booking ID");
+            setError("Invalid booking ID.");
             setLoading(false);
             return;
         }
 
-        const token = localStorage.getItem("accessToken");
-
-        const createPaymentIntent = async () => {
+        const loadPayment = async () => {
             try {
-                const res = await fetch("http://localhost:8080/api/payments/create-payment-intent", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ bookingId }),
-                });
+                const data = await createPaymentIntent({ bookingId });
 
-                if (!res.ok) {
-                    const text = await res.text();
-                    throw new Error(text || "Error creating payment");
-                }
-
-                const data: PaymentIntentResponse = await res.json();
                 setClientSecret(data.clientSecret);
                 setAmount(data.amount);
                 setCurrency(data.currency);
-            } catch (err) {
-                console.error("Stripe init error:", err);
-                setError("The payment could not be initialized.");
+            } catch (error) {
+                console.error(error);
+                setError("The payment could not be initialized. Please try again.");
             } finally {
                 setLoading(false);
             }
         };
 
-        createPaymentIntent();
+        loadPayment();
     }, [bookingId]);
 
-    if (loading) return "Loading...";
+    if (loading) return "Loading payment...";
     if (error) return <Errors>{error}</Errors>;
-    if (!clientSecret) return <Errors>Error initializing payment</Errors>;
+    if (!clientSecret) return <Errors>Unable to initialize payment.</Errors>;
 
     const options: StripeElementsOptions = {
         clientSecret,
@@ -74,9 +55,10 @@ const Checkout = () => {
             theme: "stripe",
         },
         loader: "auto",
+        locale: "en",
     };
 
-    const formatted = new Intl.NumberFormat("es-CL", {
+    const formattedAmount = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency,
     }).format((amount ?? 0) / 100);
@@ -84,13 +66,15 @@ const Checkout = () => {
     return (
         <>
             <div className="max-w-md mx-auto mb-6">
-                <h2 className="text-xl font-bold">Total a pagar</h2>
-                <p className="text-2xl text-green-600">{formatted}</p>
+                <h2 className="text-xl font-bold">Total to Pay</h2>
+                <p className="text-2xl text-green-600">{formattedAmount}</p>
             </div>
 
-            <Elements stripe={stripePromise} options={options}>
-                <CheckoutForm />
-            </Elements>
+            {clientSecret && (
+                <Elements stripe={stripePromise} options={options}>
+                    <CheckoutForm />
+                </Elements>
+            )}
         </>
     );
 };

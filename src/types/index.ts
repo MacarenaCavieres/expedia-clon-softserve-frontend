@@ -5,6 +5,7 @@ export enum BookingStatus {
     "CANCELLED" = "CANCELLED",
     "PENDING" = "PENDING",
     "CONFIRMED" = "CONFIRMED",
+    "PAID" = "PAID",
 }
 
 export type SearchHotel = {
@@ -83,3 +84,14 @@ export type PendingData = {
     guestNames: string;
     totalPrice: number;
 };
+
+export interface AlertProps {
+    message: string;
+    status: "SUCCESS" | "CONFIRMING" | "WARNING";
+}
+
+export interface PaymentIntentResponse {
+    clientSecret: string;
+    amount: number;
+    currency: string;
+}

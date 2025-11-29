@@ -20,14 +20,7 @@ function Router() {
             <Routes>
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<HomeView />} index />
-                    <Route
-                        path="/my-trips"
-                        element={
-                            <ProtectedRoute>
-                                <TripsView />
-                            </ProtectedRoute>
-                        }
-                    />
+                    <Route path="/my-trips" element={<TripsView />} />
                     <Route
                         path="/create-booking"
                         element={
@@ -36,14 +29,7 @@ function Router() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
-                        path="/checkout/:bookingId"
-                        element={
-                            <ProtectedRoute>
-                                <Checkout />
-                            </ProtectedRoute>
-                        }
-                    />
+                    <Route path="/checkout/:bookingId" element={<Checkout />} />
                     <Route path="/edit-booking/:bookingId" element={<EditBooking />} />
                     <Route path="/:hotelId" element={<HotelDetailView />} />
                 </Route>
