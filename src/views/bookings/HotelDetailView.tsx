@@ -84,6 +84,21 @@ function HotelDetailView() {
                     <p className="text-sm font-semibold">{data.hotelDetailsById.description}</p>
                 </div>
 
+                {/* Google Maps Section */}
+                <div className="w-full h-80 mb-10 rounded-2xl overflow-hidden shadow">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        loading="lazy"
+                        allowFullScreen
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
+                            data.hotelDetailsById.address
+                        )}`}
+                    ></iframe>
+                </div>
+                
+
                 <div className="flex items-center gap-3 ml-8 mb-4">
                     <h4 className="text-3xl font-bold ml-8">Choose your room</h4>
                     <svg
