@@ -87,7 +87,7 @@ function TripsView() {
     if (isError) return "Reservations could not be loaded";
 
     return (
-        <>
+        <div className="md:max-w-7xl mx-auto px-5 md:px-10 mt-10 min-h-screen">
             {alert && <PaymentStatusAlert message={alert.message!} status={alert.status} />}
 
             <h2 className="font-bold text-3xl mb-3">My Bookings</h2>
@@ -136,7 +136,7 @@ function TripsView() {
                     handleClose={() => setIsDetailsOpen(false)}
                 />
             )}
-        </>
+        </div>
     );
 }
 
