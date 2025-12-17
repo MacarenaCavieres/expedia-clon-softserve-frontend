@@ -171,7 +171,7 @@ function LoginView() {
                             Don't have an account?{" "}
                             <button
                                 onClick={goToRegister}
-                                className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
+                                className="text-blue-500 hover:text-blue-600 cursor-pointer"
                             >
                                 Register now
                             </button>
@@ -179,7 +179,7 @@ function LoginView() {
                         <p className="text-sm text-gray-600 text-center">
                             <button
                                 onClick={() => navigate("/auth/forgot-password")}
-                                className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
+                                className="text-blue-500 hover:text-blue-600 cursor-pointer"
                             >
                                 Forgot your password?
                             </button>

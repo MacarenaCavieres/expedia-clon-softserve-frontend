@@ -27,7 +27,7 @@ function HotelDetailView() {
     if (isError) return "Error loading hotel";
     if (data)
         return (
-            <div className="md:max-w-6xl mx-auto p-4">
+            <div className="md:max-w-6xl mx-auto p-4 mt-10">
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-2 min-h-80 mb-10">
                     <div className="col-span-1 h-80">
                         <img
