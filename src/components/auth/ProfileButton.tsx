@@ -4,13 +4,35 @@ type Props = {
     isValid: boolean;
     onClick: (e: string) => void;
 };
+
 function ProfileButton({ text, bgColor, isValid, onClick }: Props) {
-    const effectiveColor = isValid ? bgColor : "bg-slate-600";
+    const effectiveColor = isValid ? bgColor : "bg-slate-400";
+
     return (
         <button
-            className={`border w-full md:w-1/5 rounded-lg ${effectiveColor} uppercase text-slate-100 px-2 h-10 font-semibold ${
-                isValid ? "hover:cursor-pointer hover:opacity-90" : "cursor-not-allowed opacity-60"
-            }`}
+            className={`
+                ${effectiveColor} 
+                text-white 
+                text-xs 
+                font-black 
+                uppercase 
+                tracking-tight
+                px-6 
+                h-11 
+                rounded-xl
+                transition-all
+                duration-200
+                whitespace-nowrap
+                flex 
+                items-center 
+                justify-center
+                min-w-fit
+                ${
+                    isValid
+                        ? "hover:cursor-pointer hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
+                        : "cursor-not-allowed opacity-50"
+                }
+            `}
             onClick={() => onClick(text)}
             disabled={!isValid}
         >

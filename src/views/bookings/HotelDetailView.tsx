@@ -4,6 +4,8 @@ import type { HotelDetail } from "@/schemas/hotelSchemas";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import Loader from "@/components/Loader";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function HotelDetailView() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -23,8 +25,8 @@ function HotelDetailView() {
         window.open(`https://www.google.com/maps/search/?api=1&query=${encoded}`, "_blank");
     };
 
-    if (isLoading) return "Loading...";
-    if (isError) return "Error loading hotel";
+    if (isLoading) return <Loader />;
+    if (isError) return <ErrorMessage message="Error Loading Hotel information" />;
     if (data)
         return (
             <div className="md:max-w-6xl mx-auto p-4 mt-10">

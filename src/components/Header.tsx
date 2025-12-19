@@ -94,7 +94,7 @@ function Header() {
                                 to="/auth/login"
                                 className="ml-4 bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
                             >
-                                Sign In
+                                Login
                             </Link>
                         </>
                     )}

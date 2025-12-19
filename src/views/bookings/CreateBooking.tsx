@@ -43,10 +43,10 @@ function CreateBooking() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isValid },
     } = useForm<ReservationFormData>({
         resolver: zodResolver(reservationFormSchema),
-        defaultValues: { totalGuests: "1", guestNames: "" },
+        defaultValues: { totalGuests: 1, guestNames: "" },
         mode: "onChange",
         reValidateMode: "onChange",
     });
@@ -152,8 +152,12 @@ function CreateBooking() {
                                             className={`w-full bg-slate-50 border-2 ${
                                                 errors.totalGuests ? "border-red-200" : "border-slate-100"
                                             } rounded-2xl p-4 focus:border-blue-500 focus:bg-white outline-none transition-all font-medium`}
-                                            {...register("totalGuests")}
+                                            {...register("totalGuests", {
+                                                required: "Number of guests is required",
+                                                valueAsNumber: true,
+                                            })}
                                             placeholder="Number of people"
+                                            type="number"
                                         />
                                         {errors.totalGuests && <Errors>{errors.totalGuests.message}</Errors>}
                                     </div>
@@ -184,8 +188,8 @@ function CreateBooking() {
 
                                 <button
                                     type="submit"
-                                    disabled={loading}
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-200 transition-all flex items-center justify-center gap-2 group disabled:bg-slate-300"
+                                    disabled={!isValid || loading}
+                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-200 transition-all flex items-center justify-center gap-2 group disabled:bg-slate-300 cursor-pointer"
                                 >
                                     {loading ? (
                                         "Processing..."
