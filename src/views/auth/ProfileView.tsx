@@ -73,7 +73,7 @@ function ProfileView() {
     const user = data?.getUserInfo;
 
     return (
-        <div className="min-h-screen bg-slate-100 py-12 px-4 flex items-center justify-center">
+        <div className="min-h-screen bg-slate-100 py-12 px-4 flex justify-center w-full md:w-9/12">
             <div className="max-w-7xl w-full">
                 <div className="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/10 overflow-hidden flex flex-col md:flex-row border border-white">
                     {/* IZQUIERDA: Identidad Fija */}

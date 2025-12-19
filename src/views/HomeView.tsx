@@ -255,9 +255,7 @@ function HomeView() {
                 {searchParams && (
                     <div className="mb-16">
                         {isLoading ? (
-                            <div className="animate-pulse flex space-x-4 pt-10">
-                                <Loader />
-                            </div>
+                            <Loader />
                         ) : (
                             <>
                                 <h2 className="text-3xl font-bold text-slate-800 mb-6 pt-10">
