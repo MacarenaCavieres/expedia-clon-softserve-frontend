@@ -17,6 +17,7 @@ import {
     LucideTriangleAlert,
     LucideHotel,
 } from "lucide-react";
+import Loader from "@/components/Loader";
 
 const initialData = [
     "London",
@@ -216,7 +217,6 @@ function HomeView() {
                                 })}
                                 className="w-full border-none bg-slate-100 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700"
                             />
-                            {/* <Errors>{errors.passengerCount?.message}</Errors> */}
                         </div>
 
                         {/* Submit Button */}
@@ -255,7 +255,9 @@ function HomeView() {
                 {searchParams && (
                     <div className="mb-16">
                         {isLoading ? (
-                            <div className="animate-pulse flex space-x-4 pt-10">Loading...</div>
+                            <div className="animate-pulse flex space-x-4 pt-10">
+                                <Loader />
+                            </div>
                         ) : (
                             <>
                                 <h2 className="text-3xl font-bold text-slate-800 mb-6 pt-10">
