@@ -8,6 +8,8 @@ import { useQuery } from "@apollo/client/react";
 import { ALL_BOOKINGS_QUERY } from "@/services/bookingAPI";
 import { useBookingActions } from "@/hooks/useBookingActions";
 import PaymentStatusAlert from "@/components/payment/PaymentStatusAlert";
+import Loader from "@/components/Loader";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function TripsView() {
     const navigate = useNavigate();
@@ -83,8 +85,8 @@ function TripsView() {
         return () => clearInterval(interval);
     }, [refetch]);
 
-    if (isLoading) return "Loading...";
-    if (isError) return "Reservations could not be loaded";
+    if (isLoading) return <Loader />;
+    if (isError) return <ErrorMessage message="Reservations could not be loaded" />;
 
     return (
         <div className="md:max-w-7xl mx-auto px-5 md:px-10 mt-10 min-h-screen">

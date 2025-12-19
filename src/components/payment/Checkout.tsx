@@ -4,8 +4,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import type { StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
-import Errors from "@/components/Errors";
 import { createPaymentIntent } from "@/services/paymentAPI";
+import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
 
 // Stripe init
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY as string, {
@@ -45,9 +46,9 @@ const Checkout = () => {
         loadPayment();
     }, [bookingId]);
 
-    if (loading) return "Loading payment...";
-    if (error) return <Errors>{error}</Errors>;
-    if (!clientSecret) return <Errors>Unable to initialize payment.</Errors>;
+    if (loading) return <Loader />;
+    if (error) return <ErrorMessage message={error} />;
+    if (!clientSecret) return <ErrorMessage message="Unable to initialize payment" />;
 
     const options: StripeElementsOptions = {
         clientSecret,

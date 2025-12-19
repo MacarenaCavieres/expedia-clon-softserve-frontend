@@ -52,7 +52,7 @@ export const bookingByIdSchema = z.object({
 });
 
 export const reservationFormSchema = z.object({
-    totalGuests: z.string().min(1, { message: "Must be at least 1 guest" }),
+    totalGuests: z.int().min(1, { message: "Must be at least 1 guest" }),
     guestNames: z
         .string()
         .min(1, { message: "Guest names are required" })
