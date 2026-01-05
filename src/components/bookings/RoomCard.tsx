@@ -3,6 +3,8 @@ import type { Room } from "@/schemas/hotelSchemas";
 import type { SetRoomInfoPayload } from "@/types/index";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 import {
     LucideBedDouble,
     LucideUsers,
@@ -36,6 +38,10 @@ export default function RoomCard({ item }: Props) {
     const navigate = useNavigate();
     const { setRoomInfoStore } = useBookingActions();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    const { checkInDate, checkOutDate } = useSelector((state: RootState) => state.bookings);
+
+    const hasDates = Boolean(checkInDate && checkOutDate);
 
     const handleBooking = () => {
         const bookingInfo: SetRoomInfoPayload = {
@@ -115,7 +121,8 @@ export default function RoomCard({ item }: Props) {
                 {/* --- BOTÓN DE ACCIÓN --- */}
                 <button
                     onClick={handleBooking}
-                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-100 group/btn active:scale-95 cursor-pointer"
+                    disabled={!hasDates}
+                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-100 group/btn active:scale-95 cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed"
                 >
                     Book Now
                     <LucideArrowRight
@@ -123,6 +130,10 @@ export default function RoomCard({ item }: Props) {
                         className="group-hover/btn:translate-x-1 transition-transform"
                     />
                 </button>
+
+                {!hasDates && (
+                    <p className="text-xs text-red-500 mt-2 text-center">Select dates to continue</p>
+                )}
             </div>
 
             {/* --- MODAL DE IMAGEN --- */}

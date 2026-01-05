@@ -20,7 +20,6 @@ import {
 import SemanticSearchSection from "@/components/SemanticSearchSection";
 import Loader from "@/components/Loader";
 
-
 const initialData = [
     "London",
     "Maldives",
@@ -35,7 +34,7 @@ const initialData = [
 function HomeView() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useState<SearchHotel | null>(null);
-    const { setBookingDatesStore } = useBookingActions();
+    const { setBookingDatesStore, clearBookingStored } = useBookingActions();
 
     const cities = [...new Set(initialData.map((hotel) => hotel))];
 
@@ -89,15 +88,20 @@ function HomeView() {
     };
 
     const handleClick = (id: HotelData["id"]) => {
-        if (searchParams){
-        const bookingDates: SetBookingDatesPayload = {
-            checkInDate: searchParams!.arrivalDate,
-            checkOutDate: searchParams!.exitDate,
-        };
-        setBookingDatesStore(bookingDates);}
+        if (searchParams) {
+            const bookingDates: SetBookingDatesPayload = {
+                checkInDate: searchParams!.arrivalDate,
+                checkOutDate: searchParams!.exitDate,
+            };
+            setBookingDatesStore(bookingDates);
+        }
 
         navigate(`/${id}`);
     };
+
+    useEffect(() => {
+        clearBookingStored();
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -278,9 +282,8 @@ function HomeView() {
                 )}
 
                 {/* Semantic Search */}
-                <SemanticSearchSection onHotelClick={handleClick}/>
+                <SemanticSearchSection onHotelClick={handleClick} />
 
-                
                 {/* Recommended Stays */}
                 <section>
                     <div className="flex items-end justify-between mb-8 pt-10">
