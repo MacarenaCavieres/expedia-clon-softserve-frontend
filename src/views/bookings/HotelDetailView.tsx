@@ -1,13 +1,20 @@
 import RoomCard from "@/components/bookings/RoomCard";
 import { HOTEL_DETAILS_QUERY } from "@/services/HotelAPI";
-import type { HotelDetail } from "@/schemas/hotelSchemas";
+import type { DateForm, HotelDetail } from "@/schemas/hotelSchemas";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useBookingActions } from "@/hooks/useBookingActions";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
+import { LucideCalendar, LucideTriangleAlert, LucideCheck } from "lucide-react";
+import { useForm } from "react-hook-form";
+import Errors from "@/components/Errors";
 
 function HotelDetailView() {
+    const { setBookingDatesStore } = useBookingActions();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const { hotelId } = useParams();
     const {
@@ -18,6 +25,50 @@ function HotelDetailView() {
         variables: { id: hotelId },
         fetchPolicy: "network-only",
     });
+
+    const { checkInDate, checkOutDate } = useSelector((state: RootState) => state.bookings);
+    const [showDateForm, setShowDateForm] = useState(!checkInDate || !checkOutDate);
+
+    const initialValues: DateForm = {
+        arrivalDate: "",
+        exitDate: "",
+    };
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        formState: { errors, isValid },
+    } = useForm({ defaultValues: initialValues, mode: "onChange" });
+
+    const arrivalDate = watch("arrivalDate");
+
+    useEffect(() => {
+        if (arrivalDate) {
+            const currentDeparture = watch("exitDate");
+            const checkInDate = new Date(arrivalDate);
+            if (!isNaN(checkInDate.getTime())) {
+                checkInDate.setDate(checkInDate.getDate() + 1);
+                const nextDay = checkInDate.toISOString().split("T")[0];
+                const departureDate = currentDeparture ? new Date(currentDeparture) : null;
+                if (!departureDate || departureDate <= checkInDate) {
+                    setValue("exitDate", nextDay);
+                }
+            }
+        }
+    }, [arrivalDate, setValue, watch]);
+
+    const handleSetDates = (data: DateForm) => {
+        setShowDateForm(false);
+
+        setTimeout(() => {
+            setBookingDatesStore({
+                checkInDate: data.arrivalDate,
+                checkOutDate: data.exitDate,
+            });
+        }, 500);
+    };
 
     //Google Maps clickable
     const openInGoogleMaps = (address: string) => {
@@ -120,6 +171,106 @@ function HotelDetailView() {
                         <path d="M2 18h20" />
                     </svg>
                 </div>
+
+                {(!checkInDate || !checkOutDate) && (
+                    <div
+                        className={`mb-10 bg-blue-50 border border-blue-200 rounded-2xl p-6 transition-all duration-500 ease-in-out overflow-hidden ${
+                            showDateForm ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
+                        }
+  `}
+                    >
+                        <h3 className="text-xl font-bold text-slate-800 mb-2">Select your dates</h3>
+                        <p className="text-slate-600 mb-4">
+                            Choose check-in and check-out dates to book a room.
+                        </p>
+
+                        <form
+                            onSubmit={handleSubmit(handleSetDates)}
+                            className="bg-white p-4 md:p-6 rounded-2xl shadow-2xl border border-slate-100 grid grid-cols-1 md:grid-cols-12 gap-4 items-end mb-4"
+                        >
+                            {/* Arrival */}
+                            <div className="md:col-span-3 space-y-2">
+                                <label
+                                    className="text-xs font-bold uppercase text-slate-500 flex items-center gap-2"
+                                    htmlFor="arrivalDate"
+                                >
+                                    <LucideCalendar size={18} strokeWidth={2.5} /> Check-in
+                                </label>
+                                <input
+                                    type="date"
+                                    {...register("arrivalDate", {
+                                        required: "Arrival date is required",
+                                        validate: (value) => {
+                                            const today = new Date();
+                                            const selectedDate = new Date(value);
+                                            today.setHours(0, 0, 0, 0);
+                                            selectedDate.setHours(0, 0, 0, 0);
+                                            return (
+                                                selectedDate >= today ||
+                                                "The arrival date cannot be earlier or the same than today."
+                                            );
+                                        },
+                                    })}
+                                    className="w-full border-none bg-slate-100 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700"
+                                />
+                            </div>
+
+                            {/* Exit */}
+                            <div className="md:col-span-3 space-y-2">
+                                <label
+                                    className="text-xs font-bold uppercase text-slate-500 flex items-center gap-2"
+                                    htmlFor="exitDate"
+                                >
+                                    <LucideCalendar size={18} strokeWidth={2.5} /> Check-out
+                                </label>
+                                <input
+                                    type="date"
+                                    {...register("exitDate", {
+                                        validate: (value) => {
+                                            const arrival = new Date(arrivalDate);
+                                            const departure = new Date(value);
+                                            arrival.setHours(0, 0, 0, 0);
+                                            departure.setHours(0, 0, 0, 0);
+                                            return (
+                                                departure > arrival ||
+                                                "Departure date cannot be earlier or equal than arrival date."
+                                            );
+                                        },
+                                    })}
+                                    className="w-full border-none bg-slate-100 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700"
+                                />
+                            </div>
+
+                            {/* Submit Button */}
+                            <div className="md:col-span-2">
+                                <button
+                                    type="submit"
+                                    disabled={!isValid || isLoading}
+                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:bg-slate-300 cursor-pointer disabled:cursor-not-allowed"
+                                >
+                                    {isLoading ? (
+                                        "..."
+                                    ) : (
+                                        <>
+                                            <LucideCheck size={20} /> Confirm Dates
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                            {/* --- SECCIÓN DE ERRORES --- */}
+                            {Object.keys(errors).length > 0 && (
+                                <div className="md:col-span-12 mt-2 p-3 bg-red-50 border border-red-100 rounded-xl flex flex-col gap-1">
+                                    {Object.values(errors).map((error, index) => (
+                                        <div className="flex items-center gap-3">
+                                            <LucideTriangleAlert size={20} color="red" />
+                                            <Errors key={index}>{error?.message as string}</Errors>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </form>
+                    </div>
+                )}
 
                 <div className="flex gap-3 mt-5 flex-wrap md:flex-nowrap">
                     {data.hotelDetailsById.rooms.map((item) => (

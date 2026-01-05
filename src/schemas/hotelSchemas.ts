@@ -7,6 +7,11 @@ export type SearchHotel = {
     passengerCount: number;
 };
 
+export type DateForm = {
+    arrivalDate: string;
+    exitDate: string;
+};
+
 export const roomSchema = z.object({
     id: z.string(),
     capacity: z.number(),
