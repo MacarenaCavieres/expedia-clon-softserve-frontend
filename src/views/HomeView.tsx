@@ -17,7 +17,9 @@ import {
     LucideTriangleAlert,
     LucideHotel,
 } from "lucide-react";
+import SemanticSearchSection from "@/components/SemanticSearchSection";
 import Loader from "@/components/Loader";
+
 
 const initialData = [
     "London",
@@ -87,12 +89,13 @@ function HomeView() {
     };
 
     const handleClick = (id: HotelData["id"]) => {
-        if (!searchParams) return;
+        if (searchParams){
         const bookingDates: SetBookingDatesPayload = {
             checkInDate: searchParams!.arrivalDate,
             checkOutDate: searchParams!.exitDate,
         };
-        setBookingDatesStore(bookingDates);
+        setBookingDatesStore(bookingDates);}
+
         navigate(`/${id}`);
     };
 
@@ -274,6 +277,10 @@ function HomeView() {
                     </div>
                 )}
 
+                {/* Semantic Search */}
+                <SemanticSearchSection onHotelClick={handleClick}/>
+
+                
                 {/* Recommended Stays */}
                 <section>
                     <div className="flex items-end justify-between mb-8 pt-10">
