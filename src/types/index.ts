@@ -95,3 +95,18 @@ export interface PaymentIntentResponse {
     amount: number;
     currency: string;
 }
+
+//Semantic Search 
+export interface SemanticSearchHotel{
+    id: string;
+    name: string;
+    city: string;
+    rating: number;
+    comment: string;
+    pricePerNight: string;
+    mainImage: string;
+}
+
+export interface SemanticSearchQueryResponse{
+    semanticSearch: SemanticSearchHotel[];
+}
