@@ -16,7 +16,7 @@ type Props = {
 function HotelCard({ item, handleClick }: Props) {
     return (
         <article
-            className="group bg-white border border-slate-200 rounded-3xl overflow-hidden cursor-pointer w-72 h-[420px] flex flex-col hover:shadow-lg"
+            className="group bg-white border border-slate-200 rounded-3xl overflow-hidden cursor-pointer w-[276px] h-[420px] flex flex-col hover:shadow-lg"
             onClick={() => handleClick(item.id)}
         >
             {/* --- IMAGEN CON BADGE Y FAVORITO --- */}

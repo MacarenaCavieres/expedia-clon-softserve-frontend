@@ -65,7 +65,7 @@ const Checkout = () => {
     }).format((amount ?? 0) / 100);
 
     return (
-        <>
+        <div className="mx-2">
             <div className="max-w-md mx-auto mb-6">
                 <h2 className="text-xl font-bold">Total to Pay</h2>
                 <p className="text-2xl text-green-600">{formattedAmount}</p>
@@ -76,7 +76,7 @@ const Checkout = () => {
                     <CheckoutForm />
                 </Elements>
             )}
-        </>
+        </div>
     );
 };
 

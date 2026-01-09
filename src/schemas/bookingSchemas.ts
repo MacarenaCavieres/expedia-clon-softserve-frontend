@@ -51,15 +51,35 @@ export const bookingByIdSchema = z.object({
     bookingById: singleBookingDataSchema,
 });
 
-export const reservationFormSchema = z.object({
-    totalGuests: z.int().min(1, { message: "Must be at least 1 guest" }),
-    guestNames: z
-        .string()
-        .min(1, { message: "Guest names are required" })
-        .refine((value) => /^[a-zA-Z\s,.'-áéíóúÁÉÍÓÚñÑ]+$/.test(value), {
-            message: "Guest names can only contain letters, spaces, commas, hyphens, and apostrophes.",
-        }),
-});
+export const reservationFormSchema = z
+    .object({
+        totalGuests: z.int().min(1, { message: "Must be at least 1 guest" }),
+        guestNames: z
+            .string()
+            .min(1, { message: "Guest names are required" })
+            .refine((value) => /^[a-zA-Z\s,.'-áéíóúÁÉÍÓÚñÑ]+$/.test(value), {
+                message: "Invalid characters in guest names",
+            }),
+        arrivalDate: z.string().optional(),
+        exitDate: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+        if (!data.arrivalDate || !data.exitDate) return;
+
+        const arrival = new Date(data.arrivalDate);
+        const exit = new Date(data.exitDate);
+
+        arrival.setHours(0, 0, 0, 0);
+        exit.setHours(0, 0, 0, 0);
+
+        if (exit <= arrival) {
+            ctx.addIssue({
+                path: ["exitDate"],
+                message: "Departure date must be after arrival date",
+                code: "custom",
+            });
+        }
+    });
 
 export type BookingData = z.infer<typeof singleBookingDataSchema>;
 export type BookingById = z.infer<typeof bookingByIdSchema>;

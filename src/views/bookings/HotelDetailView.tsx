@@ -151,12 +151,11 @@ function HotelDetailView() {
                     ></iframe>
                 </div>
 
-                <div className="flex items-center gap-3 ml-8 mb-4">
-                    <h4 className="text-3xl font-bold ml-8">Choose your room</h4>
+                <div className="flex">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="40"
+                        height="40"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -170,6 +169,7 @@ function HotelDetailView() {
                         <path d="M12 4v6" />
                         <path d="M2 18h20" />
                     </svg>
+                    <h4 className="text-3xl font-bold ml-2">Choose your room</h4>
                 </div>
 
                 {(!checkInDate || !checkOutDate) && (
@@ -272,7 +272,7 @@ function HotelDetailView() {
                     </div>
                 )}
 
-                <div className="flex gap-3 mt-5 flex-wrap md:flex-nowrap">
+                <div className="flex gap-3 mt-5 flex-wrap md:flex-nowrap justify-center">
                     {data.hotelDetailsById.rooms.map((item) => (
                         <RoomCard item={item} key={item.id} />
                     ))}

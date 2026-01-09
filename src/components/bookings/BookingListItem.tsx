@@ -33,7 +33,7 @@ export default function BookingListItem({
 
     return (
         <div
-            className="group w-full flex items-center justify-between 
+            className="group w-full flex flex-wrap items-center justify-between 
             gap-6 p-6 mb-4 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all cursor-pointer"
         >
             {/* MAIN CONTENT */}

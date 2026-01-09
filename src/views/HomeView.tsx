@@ -106,11 +106,11 @@ function HomeView() {
     return (
         <div className="min-h-screen bg-slate-50">
             {/* --- HERO SECTION --- */}
-            <section className="relative h-[400px] w-full flex flex-col items-center justify-center text-white overflow-hidden">
+            <section className="relative h-[700px] md:h-[400px] w-full flex flex-col items-center justify-center text-white overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://forever.travel-assets.com/flex/flexmanager/images/2025/07/31/RF_Stocksy_txpa3c2656czKY300_OriginalDelivery_3153535avif1920x390.avif?impolicy=fcrop&w=1920&h=390&q=mediumHigh"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-center"
                         alt="Background"
                     />
                 </div>
@@ -125,7 +125,7 @@ function HomeView() {
                 </div>
 
                 {/* --- FLOATING SEARCH FORM --- */}
-                <div className="relative z-20 w-full max-w-6xl px-4 -mb-32 md:-mb-20">
+                <div className="relative z-20 w-full max-w-6xl px-4 md:-mb-20">
                     <form
                         onSubmit={handleSubmit(handleSearch)}
                         className="bg-white p-4 md:p-6 rounded-2xl shadow-2xl border border-slate-100 grid grid-cols-1 md:grid-cols-12 gap-4 items-end mb-4"
@@ -271,7 +271,7 @@ function HomeView() {
                                         {searchParams.city}
                                     </div>
                                 </h2>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+                                <div className="flex flex-wrap m-4 gap-5 justify-center md:justify-normal">
                                     {data?.searchHotels.map((item) => (
                                         <HotelCard item={item} key={item.id} handleClick={handleClick} />
                                     ))}
@@ -292,7 +292,7 @@ function HomeView() {
                             <p className="text-slate-500">Handpicked properties based on your preferences</p>
                         </div>
                     </div>
-                    <div className="flex flex-wrap -m-4 gap-5">
+                    <div className="flex flex-wrap m-4 gap-5 justify-center md:justify-normal">
                         {staticHotels.map((item) => (
                             <HotelCard item={item} key={item.id} handleClick={handleClick} />
                         ))}
