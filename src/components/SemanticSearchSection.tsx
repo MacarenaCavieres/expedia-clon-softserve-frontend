@@ -20,16 +20,19 @@ function mapSemanticHotelToHotelData(hotel: SemanticSearchHotel): HotelData {
 }
 
 type Props = {
-        onHotelClick: (id: string) => void;
-    };
+    onHotelClick: (id: string) => void;
+};
 
-function SemanticSearchSection({onHotelClick}: Props) {
+function SemanticSearchSection({ onHotelClick }: Props) {
     const [query, setQuery] = useState("");
 
-    const [runSemanticSearch, { data, loading, error}] = useLazyQuery<SemanticSearchQueryResponse>(SEMANTIC_SEARCH_QUERY, {
-        fetchPolicy: "network-only",
-    });
-    
+    const [runSemanticSearch, { data, loading, error }] = useLazyQuery<SemanticSearchQueryResponse>(
+        SEMANTIC_SEARCH_QUERY,
+        {
+            fetchPolicy: "network-only",
+        }
+    );
+
     const handleSemanticSearch = async () => {
         if (!query.trim()) return;
 
@@ -48,12 +51,10 @@ function SemanticSearchSection({onHotelClick}: Props) {
                     <LucideSparkles size={28} color="#2563eb" />
                     Search with AI
                 </h2>
-                <p className="text-slate-500 mt-2">
-                    Describe what you’re looking for in your own words
-                </p>
+                <p className="text-slate-500 mt-2">Describe what you’re looking for in your own words</p>
             </div>
 
-            <div className="flex gap-3 mb-8">
+            <div className="flex gap-3 mb-8 flex-wrap">
                 <input
                     type="text"
                     value={query}
@@ -63,7 +64,7 @@ function SemanticSearchSection({onHotelClick}: Props) {
                 />
                 <button
                     onClick={handleSemanticSearch}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-xl font-semibold flex items-center gap-2 hover: cursor-pointer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl font-semibold flex items-center gap-2 hover:cursor-pointer md:w-auto w-full justify-center"
                 >
                     <LucideSearch size={18} />
                     Search
@@ -72,24 +73,16 @@ function SemanticSearchSection({onHotelClick}: Props) {
 
             {loading && <Loader />}
 
-            {error && (
-                <p className="text-red-500">
-                    Something went wrong while searching.
-                </p>
-            )}
+            {error && <p className="text-red-500">Something went wrong while searching.</p>}
 
             {!loading && data?.semanticSearch.length === 0 && query && (
-                <p className="text-slate-500">
-                    No hotels matched your description.
-                </p>
+                <p className="text-slate-500">No hotels matched your description.</p>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {data?.semanticSearch.map((hotel) => {
                     const mappedHotel = mapSemanticHotelToHotelData(hotel);
-                    return (
-                        <HotelCard key={mappedHotel.id} item={mappedHotel} handleClick={onHotelClick} />
-                    );
+                    return <HotelCard key={mappedHotel.id} item={mappedHotel} handleClick={onHotelClick} />;
                 })}
             </div>
         </section>

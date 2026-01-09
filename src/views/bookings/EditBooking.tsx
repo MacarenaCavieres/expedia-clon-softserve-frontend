@@ -52,6 +52,8 @@ export default function EditBookingForm() {
         defaultValues: {
             totalGuests: 1,
             guestNames: "",
+            arrivalDate: "",
+            exitDate: "",
         },
         mode: "onChange",
     });
@@ -61,6 +63,8 @@ export default function EditBookingForm() {
             reset({
                 totalGuests: existingBooking.bookingById.passengerCount,
                 guestNames: existingBooking.bookingById.guestNames,
+                arrivalDate: existingBooking.bookingById.checkInDate,
+                exitDate: existingBooking.bookingById.checkOutDate,
             });
         }
     }, [existingBooking, reset]);
@@ -90,8 +94,8 @@ export default function EditBookingForm() {
                 input: {
                     roomId: Number(booking.roomId),
                     passengerCount: Number(data.totalGuests),
-                    checkInDate: booking.checkInDate,
-                    checkOutDate: booking.checkOutDate,
+                    checkInDate: data.arrivalDate,
+                    checkOutDate: data.exitDate,
                     guestNames: data.guestNames,
                 },
             },
@@ -100,9 +104,9 @@ export default function EditBookingForm() {
 
     return (
         <div className="min-h-screen bg-slate-50 py-12 px-6">
-            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* --- COLUMNA IZQUIERDA: FORMULARIO --- */}
-                <section className="lg:col-span-2 space-y-6">
+                <section className="md:col-span-2 space-y-6 order-2 md:order-1">
                     <div className="bg-white rounded-[2.5rem] p-10 shadow-sm border border-slate-100">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="bg-blue-600 p-3 rounded-2xl text-white shadow-lg shadow-blue-200">
@@ -118,6 +122,38 @@ export default function EditBookingForm() {
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                             <div className="grid grid-cols-1 gap-8">
+                                {/* Arrival */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-3">
+                                        <label
+                                            className="text-xs font-black uppercase text-slate-400 ml-1 flex items-center gap-2 tracking-wider"
+                                            htmlFor="arrivalDate"
+                                        >
+                                            <LucideCalendar size={18} strokeWidth={2.5} /> Check-in
+                                        </label>
+                                        <input
+                                            type="date"
+                                            {...register("arrivalDate")}
+                                            className="w-full border-none bg-slate-100 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700"
+                                        />
+                                        {errors.arrivalDate && <Errors>{errors.arrivalDate.message}</Errors>}
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label
+                                            className="text-xs font-black uppercase text-slate-400 ml-1 flex items-center gap-2 tracking-wider"
+                                            htmlFor="exitDate"
+                                        >
+                                            <LucideCalendar size={18} strokeWidth={2.5} /> Check-out
+                                        </label>
+                                        <input
+                                            type="date"
+                                            {...register("exitDate")}
+                                            className="w-full border-none bg-slate-100 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none text-slate-700"
+                                        />
+                                        {errors.exitDate && <Errors>{errors.exitDate.message}</Errors>}
+                                    </div>
+                                </div>
+
                                 <div className="space-y-3">
                                     <label className="text-xs font-black uppercase text-slate-400 ml-1 flex items-center gap-2 tracking-wider">
                                         <LucideUsers size={14} /> Total Guests
@@ -183,7 +219,7 @@ export default function EditBookingForm() {
                 </section>
 
                 {/* --- COLUMNA DERECHA: RESUMEN DEL VIAJE --- */}
-                <aside className="lg:col-span-1">
+                <aside className="md:col-span-1 order-1 md:order-2">
                     <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-sm border border-slate-100 sticky top-10">
                         {/* Imagen del Hotel */}
                         <div className="relative h-48">
@@ -237,7 +273,7 @@ export default function EditBookingForm() {
                             {/* Status Badge */}
                             <div className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between">
                                 <span className="text-xs font-black text-slate-400 uppercase">Status</span>
-                                <span className="bg-green-100 text-green-700 text-[10px] font-black px-3 py-1 rounded-full uppercase">
+                                <span className="bg-yellow-100 text-yellow-700 text-[10px] font-black px-3 py-1 rounded-full uppercase">
                                     {booking.status}
                                 </span>
                             </div>
@@ -246,7 +282,7 @@ export default function EditBookingForm() {
                             <div className="pt-4 border-t border-slate-100">
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <p className="text-sm font-bold text-slate-800">Total Paid</p>
+                                        <p className="text-sm font-bold text-slate-800">Total to Pay</p>
                                         <p className="text-[10px] text-slate-400 font-bold uppercase">
                                             Taxes included
                                         </p>
@@ -261,8 +297,8 @@ export default function EditBookingForm() {
                                 <LucideHotel size={18} className="text-blue-600 mt-0.5" />
                                 <p className="text-[11px] text-blue-700 font-medium leading-relaxed">
                                     You are editing the guest list for Room{" "}
-                                    <span className="font-bold">#{booking.roomId}</span>. Dates and room type
-                                    cannot be changed from this form.
+                                    <span className="font-bold">#{booking.roomId}</span>. Room type cannot be
+                                    changed from this form.
                                 </p>
                             </div>
                         </div>

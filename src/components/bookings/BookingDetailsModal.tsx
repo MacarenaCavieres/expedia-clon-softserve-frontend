@@ -38,8 +38,8 @@ export default function BookingDetailsModal({ reservationInfo, handleClose }: Pr
 
     return (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 scale-100 opacity-100">
-                <div className="relative">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all duration-300 scale-100 opacity-100 flex flex-col max-h-full">
+                <div className="relative flex-shrink-0">
                     <img
                         src={reservationInfo.hotelImage}
                         alt={`Image of ${reservationInfo.hotelName}`}
@@ -55,7 +55,7 @@ export default function BookingDetailsModal({ reservationInfo, handleClose }: Pr
                     </div>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="p-6 space-y-4 overflow-y-auto flex-1">
                     <div className={`text-center py-2 rounded-lg font-bold uppercase ${statusClass}`}>
                         Status: {reservationInfo.status}
                     </div>

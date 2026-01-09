@@ -126,9 +126,9 @@ function CreateBooking() {
                     <LucideArrowLeft size={20} /> Back to room selection
                 </button>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* --- COLUMNA IZQUIERDA: FORMULARIO --- */}
-                    <section className="lg:col-span-2 space-y-6">
+                    <section className="md:col-span-2 space-y-6 order-2 md:order-1">
                         <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="bg-blue-100 p-3 rounded-2xl text-blue-600">
@@ -209,7 +209,7 @@ function CreateBooking() {
                     </section>
 
                     {/* --- COLUMNA DERECHA: RESUMEN --- */}
-                    <aside className="lg:col-span-1">
+                    <aside className="md:col-span-1 order-1 md:order-2">
                         <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 sticky top-28">
                             <h2 className="text-lg font-bold text-slate-800 mb-4">Price Summary</h2>
 

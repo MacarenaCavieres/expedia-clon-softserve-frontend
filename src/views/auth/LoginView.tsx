@@ -84,10 +84,10 @@ function LoginView() {
                 </div>
             )}
 
-            <div className="min-h-screen min-w-lg flex items-center justify-center p-4">
-                <div className="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md">
+            <div className="min-h-screen flex items-center justify-center p-4 md:w-[500px]">
+                <div className="bg-white shadow-xl rounded-3xl p-8 w-full">
                     <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Welcome Back</h1>
-                    <form onSubmit={handleSubmit(handleLogin)} className="space-y-3 max-w-md mx-auto mt-20">
+                    <form onSubmit={handleSubmit(handleLogin)} className="space-y-3 max-w-md mx-auto mt-10">
                         <div>
                             <label className="text-sm font-medium text-gray-700 mb-1 flex justify-center items-center gap-1">
                                 Email{" "}
