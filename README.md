@@ -1,7 +1,28 @@
-# Expedia Clone Frontend
+# Expedia Clone – Frontend (Educational Project)
 
-This project is a **frontend clone of Expedia.com**, built as part of a learning project to practice modern web development with **React**, **TypeScript**, **React Query**, and **Redux Toolkit**.  
-It allows users to **search destinations, view hotel details, and manage their bookings (CRUD)** — all without authentication or login.
+⚠️ **Disclaimer**  
+This project is an **educational, non-commercial frontend demo** created for
+learning and portfolio purposes only.  
+It is **not affiliated with, endorsed by, or connected to Expedia or any of its
+subsidiaries**.
+
+---
+
+## Project Overview
+
+This project is a **frontend-only Expedia-style interface** built to practice
+modern web development using **React**, **TypeScript**, **React Query**, and
+**Redux Toolkit**.
+
+The application demonstrates common UI patterns such as:
+
+-   Searching destinations
+-   Viewing hotel details
+-   Simulating booking flows using **mock/test data**
+
+🚫 No real payments are processed  
+🚫 No authentication or real user accounts  
+🚫 No commercial usage or monetization
 
 ---
 
@@ -9,77 +30,53 @@ It allows users to **search destinations, view hotel details, and manage their b
 
 -   **Home View**
 
-    -   Displays a search bar where users can look for destinations.
-    -   Fetches and displays a list of hotels matching the selected destination.
+    -   Destination search UI
+    -   Displays a list of hotels using mock or test API data
 
 -   **Hotel Detail View**
 
-    -   Accessed via dynamic route `/hotelId`.
-    -   Displays hotel information and available rooms.
-    -   Selecting a room saves its details in the global store and navigates the user to the booking form.
+    -   Dynamic routing for hotel pages
+    -   Displays hotel and room information for demonstration purposes
 
--   **Create Booking**
+-   **Booking Simulation**
 
-    -   Users can create a new reservation through a form.
-    -   Data is managed using **React Hook Form** and **Zod** for validation.
+    -   Booking form to demonstrate form handling and validation
+    -   Data is stored temporarily for UI demonstration only
 
--   **My Trips View**
+-   **My Trips (Demo View)**
 
-    -   Displays all user bookings.
-    -   Users can **edit**, **cancel**, or **delete** reservations.
-    -   Booking data is managed via **CRUD operations** using **React Query** and **Axios**.
+    -   Shows sample bookings
+    -   Edit and delete actions are simulated (no real persistence)
 
 -   **State Management**
-    -   **Redux Toolkit** is used to handle global state across the app.
-    -   **React Query** manages data fetching and caching for API requests.
+    -   Redux Toolkit for global state
+    -   React Query for API interaction and caching
 
 ---
 
 ## Tech Stack
 
-| Category           | Technology                                                                |
-| ------------------ | ------------------------------------------------------------------------- |
-| Framework          | [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)              |
-| Language           | [TypeScript](https://www.typescriptlang.org/)                             |
-| State Management   | [Redux Toolkit](https://redux-toolkit.js.org/)                            |
-| Data Fetching      | [React Query](https://tanstack.com/query/latest)                          |
-| Forms & Validation | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
-| Styling            | [Tailwind CSS](https://tailwindcss.com/)                                  |
-| Icons              | [Heroicons](https://heroicons.com/)                                       |
-| Notifications      | [React Toastify](https://fkhadra.github.io/react-toastify/introduction)   |
-| Routing            | [React Router DOM v7](https://reactrouter.com/)                           |
+| Category           | Technology            |
+| ------------------ | --------------------- |
+| Framework          | React 19 + Vite       |
+| Language           | TypeScript            |
+| State Management   | Redux Toolkit         |
+| Data Fetching      | React Query           |
+| Forms & Validation | React Hook Form + Zod |
+| Styling            | Tailwind CSS          |
+| Routing            | React Router DOM v7   |
 
 ---
 
 ## Setup & Installation
 
-### 1. Clone the repository
-
 ```bash
 git clone https://github.com/MacarenaCavieres/expedia-clon-softserve-frontend.git
 cd expedia-clon-softserve-frontend
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
-```
-
-### 3. Run the development server
-
-```bash
 npm run dev
 ```
 
-## Future Improvements
+## Purpose
 
--   Add user authentication (login/register flow).
--   Implement booking confirmation emails.
--   Enhance error handling and loading states.
--   Add unit and integration tests.
--   Improve responsive design and accessibility.
-
-## Authors
-
-Developed by the team as part of a SoftServe project SS.
+This project was created exclusively for educational and portfolio use to demonstrate frontend development skills. It is not intended for production or commercial deployment.
