@@ -51,6 +51,10 @@ function RegisterView() {
         }
     };
 
+    const handleBackLogin = () => {
+        navigate("/auth/login");
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-12">
             <div className="bg-white shadow-xl rounded-3xl w-full max-w-md p-8 space-y-6">
@@ -151,9 +155,12 @@ function RegisterView() {
 
                 <p className="text-center text-sm text-gray-600">
                     Already have an account?{" "}
-                    <a href="/auth/login" className="text-indigo-600 font-medium hover:underline">
+                    <button
+                        onClick={handleBackLogin}
+                        className="text-indigo-600 font-medium hover:underline cursor-pointer"
+                    >
                         Login here
-                    </a>
+                    </button>
                 </p>
             </div>
         </div>
