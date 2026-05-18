@@ -1,4 +1,4 @@
-# Expedia Clone – Frontend (Educational Project)
+# Expedia Clone – Frontend (Educational Project) [project-link](https://expedia-clone-frontend.netlify.app/)
 
 ⚠️ **Disclaimer**  
 This project is an **educational, non-commercial frontend demo** created for
